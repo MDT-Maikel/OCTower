@@ -1,0 +1,2 @@
+Name=Raum Zugang
+Description=Provides the entrance to a tower room.

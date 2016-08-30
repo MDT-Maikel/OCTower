@@ -1,0 +1,2 @@
+Name=Room Entrance
+Description=Provides the entrance to a tower room.

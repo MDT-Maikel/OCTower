@@ -1,0 +1,2 @@
+Name=Room Exit
+Description=Provides the exit to a tower room.

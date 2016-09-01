@@ -66,6 +66,7 @@ shutil.copy("DescUS.txt", tower_dir)
 shutil.copy("DescDE.txt", tower_dir)
 shutil.copy("Scenario.txt", tower_dir)
 shutil.copy("Script.c", tower_dir)
+shutil.copy("Objects.c", tower_dir)
 shutil.copy("MapBg.bmp", tower_dir)
 shutil.copy("MapFg.bmp", tower_dir)
 shutil.copy("Icon.png", tower_dir)
@@ -75,6 +76,10 @@ shutil.copy("Icon.png", tower_dir)
 print "copying tower objects ..."
 shutil.copytree("TowerObjects.ocd", tower_dir + "/TowerObjects.ocd")
 
+
+# copy empty scenario section into the new directory
+print "copying empty scenario section ..."
+shutil.copytree("SectEmpty.ocg", tower_dir + "/SectEmpty.ocg")
 
 # loop over all rooms and copy sections and room object
 for room_dir in os.listdir("."):

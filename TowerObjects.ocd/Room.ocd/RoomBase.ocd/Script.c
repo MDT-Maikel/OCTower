@@ -8,16 +8,64 @@
 
 /*-- Room Properties (Adjustable) --*/
 
-public func GetRoomAuthor() { return "Anonymous"; }
+public func GetRoomName() { return nil; }
+
+public func GetRoomDescription() { return nil; }
+
+public func GetRoomAuthor() { return nil; }
 
 public func GetRoomSection() { return nil; }
 
 public func GetRoomDifficulty() { return nil; }
 
+public func HasJoker() { return false; }
+
 
 /*-- Room Properties (Fixed) --*/
 
 public func IsRoom() { return true; }
+
+
+/*-- Room Control --*/
+
+public func LoadRoom(bool reload)
+{
+	var fx = AddEffect("IntScheduleLoadRoom", nil, 1, 1, nil, this);
+	fx.reload = reload;
+	g_tower_loading_scheduled = true;
+	return;
+}
+
+public func FxIntScheduleLoadRoomStop(object target, proplist fx)
+{
+	DoLoadRoom(fx.reload);
+	g_tower_loading_scheduled = false;
+	return FX_OK;
+}
+
+public func DoLoadRoom(bool reload)
+{
+	var sect = GetRoomSection();
+	if (!sect)
+		return;
+		
+	// Load the room from its scenario section.
+	if (reload)
+		LoadScenarioSection("Empty");
+	
+	LoadScenarioSection(sect);
+	// Create the room control object and init.
+	var room_control = CreateObject(this);
+	room_control->InitRoom();
+	return;
+}
+
+public func InitRoom()
+{
+	for (var plr in GetPlayers())
+		InitializePlayer(plr);
+	return;
+}
 
 
 /*-- Player Control --*/
@@ -30,28 +78,30 @@ public func InitializePlayer(int plr)
 
 public func RelaunchPlayer(int plr)
 {
-	JoinPlayer(plr);
+	// Reset the room.
+	if (!g_tower_loading_scheduled)
+		GetID()->LoadRoom(true);
 	return;
 }
 
 protected func JoinPlayer(int plr)
 {
 	// Get crew member or create new one.
-	var clonk = GetCrew(plr);
-	if (!clonk)
+	var crew = GetCrew(plr);
+	if (!crew)
 	{
-		var clonk = CreateObjectAbove(Clonk, 0, 0, plr);
-		clonk->MakeCrewMember(plr);
-		SetCursor(plr, clonk);
+		var crew = CreateObjectAbove(Clonk, 0, 0, plr);
+		crew->MakeCrewMember(plr);
+		SetCursor(plr, crew);
 	}
 	
 	// Move crew member to room entrance.
 	var room_entrance = FindObject(Find_ID(RoomEntrance));
 	if (room_entrance)
-		GetCrew(plr)->SetPosition(room_entrance->GetX(), room_entrance->GetY());
+		crew->SetPosition(room_entrance->GetX(), room_entrance->GetY());
 	
 	// Give clonk its maximum energy.
-	clonk->DoEnergy(clonk.MaxEnergy / 1000);
+	crew->DoEnergy(crew.MaxEnergy / 1000);
 	return;
 }
 
@@ -60,9 +110,24 @@ protected func JoinPlayer(int plr)
 
 public func OnRoomExitEntered(object obj)
 {
-	Log("reached room exit");
+	// Load the next room.
+	g_tower_current_room++;
+	
+	// All rooms completed: return to main.
+	if (g_tower_current_room >= GetLength(GetRoomList()))
+		return LoadMain();
+	
+	// Load the next room.
+	var new_room = GetRoomList()[g_tower_current_room];
+	new_room->LoadRoom();
 	return;
 }
+
+
+/*-- Saving --*/
+
+// Do not save this object as it is recreated on the loading of a new room.
+public func SaveScenarioObject() { return false; }
 
 
 /*-- Properties --*/

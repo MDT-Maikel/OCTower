@@ -1,2 +1,2 @@
-Name=Room Template
-Description=Template object for the room which contains the room's settings and scripts.
+RoomName=Template
+RoomDescription=Template room

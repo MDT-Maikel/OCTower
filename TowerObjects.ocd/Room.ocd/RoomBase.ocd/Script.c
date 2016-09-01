@@ -32,14 +32,12 @@ public func LoadRoom(bool reload)
 {
 	var fx = AddEffect("IntScheduleLoadRoom", nil, 1, 1, nil, this);
 	fx.reload = reload;
-	g_tower_loading_scheduled = true;
 	return;
 }
 
 public func FxIntScheduleLoadRoomStop(object target, proplist fx)
 {
 	DoLoadRoom(fx.reload);
-	g_tower_loading_scheduled = false;
 	return FX_OK;
 }
 
@@ -79,7 +77,7 @@ public func InitializePlayer(int plr)
 public func RelaunchPlayer(int plr)
 {
 	// Reset the room.
-	if (!g_tower_loading_scheduled)
+	if (!GetEffect("IntScheduleLoad*"))
 		GetID()->LoadRoom(true);
 	return;
 }
@@ -110,16 +108,7 @@ protected func JoinPlayer(int plr)
 
 public func OnRoomExitEntered(object obj)
 {
-	// Load the next room.
-	g_tower_current_room++;
-	
-	// All rooms completed: return to main.
-	if (g_tower_current_room >= GetLength(GetRoomList()))
-		return LoadMain();
-	
-	// Load the next room.
-	var new_room = GetRoomList()[g_tower_current_room];
-	new_room->LoadRoom();
+	GameCall("OnRoomCompleted", obj);
 	return;
 }
 

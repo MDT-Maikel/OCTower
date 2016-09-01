@@ -3,8 +3,7 @@
 // Load the tower entrance (main section).
 global func LoadMain()
 {
-	AddEffect("IntScheduleLoadMain", nil, 1, 1, nil, this);
-	g_tower_loading_scheduled = true;
+	AddEffect("IntScheduleLoadMain", nil, 1, 1);
 	return;
 }
 
@@ -12,7 +11,6 @@ global func FxIntScheduleLoadMainStop(object target, proplist fx)
 {
 	LoadScenarioSection("main");
 	Scenario->InitMain();
-	g_tower_loading_scheduled = false;
 	return FX_OK;
 }
 

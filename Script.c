@@ -7,13 +7,11 @@
 
 // List of global variables.
 static g_tower_current_room;
-static g_tower_loading_scheduled;
 
 
 public func Initialize()
 {
 	g_tower_current_room = 0;
-	g_tower_loading_scheduled = false;
 
 	return;
 }
@@ -57,5 +55,20 @@ public func OnRoomEntranceEntered(object crew)
 {
 	g_tower_current_room = 0;
 	LoadRoom(GetRoomList()[g_tower_current_room]);
+	return;
+}
+
+public func OnRoomCompleted(object crew)
+{
+	// Load the next room.
+	g_tower_current_room++;
+	
+	// All rooms completed: return to main.
+	if (g_tower_current_room >= GetLength(GetRoomList()))
+		return LoadMain();
+	
+	// Load the next room.
+	var new_room = GetRoomList()[g_tower_current_room];
+	new_room->LoadRoom();
 	return;
 }

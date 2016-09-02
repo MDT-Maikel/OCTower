@@ -14,8 +14,11 @@ global func GetRoomList()
 		var def, index;
 		while (def = GetDefinition(++index))
 			if (def->~IsRoom() && def != RoomBase)
-				PushBack(g_tower_room_list, def);
+				PushBack(g_tower_room_list, {room = def, difficulty = def->GetRoomDifficulty()});
 		// Sort rooms according to difficulty.
+		SortArrayByProperty(g_tower_room_list, "difficulty");
+		for (var index = 0; index < GetLength(g_tower_room_list); index++)
+			g_tower_room_list[index] = g_tower_room_list[index].room;
 	}	
 	return g_tower_room_list;
 }

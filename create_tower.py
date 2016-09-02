@@ -39,6 +39,28 @@ def copy_room(room_dir, tower_dir):
 		if fnmatch.fnmatch(sect_file, "Map*.bmp") or fnmatch.fnmatch(sect_file, "Objects.c"):
 			shutil.copy(room_dir + "/" + sect_file, sect_dir);
 
+	# check the newly created room
+	check_room(room_name, tower_dir)
+
+# checks the basics of a room
+def check_room(room_name, tower_dir):
+	# open room control object defcore
+	with open(tower_dir + "/Room" + room_name + ".ocd/DefCore.txt", "r") as f:
+		lines = f.readlines()
+		# check room object id
+		for line in lines:
+			if re.match("id=*", line) and not re.match("id=Room" + room_name, line):
+				print "ERROR: Room control object DefCore.txt has wrong id, found " + line + ", expected id=Room" + room_name + "."
+
+	# open room control object script
+	with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "r") as f:
+		lines = f.readlines()
+		# check room section
+		for line in lines:
+			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
+				print "ERROR: Room control object Script.c has wrong section, found " + line + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }."
+	# TODO: check room number unique, room name unique.
+
 
 ###############
 # main script #
@@ -56,6 +78,7 @@ if os.path.exists(tower_dir):
 
 # log which version is created
 print "creating tower scenario version " + version
+print "==========================================="
 
 
 # copy main scenario files into the new directory
@@ -65,6 +88,7 @@ shutil.copy("Authors.txt", tower_dir)
 shutil.copy("DescUS.txt", tower_dir)
 shutil.copy("DescDE.txt", tower_dir)
 shutil.copy("Scenario.txt", tower_dir)
+shutil.copy("Teams.txt", tower_dir)
 shutil.copy("Script.c", tower_dir)
 shutil.copy("Objects.c", tower_dir)
 shutil.copy("MapBg.bmp", tower_dir)
@@ -82,11 +106,12 @@ print "copying empty scenario section ..."
 shutil.copytree("SectEmpty.ocg", tower_dir + "/SectEmpty.ocg")
 
 # loop over all rooms and copy sections and room object
+print "==========================================="
 for room_dir in os.listdir("."):
 	if fnmatch.fnmatch(room_dir, "Room*.ocs") and not fnmatch.fnmatch(room_dir, "RoomTemplate.ocs"):
 		copy_room(room_dir, tower_dir)
-
-
+print "==========================================="
+print "finished"
 
 
 

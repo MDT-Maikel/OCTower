@@ -1,5 +1,6 @@
 // Several functions which are useful in the template scenario.
 
+// This function is called from the template scenario and all its derivatives.
 global func InitializeTemplate()
 {
 	// Create room control object and warn if there exist multiple.
@@ -22,6 +23,12 @@ global func InitializeTemplate()
 	// Create basic rules.
 	var rule_restart = CreateObject(Rule_Restart);
 	rule_restart.SaveScenarioObject = Global.NoSave;
+	
+	// Only create a room entrance and exit if none is alread there.
+	if (!FindObject(Find_ID(RoomEntrance)))
+		CreateObjectAbove(RoomEntrance, 80, 456);
+	if (!FindObject(Find_ID(RoomExit)))
+		CreateObjectAbove(RoomExit, 560, 456);
 	return;
 }
 

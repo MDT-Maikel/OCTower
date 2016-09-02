@@ -8,7 +8,7 @@
 #include RoomBase
 
 
-/*-- Room Properties --*/
+/*-- Basic Room Properties --*/
 // Overload these properties if needed.
 
 // The name of the room, appears in menus and the room start.
@@ -30,3 +30,11 @@ public func GetRoomDifficulty() { return 0; }
 
 // Whether or not the room has a joker which can be found.
 public func HasJoker() { return false; }
+
+
+/*-- Advanced Room Properties --*/
+// Overload these properties if needed.
+
+public func GetRoomKnowledge() { return nil; }
+
+public func GetRoomPumpSpeed() { return nil; }

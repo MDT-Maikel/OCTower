@@ -6,7 +6,7 @@
 */
 
 
-/*-- Room Properties (Adjustable) --*/
+/*-- Basic Room Properties (Adjustable) --*/
 
 public func GetRoomName() { return nil; }
 
@@ -19,6 +19,13 @@ public func GetRoomSection() { return nil; }
 public func GetRoomDifficulty() { return nil; }
 
 public func HasJoker() { return false; }
+
+
+/*-- Advanced Room Properties (Adjustable) --*/
+
+public func GetRoomKnowledge() { return nil; }
+
+public func GetRoomPumpSpeed() { return nil; }
 
 
 /*-- Room Properties (Fixed) --*/
@@ -70,6 +77,21 @@ public func InitRoom()
 
 public func InitializePlayer(int plr)
 {
+	// Give player all knowledge or as specified by room.
+	var knowledge = GetRoomKnowledge();
+	if (knowledge)
+	{
+		for (var def in knowledge)
+			SetPlrKnowledge(plr, def);
+	}
+	else
+	{
+		var index = 0, def;
+		while (def = GetDefinition(index++))
+			SetPlrKnowledge(plr, def);
+	}
+	
+	// Join the player with its crew.
 	JoinPlayer(plr);
 	return;
 }

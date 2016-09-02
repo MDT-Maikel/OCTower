@@ -21,7 +21,6 @@ public func Collection2(object obj)
 }
 
 
-
 /*-- Properties --*/
 
 local Name = "$Name$";

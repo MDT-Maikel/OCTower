@@ -16,19 +16,18 @@ global func InitializeTemplate()
 		}
 	}
 	if (room_def)
-		CreateObject(room_def);
+	{
+		var room_control = CreateObject(room_def);
+		room_control->InitRoom();
+	}
 	else
+	{
 		Log("WARNING: No room control definition found.");
+	}
 	
 	// Create basic rules.
 	var rule_restart = CreateObject(Rule_Restart);
 	rule_restart.SaveScenarioObject = Global.NoSave;
-	
-	// Only create a room entrance and exit if none is alread there.
-	if (!FindObject(Find_ID(RoomEntrance)))
-		CreateObjectAbove(RoomEntrance, 80, 456);
-	if (!FindObject(Find_ID(RoomExit)))
-		CreateObjectAbove(RoomExit, 560, 456);
 	return;
 }
 

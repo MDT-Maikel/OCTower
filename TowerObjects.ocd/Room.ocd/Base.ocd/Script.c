@@ -42,8 +42,10 @@ public func LoadRoom(bool reload)
 	return;
 }
 
-public func FxIntScheduleLoadRoomStop(object target, proplist fx)
+public func FxIntScheduleLoadRoomStop(object target, proplist fx, int reason, bool temp)
 {
+	if (temp || reason != FX_Call_Normal)
+		return FX_OK;
 	DoLoadRoom(fx.reload);
 	return FX_OK;
 }
@@ -56,9 +58,15 @@ public func DoLoadRoom(bool reload)
 		
 	// Load the room from its scenario section.
 	if (reload)
+	{
+		//Log("[%d]Load section Empty", FrameCounter());
+		//LogCallStack();
 		LoadScenarioSection("Empty");
-	
+	}
+	//Log("[%d]Load section %v", FrameCounter(), sect);
+	//LogCallStack();
 	LoadScenarioSection(sect);
+	
 	// Create the room control object and init.
 	var room_control = CreateObject(this);
 	room_control->InitRoom();
@@ -67,8 +75,25 @@ public func DoLoadRoom(bool reload)
 
 public func InitRoom()
 {
+	// Create basic rules.
+	CreateObject(Rule_Restart);	
+	// Call to the specific room object to init objects.
+	OnRoomInit();
+	// Initialize players in this room.
 	for (var plr in GetPlayers())
 		InitializePlayer(plr);
+	return;
+}
+
+public func OnRoomInit()
+{
+	// Implemented in the specific room control object.
+	return;
+}
+
+public func OnPlayerInit(int plr)
+{
+	// Implemented in the specific room control object.
 	return;
 }
 
@@ -93,6 +118,8 @@ public func InitializePlayer(int plr)
 	
 	// Join the player with its crew.
 	JoinPlayer(plr);
+	// Call to the specific room object to init the players.
+	OnPlayerInit(plr);	
 	return;
 }
 

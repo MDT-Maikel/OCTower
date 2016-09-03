@@ -5,14 +5,9 @@
 	@author Sven2, Maikel
 */
 
-// List of global variables.
-static g_tower_current_room;
-
 
 public func Initialize()
 {
-	g_tower_current_room = 0;
-
 	return;
 }
 
@@ -53,22 +48,22 @@ public func InitMain()
 
 public func OnRoomEntranceEntered(object crew)
 {
-	g_tower_current_room = 0;
-	LoadRoom(GetRoomList()[g_tower_current_room]);
+	RoomMenu->Create(crew->GetController());
 	return;
 }
 
 public func OnRoomCompleted(object crew)
 {
-	// Load the next room.
-	g_tower_current_room++;
+	var room_list = GetRoomList();
+	var current_index = GetIndexOf(room_list, g_tower_current_room);
+	current_index++;
 	
 	// All rooms completed: return to main.
-	if (g_tower_current_room >= GetLength(GetRoomList()))
+	if (current_index >= GetLength(room_list))
 		return LoadMain();
 	
 	// Load the next room.
-	var new_room = GetRoomList()[g_tower_current_room];
+	var new_room = room_list[current_index];
 	new_room->LoadRoom();
 	return;
 }

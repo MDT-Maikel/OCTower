@@ -38,3 +38,18 @@ public func HasJoker() { return false; }
 public func GetRoomKnowledge() { return nil; }
 
 public func GetRoomPumpSpeed() { return nil; }
+
+
+/*-- Room Scripts --*/
+
+public func OnRoomInit()
+{
+	// Here you can create effects, extra objects that are needed for the room.
+	return;
+}
+
+public func OnPlayerInit(int plr)
+{
+	// Here you can create effects, extra objects that are needed for the player and its crew.
+	return;
+}

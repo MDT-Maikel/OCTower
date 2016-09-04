@@ -33,18 +33,18 @@ def copy_room(room_dir, tower_dir):
 				lines = f.readlines()
 			with open(sect_dir + "/" + sect_file, "w") as f:
 				for line in lines:
-					if not re.match("Icon=*", line) and not re.match("Title=*", line) and not re.match("Version=*", line):
+					if not re.match("Icon=*", line) and not re.match("Title=*", line) and not re.match("Version=*", line) and not re.match("Origin=*", line):
 						f.write(line)
 		# copy scenario map and objects
 		if fnmatch.fnmatch(sect_file, "Map*.bmp") or fnmatch.fnmatch(sect_file, "Objects.c"):
 			shutil.copy(room_dir + "/" + sect_file, sect_dir)
 		# append map script to room control script object.
 		if fnmatch.fnmatch(sect_file, "Map.c"):
-			with open(room_dir + "/" + sect_file, "r") as f:
-				with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "a") as f2:
-					for line in f.readlines():
-						f2.write(line)
-		
+			with open(room_dir + "/" + sect_file, "r") as map_file:
+				with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "a") as script_file:
+					for line in map_file.readlines():
+						if not re.match("#include *", line):
+							script_file.write(line)	
 
 	# check the newly created room
 	check_room(room_name, tower_dir)
@@ -121,7 +121,5 @@ for room_dir in os.listdir("."):
 		copy_room(room_dir, tower_dir)
 print "==========================================="
 print "finished"
-
-
 
 

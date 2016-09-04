@@ -32,7 +32,7 @@ global func InitializeTemplate()
 }
 
 // To prevent certain objects from being saved for a room.
-global func NoSave() { return true; }
+global func NoSave() { return false; }
 
 // Run in the template scenario to check all settings.
 global func TestRoom()

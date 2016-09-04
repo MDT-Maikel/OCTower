@@ -81,7 +81,11 @@ public func InitRoom()
 	OnRoomInit();
 	// Initialize players in this room.
 	for (var plr in GetPlayers())
+	{
 		InitializePlayer(plr);
+		for (var plr_start in FindObjects(Find_ID(PlayerStart)))
+			plr_start->InitializePlayer(plr);
+	}
 	return;
 }
 

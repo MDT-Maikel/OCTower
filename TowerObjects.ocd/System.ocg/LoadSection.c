@@ -31,5 +31,5 @@ global func LoadRoom(id room)
 	return;
 }
 
-// Returns the current room.
+// Returns the current room. Nil means in the lobby.
 global func GetCurrentRoom() { return g_tower_current_room; }

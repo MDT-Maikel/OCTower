@@ -52,18 +52,16 @@ public func OnRoomEntranceEntered(object crew)
 	return;
 }
 
-public func OnRoomCompleted(object crew)
+public func OnRoomCompleted(object crew, id room)
 {
-	var room_list = GetRoomList();
-	var current_index = GetIndexOf(room_list, g_tower_current_room);
-	current_index++;
+	// Add this room to the player's completion list.
+	AddPlayerCompletedRoom(crew->GetOwner(), room);
 	
-	// All rooms completed: return to main.
-	if (current_index >= GetLength(room_list))
-		return LoadMain();
-	
-	// Load the next room.
-	var new_room = room_list[current_index];
-	new_room->LoadRoom();
-	return;
+	// Get the next room and load that.
+	var next_room = GetNextRoom(room);
+	if (next_room)
+		return next_room->LoadRoom();
+
+	// Load main if no next room is found.		
+	return LoadMain();
 }

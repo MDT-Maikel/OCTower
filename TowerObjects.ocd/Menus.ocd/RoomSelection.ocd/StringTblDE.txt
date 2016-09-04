@@ -1,5 +1,7 @@
 Name=Raum-Menü
 Description=Let's the player pick the next room to attempt.
 
-RoomMenuCaption=You are in front of the tower.
+RoomMenuInLobby=You are about to enter the tower.
+RoomMenuInRoom=You are in room %s.
 RoomMenuClose=Close the room menu.
+RoomMenuSelectRoom=Wähle Raum:

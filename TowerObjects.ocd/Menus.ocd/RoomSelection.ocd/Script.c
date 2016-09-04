@@ -46,7 +46,7 @@ public func OpenRoomMenu(int plr)
 	this.Visibility = VIS_Owner;
 	menu_controller = clonk;
 	
-	// Medal menu proplist.
+	// Room menu proplist.
 	menu =
 	{
 		Target = this,
@@ -54,54 +54,105 @@ public func OpenRoomMenu(int plr)
 		Margin = ["1em", "2em"],
 		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
 	};
-	// A header showing the contents of this menu and close button.
-	menu.header = 
+	// The three basic panels for the menu.
+	menu.roominfo = 
 	{
 		Target = this,
 		ID = 1,
+		Right = "70%",
+		Bottom = "40%"	
+	};
+	menu.roomsel = 
+	{
+		Target = this,
+		ID = 2,
+		Left = "70%"
+	};
+	menu.selinfo = 
+	{
+		Target = this,
+		ID = 3,
+		Right = "70%",
+		Top = "40%"	
+	};
+	
+	// Display info on current room.
+	GetCurrentRoomInfo(menu.roominfo);
+	
+	// Room selection: header with close button.
+	menu.roomsel.header = 
+	{
+		Target = this,
+		ID = 21,
 		Bottom = "1.5em",
 		header_text = 
 		{
 			Target = this,
-			ID = 2,
-			Right = "100%-3em",
-			Text = "$RoomMenuCaption$",
+			ID = 22,
+			Right = "100%-1.5em",
+			Text = "$RoomMenuSelectRoom$",
+			Style = GUI_TextVCenter
 		},
 		header_close = 
 		{
 			Target = this,
-			ID = 5,
+			ID = 23,
 			Left = "100%-1.5em",
-			Right = "100%",
-			Bottom = "1.5em",
 			Symbol = Icon_Cancel,
 			Tooltip = "$RoomMenuClose$",
 			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
 			OnMouseIn = GuiAction_SetTag("Hover"),
 			OnMouseOut = GuiAction_SetTag("Std"),
 			OnClick = GuiAction_Call(this, "CloseRoomMenu")
-		}
+		}	
 	};
-	
+	// Room selection: add a list of available rooms.
 	var rooms = 
 	{
 		Top = "1.5em",
-		Left = "70%",
 		Style = GUI_VerticalLayout,
 		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
 	};
-	menu.rooms = MenuShowRooms(rooms, plr);
-	// Menu ID.
+	menu.roomsel.rooms = MenuShowRooms(rooms, plr);
+	
+	// Open the menu and store the menu ID.
 	menu_id = GuiOpen(menu);
-	// Notify the clonk and set the menu to be uncloseable.
+	// Notify the clonk and set the menu.
 	clonk->SetMenu(this);
+	return;
+}
+
+public func GetCurrentRoomInfo(proplist roominfo)
+{
+	var current_room = GetCurrentRoom();
+	if (!current_room)
+	{
+		roominfo.lobby =
+		{
+			Bottom = "1.5em",
+			Text = "$RoomMenuInLobby$",
+			Style = GUI_TextVCenter	
+		};
+	}
+	else
+	{
+		roominfo.roomname =
+		{
+			Bottom = "1.5em",
+			Text = Format("$RoomMenuInRoom$", current_room->GetRoomName()),
+			Style = GUI_TextVCenter	
+		};	
+	}
 	return;
 }
 
 public func MenuShowRooms(proplist rooms, int plr)
 {
 	// Show all the active medals in this round.
-	var room_list = GetRoomList();
+	var room_list = SortRoomList(GetPlayerCompletedRooms(plr));
+	var next_room = GetNextRoom(room_list[-1]);
+	if (next_room)
+		PushBack(room_list, next_room);
 	var cnt = 0;
 	for (var room_id in room_list)
 	{
@@ -123,7 +174,8 @@ public func MenuShowRooms(proplist rooms, int plr)
 			text = 
 			{
 				Left = "1.5em",
-				Text = room_id->GetRoomName()			
+				Text = room_id->GetRoomName(),
+				Style = GUI_TextVCenter	
 			}
 		};
 		rooms[Format("room%d", cnt)] = room;		
@@ -134,13 +186,48 @@ public func MenuShowRooms(proplist rooms, int plr)
 
 public func OnRoomHoverIn(id room_id)
 {
-
+	UpdateRoomSelectionInformation(room_id);
 	return;
 }
 
 public func OnRoomHoverOut(id room_id)
 {
+	UpdateRoomSelectionInformation(nil);
+	return;
+}
 
+public func UpdateRoomSelectionInformation(id room_id)
+{
+	if (room_id == nil)
+	{
+		if (menu.selinfo.room != nil)
+		{
+			GuiClose(menu_id, menu.selinfo.room.ID, menu.selinfo.room.Target);
+			menu.selinfo.room = nil;
+		}
+		return;	
+	}
+	menu.selinfo.room =
+	{
+		Target = this,
+		ID = 31,
+		name = 
+		{
+			Target = this,
+			ID = 32,
+			Bottom = "1.5em",
+			Text = room_id->GetRoomName()	
+		},
+		desc =
+		{
+			Target = this,
+			ID = 33,
+			Top = "1.5em",
+			Bottom = "3.0em",
+			Text = room_id->GetRoomDescription()	
+		}
+	};
+	GuiUpdate(menu.selinfo, menu_id, menu.selinfo.ID, this);
 	return;
 }
 

@@ -157,7 +157,7 @@ protected func JoinPlayer(int plr)
 
 public func OnRoomExitEntered(object obj)
 {
-	GameCall("OnRoomCompleted", obj);
+	GameCall("OnRoomCompleted", obj, GetID());
 	return;
 }
 

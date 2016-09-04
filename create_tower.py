@@ -92,6 +92,7 @@ print "==========================================="
 print "copying main scenario ..."
 shutil.copy("Version.txt", tower_dir)
 shutil.copy("Authors.txt", tower_dir)
+shutil.copy("Title.txt", tower_dir)
 shutil.copy("DescUS.txt", tower_dir)
 shutil.copy("DescDE.txt", tower_dir)
 shutil.copy("Scenario.txt", tower_dir)

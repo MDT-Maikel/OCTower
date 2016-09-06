@@ -13,8 +13,7 @@ public func Initialize()
 
 public func InitializePlayer(int plr)
 {
-
-
+	InitPlayerCompletedRooms(plr);
 	JoinPlayer(plr);
 	return;
 }
@@ -54,8 +53,11 @@ public func OnRoomEntranceEntered(object crew)
 
 public func OnRoomCompleted(object crew, id room)
 {
+	var plr = crew->GetOwner();
 	// Add this room to the player's completion list.
-	AddPlayerCompletedRoom(crew->GetOwner(), room);
+	AddPlayerCompletedRoom(plr, room);
+	// Save the progress.
+	SavePlayerCompletedRooms(plr);
 	
 	// Get the next room and load that.
 	var next_room = GetNextRoom(room);

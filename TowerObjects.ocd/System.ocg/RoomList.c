@@ -47,3 +47,12 @@ global func GetNextRoom(id room)
 		return nil;
 	return room_list[index + 1];
 }
+
+// Returns the room ID from the string identifier.
+global func GetRoomFromID(string room_id)
+{
+	for (var room in GetRoomList())
+		if (room->GetRoomID() == room_id)
+			return room;
+	return nil;
+}

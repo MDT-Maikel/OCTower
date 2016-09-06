@@ -16,6 +16,8 @@ public func GetRoomAuthor() { return nil; }
 
 public func GetRoomSection() { return nil; }
 
+public func GetRoomID() { return "__"; }
+
 public func GetRoomDifficulty() { return nil; }
 
 public func HasJoker() { return false; }

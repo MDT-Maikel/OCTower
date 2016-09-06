@@ -25,6 +25,10 @@ public func GetRoomAuthor() { return "Anonymous"; }
 // The map section that needs to be loaded for this room, usually equal to the name of the room.
 public func GetRoomSection() { return "TODO"; }
 
+// A unique ID for the room which is used for saving player progress. It must be two characters
+// long which can be chosen from the set [A-Za-z].
+public func GetRoomID() { return "__"; }
+
 // The difficulty of this room, ranges from 0 to 999.
 public func GetRoomDifficulty() { return 0; }
 

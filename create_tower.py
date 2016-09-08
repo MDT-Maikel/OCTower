@@ -17,9 +17,10 @@ def copy_room(room_dir, tower_dir):
 	print "copying room " + room_name + " ..."
 
 	# copy room object
+	room_obj_dir = tower_dir + "/Room" + room_name + ".ocd"
 	for object_dir in os.listdir(room_dir):
 		if fnmatch.fnmatch(object_dir, "Room*.ocd"):
-			shutil.copytree(room_dir + "/" + object_dir, tower_dir + "/Room" + room_name + ".ocd")
+			shutil.copytree(room_dir + "/" + object_dir, room_obj_dir)
 
 	# copy room map and stored objects
 	sect_dir = tower_dir + "/Sect" + room_name + ".ocg"
@@ -46,11 +47,17 @@ def copy_room(room_dir, tower_dir):
 						if not re.match("#include *", line):
 							script_file.write(line)	
 
-	# check the newly created room
-	check_room(room_name, tower_dir)
+	# check the newly created room, remove if the checks were not satisfied
+	if not check_room(room_name, tower_dir):
+		shutil.rmtree(room_obj_dir)
+		shutil.rmtree(sect_dir)
+		print "WARNING: room " + room_name + " will not be included"
 
-# checks the basics of a room
+
+# checks the basics of a room returns if the room is ok
 def check_room(room_name, tower_dir):
+	# to store whether room is ok
+	room_ok = True
 	# open room control object defcore
 	with open(tower_dir + "/Room" + room_name + ".ocd/DefCore.txt", "r") as f:
 		lines = f.readlines()
@@ -58,6 +65,7 @@ def check_room(room_name, tower_dir):
 		for line in lines:
 			if re.match("id=*", line) and not re.match("id=Room" + room_name, line):
 				print "ERROR: Room control object DefCore.txt has wrong id, found " + line + ", expected id=Room" + room_name + "."
+				room_ok = False
 
 	# open room control object script
 	with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "r") as f:
@@ -66,7 +74,12 @@ def check_room(room_name, tower_dir):
 		for line in lines:
 			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
 				print "ERROR: Room control object Script.c has wrong section, found " + line + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }."
+				room_ok = False
+
 	# TODO: check room number unique, room name unique.
+
+	# return whether the room is ok
+	return room_ok
 
 
 ###############
@@ -80,7 +93,7 @@ tower_dir = "../OCTowerV" + version + ".ocs"
 ## TODO: query replacing existing directory
 if os.path.exists(tower_dir):
 	shutil.rmtree(tower_dir)
-	os.makedirs(tower_dir)
+os.makedirs(tower_dir)
 
 
 # log which version is created

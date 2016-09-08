@@ -56,3 +56,12 @@ global func GetRoomFromID(string room_id)
 			return room;
 	return nil;
 }
+
+// Returns the number of the room, all rooms are sorted.
+global func GetRoomNumber(id room)
+{
+	var index = GetIndexOf(GetRoomList(), room);
+	if (index == -1)
+		return nil;
+	return index + 1;
+}

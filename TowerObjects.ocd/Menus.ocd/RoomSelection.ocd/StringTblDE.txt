@@ -5,3 +5,7 @@ RoomMenuInLobby=You are about to enter the tower.
 RoomMenuInRoom=You are in room %s.
 RoomMenuClose=Close the room menu.
 RoomMenuSelectRoom=Wähle Raum:
+
+RoomMenuInfoRoom=<c cc0000>Raum:</c> %s
+RoomMenuInfoAuthor=<c cc0000>Autor(en)</c>: %s
+RoomMenuInfoDescription=<c cc0000>Beschreibung:</c> %s

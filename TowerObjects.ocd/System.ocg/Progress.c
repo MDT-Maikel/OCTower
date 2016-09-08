@@ -28,6 +28,26 @@ global func AddPlayerCompletedRoom(int plr, id room)
 	return;
 }
 
+// Returns whether the player has completed this room.
+global func HasPlayerCompletedRoom(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_progress == nil)
+		return false;
+	if (g_tower_plr_progress[plrid] == nil)
+		return false;
+	return IsValueInArray(g_tower_plr_progress[plrid], room);
+}
+
+// Returns the next room available for the player.
+global func GetPlayerNextOpenRoom(int plr)
+{
+	for (var room in GetRoomList())
+		if (!HasPlayerCompletedRoom(plr, room))
+			return room;
+	return nil;
+}
+
 // Loads the completed rooms and stores it as the current progress.
 global func InitPlayerCompletedRooms(int plr)
 {

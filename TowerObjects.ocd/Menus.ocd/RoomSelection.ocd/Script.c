@@ -1,6 +1,6 @@
 /**
 	Room Menu
-	Let's the player pick the next room to attempt.
+	Let's the player select the next room to attempt.
 	
 	@author Maikel
 */
@@ -59,21 +59,42 @@ public func OpenRoomMenu(int plr)
 	{
 		Target = this,
 		ID = 1,
-		Right = "70%",
-		Bottom = "40%"	
+		Right = "70%-0.5em",
+		Bottom = "40%-0.5em",
+		Margin = ["0.1em"]
 	};
 	menu.roomsel = 
 	{
 		Target = this,
 		ID = 2,
-		Left = "70%"
+		Left = "70%",
+		Margin = ["0.1em"]
 	};
 	menu.selinfo = 
 	{
 		Target = this,
 		ID = 3,
 		Right = "70%",
-		Top = "40%"	
+		Top = "40%",
+		Margin = ["0.1em"]
+	};
+	// Make the borders between the submenus.
+	menu.vert_border =
+	{
+		Target = this,
+		ID = 4,
+		Left = "70%-0.5em",
+		Right = "70%",
+		BackgroundColor = {Std = ROOMMENU_BarColor},
+	};
+	menu.hor_border =
+	{
+		Target = this,
+		ID = 5,
+		Right = "70%-0.5em",
+		Top = "40%-0.5em",
+		Bottom = "40%",
+		BackgroundColor = {Std = ROOMMENU_BarColor},
 	};
 	
 	// Display info on current room.
@@ -150,12 +171,17 @@ public func MenuShowRooms(proplist rooms, int plr)
 {
 	// Show all the active medals in this round.
 	var room_list = SortRoomList(GetPlayerCompletedRooms(plr));
-	var next_room = GetNextRoom(room_list[-1]);
+	var next_room = GetPlayerNextOpenRoom(plr);
 	if (next_room)
 		PushBack(room_list, next_room);
+	SortRoomList(room_list);
+	// Put all rooms into the selection menu.
 	var cnt = 0;
 	for (var room_id in room_list)
 	{
+		var room_completed = nil;
+		if (HasPlayerCompletedRoom(plr, room_id))
+			room_completed = Icon_Ok;
 		var room =
 		{
 			Target = this,
@@ -163,40 +189,99 @@ public func MenuShowRooms(proplist rooms, int plr)
 			Priority = cnt,
 			Bottom = "1.5em",
 			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "OnRoomHoverIn", room_id)],
-			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "OnRoomHoverOut", room_id)],
+			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "OnRoomHoverIn", {plr = plr, room_id = room_id})],
+			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "OnRoomHoverOut", {plr = plr, room_id = room_id})],
 			OnClick = GuiAction_Call(this, "OnRoomClick", room_id),
 			symbol = 
 			{
+				Target = this,
+				ID = cnt + 2000,
 				Right = "1.5em",
-				Symbol = room_id
+				Symbol = room_id,
+				completed = 
+				{
+					Target = this,
+					ID = cnt + 3000,
+					Left = "50%",
+					Top = "50%",
+					Symbol = room_completed				
+				}
 			},
 			text = 
 			{
+				Target = this,
+				ID = cnt + 4000,
 				Left = "1.5em",
 				Text = room_id->GetRoomName(),
-				Style = GUI_TextVCenter	
+				Style = GUI_TextVCenter
 			}
 		};
+		MakeNumberMenuEntry(room.symbol, GetRoomNumber(room_id));
 		rooms[Format("room%d", cnt)] = room;		
 		cnt++;
 	}
 	return rooms;
 }
 
-public func OnRoomHoverIn(id room_id)
+public func MakeNumberMenuEntry(proplist parent, int number)
 {
-	UpdateRoomSelectionInformation(room_id);
+	var hundreds = (number % 1000) / 100;
+	var tens = (number % 100) / 10;
+	var ones = number % 10;
+	var separator = 0;
+	if (hundreds)
+	{
+		parent.hundreds = 
+		{
+			Target = this,
+			ID = Random(500000),
+			Right = Format("%d%%", separator + 33),
+			Bottom = "33%",
+			Symbol = Icon_Number,
+			GraphicsName = Format("%d", hundreds)
+		};
+		separator += 33;
+	}
+	if (tens)
+	{
+		parent.tens = 
+		{
+			Target = this,
+			ID = Random(500000),
+			Left = Format("%d%%", separator),
+			Right = Format("%d%%", separator + 33),
+			Bottom = "33%",
+			Symbol = Icon_Number,
+			GraphicsName = Format("%d", tens)
+		};
+		separator += 33;
+	}
+	parent.ones = 
+	{
+		Target = this,
+		ID = Random(500000),
+		Left = Format("%d%%", separator),
+		Right = Format("%d%%", separator + 33),
+		Bottom = "33%",
+		Symbol = Icon_Number,
+		GraphicsName = Format("%d", ones)
+	};
 	return;
 }
 
-public func OnRoomHoverOut(id room_id)
+public func OnRoomHoverIn(proplist pars)
 {
-	UpdateRoomSelectionInformation(nil);
+	UpdateRoomSelectionInformation(pars.plr, pars.room_id);
 	return;
 }
 
-public func UpdateRoomSelectionInformation(id room_id)
+public func OnRoomHoverOut(proplist pars)
+{
+	UpdateRoomSelectionInformation(pars.plr, nil);
+	return;
+}
+
+public func UpdateRoomSelectionInformation(int plr, id room_id)
 {
 	if (room_id == nil)
 	{
@@ -207,26 +292,58 @@ public func UpdateRoomSelectionInformation(id room_id)
 		}
 		return;	
 	}
+	var room_completed = nil;
+	if (HasPlayerCompletedRoom(plr, room_id))
+		room_completed = Icon_Ok;
 	menu.selinfo.room =
 	{
 		Target = this,
 		ID = 31,
-		name = 
+		icon =
 		{
 			Target = this,
 			ID = 32,
+			Right = "3em",
+			Bottom = "3em",
+			Symbol = room_id,
+			completed = 
+			{
+				Target = this,
+				ID = 33,
+				Left = "50%",
+				Top = "50%",
+				Symbol = room_completed				
+			}
+		},
+		name = 
+		{
+			Target = this,
+			ID = 35,
+			Left = "3em",
 			Bottom = "1.5em",
-			Text = room_id->GetRoomName()	
+			Style = GUI_TextVCenter,
+			Text = Format("$RoomMenuInfoRoom$", room_id->GetRoomName())
+		},
+		author = 
+		{
+			Target = this,
+			ID = 36,
+			Left = "3em",
+			Top = "1.5em",
+			Bottom = "3em",
+			Style = GUI_TextVCenter,
+			Text = Format("$RoomMenuInfoAuthor$", room_id->GetRoomAuthor())
 		},
 		desc =
 		{
 			Target = this,
-			ID = 33,
-			Top = "1.5em",
-			Bottom = "3.0em",
-			Text = room_id->GetRoomDescription()	
+			ID = 37,
+			Top = "3em",
+			Bottom = "6em",
+			Text = Format("$RoomMenuInfoDescription$", room_id->GetRoomDescription())
 		}
 	};
+	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
 	GuiUpdate(menu.selinfo, menu_id, menu.selinfo.ID, this);
 	return;
 }

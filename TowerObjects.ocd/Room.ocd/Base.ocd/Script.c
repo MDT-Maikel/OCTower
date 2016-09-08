@@ -131,9 +131,17 @@ public func InitializePlayer(int plr)
 
 public func RelaunchPlayer(int plr)
 {
-	// Reset the room.
-	if (!GetEffect("IntScheduleLoad*"))
-		GetID()->LoadRoom(true);
+	// Reset the room if not already scheduled and if not in template.
+	if (!GameCall("IsTemplateRoom"))
+	{
+		if (!GetEffect("IntScheduleLoad*"))
+			GetID()->LoadRoom(true);
+	}
+	else
+	{
+		// Just rejoin the player again, the room can be tested in template mode with F12.
+		JoinPlayer(plr);
+	}
 	return;
 }
 

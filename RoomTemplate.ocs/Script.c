@@ -10,3 +10,5 @@ public func Initialize()
 {
 	return InitializeTemplate();
 }
+
+public func IsTemplateRoom() { return true; }

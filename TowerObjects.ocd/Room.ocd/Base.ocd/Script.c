@@ -34,6 +34,22 @@ public func GetRoomPumpSpeed() { return nil; }
 
 public func IsRoom() { return true; }
 
+// Returns a list with the authors of the room.
+public func GetRoomAuthorList()
+{
+	var author_list = [];
+	var authors = GetRoomAuthor();
+	if (GetType(GetRoomAuthor()) == C4V_String)
+	{
+		var commas = FindSubstring(authors, ", ");
+		PushFront(commas, -2);
+		PushBack(commas, GetLength(authors));
+		for (var index = 0; index < GetLength(commas) - 1; index++)
+			PushBack(author_list, TakeString(authors, commas[index] + 2, commas[index + 1]));
+	}
+	return author_list;
+}
+
 
 /*-- Room Control --*/
 

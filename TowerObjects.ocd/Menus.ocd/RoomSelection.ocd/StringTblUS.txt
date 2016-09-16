@@ -5,7 +5,13 @@ RoomMenuInLobby=You are about to enter the tower. You can select a room in the r
 RoomMenuInRoom=You are in room <c dd0000>%s</c>.
 RoomMenuClose=Close the room menu.
 RoomMenuSelectRoom=Select room:
+RoomMenuCredits=Show the credits.
+RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuInfoRoom=<c cc0000>Room:</c> %s
 RoomMenuInfoAuthor=<c cc0000>Author(s):</c> %s
 RoomMenuInfoDescription=<c cc0000>Description:</c> %s
+
+RoomMenuCreditsText=Tower of Despair\nCreated by Sven2 & Maikel.\n\nList of room authors:\n
+RoomMenuCreditsRooms=room(s)
+RoomMenuCreditsAuthor=%s made the following rooms:

@@ -65,3 +65,30 @@ global func GetRoomNumber(id room)
 		return nil;
 	return index + 1;
 }
+
+// Returns the authors of all rooms and the number of rooms they are author of and a list of which rooms.
+global func GetAuthorList()
+{
+	var author_list = [];
+	var rooms = GetRoomList();
+	for (var room in rooms)
+	{
+		for (var author in room->GetRoomAuthorList())
+		{
+			var found = false;
+			for (var index = 0; index < GetLength(author_list); index++)
+			{
+				if (author_list[index][0] == author)
+				{
+					found = true;
+					author_list[index][1]++;
+					PushBack(author_list[index][2], room);
+					break;
+				}
+			}
+			if (!found)
+				PushBack(author_list, [room->GetRoomAuthorList()[0], 1, [room]]);
+		}
+	}
+	return author_list;
+}

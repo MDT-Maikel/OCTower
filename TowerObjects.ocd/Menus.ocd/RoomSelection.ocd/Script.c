@@ -33,7 +33,7 @@ public func Create(int plr)
 
 /*-- Room Menu --*/
 
-public func OpenRoomMenu(int plr)
+public func OpenRoomMenu(int plr, bool credits)
 {
 	// Needs the cursor as command object.
 	var clonk = GetCursor(plr);
@@ -46,6 +46,21 @@ public func OpenRoomMenu(int plr)
 	this.Visibility = VIS_Owner;
 	menu_controller = clonk;
 	
+	// Make the room/credits menu.
+	if (!credits)
+		MakeRoomMenu(plr);
+	else
+		MakeCreditsMenu(plr);
+	
+	// Open the menu and store the menu ID.
+	menu_id = GuiOpen(menu);
+	// Notify the clonk and set the menu.
+	clonk->SetMenu(this);
+	return;
+}
+
+public func MakeRoomMenu(int plr)
+{
 	// Room menu proplist.
 	menu =
 	{
@@ -54,7 +69,7 @@ public func OpenRoomMenu(int plr)
 		Margin = ["1em", "2em"],
 		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
 	};
-	// The three basic panels for the menu.
+	// The four basic panels for the menu.
 	menu.roominfo = 
 	{
 		Target = this,
@@ -63,18 +78,26 @@ public func OpenRoomMenu(int plr)
 		Bottom = "40%-0.5em",
 		Margin = ["0.1em"]
 	};
-	menu.roomsel = 
+	menu.buttons =
 	{
 		Target = this,
 		ID = 2,
 		Left = "70%",
+		Bottom = "1.5em"
+	};
+	menu.roomsel = 
+	{
+		Target = this,
+		ID = 3,
+		Left = "70%",
+		Top = "1.5em",
 		Margin = ["0.1em"]
 	};
 	menu.selinfo = 
 	{
 		Target = this,
-		ID = 3,
-		Right = "70%",
+		ID = 4,
+		Right = "70%-0.5em",
 		Top = "40%",
 		Margin = ["0.1em"]
 	};
@@ -82,7 +105,7 @@ public func OpenRoomMenu(int plr)
 	menu.vert_border =
 	{
 		Target = this,
-		ID = 4,
+		ID = 5,
 		Left = "70%-0.5em",
 		Right = "70%",
 		BackgroundColor = {Std = ROOMMENU_BarColor},
@@ -90,7 +113,7 @@ public func OpenRoomMenu(int plr)
 	menu.hor_border =
 	{
 		Target = this,
-		ID = 5,
+		ID = 6,
 		Right = "70%-0.5em",
 		Top = "40%-0.5em",
 		Bottom = "40%",
@@ -100,46 +123,54 @@ public func OpenRoomMenu(int plr)
 	// Display info on current room.
 	GetCurrentRoomInfo(menu.roominfo);
 	
-	// Room selection: header with close button.
+	// Room selection: header.
 	menu.roomsel.header = 
 	{
 		Target = this,
-		ID = 21,
+		ID = 31,
 		Bottom = "1.5em",
 		header_text = 
 		{
 			Target = this,
-			ID = 22,
-			Right = "100%-1.5em",
+			ID = 32,
 			Text = "$RoomMenuSelectRoom$",
 			Style = GUI_TextVCenter
-		},
-		header_close = 
-		{
-			Target = this,
-			ID = 23,
-			Left = "100%-1.5em",
-			Symbol = Icon_Cancel,
-			Tooltip = "$RoomMenuClose$",
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-			OnMouseIn = GuiAction_SetTag("Hover"),
-			OnMouseOut = GuiAction_SetTag("Std"),
-			OnClick = GuiAction_Call(this, "CloseRoomMenu")
-		}	
+		}
 	};
+	// Buttons.
+	menu.buttons.close = 
+	{
+		Target = this,
+		ID = 33,
+		Left = "100%-1.5em",
+		Symbol = Icon_Cancel,
+		Tooltip = "$RoomMenuClose$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "CloseRoomMenu")
+	};
+	menu.buttons.credits = 
+	{
+		Target = this,
+		ID = 34,
+		Left = "100%-3em",
+		Right = "100%-1.5em",
+		Symbol = Icon_Wealth,
+		Tooltip = "$RoomMenuCredits$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "ShowRoomMenuCredits", plr)
+	};
+	
 	// Room selection: add a list of available rooms.
 	var rooms = 
 	{
 		Top = "1.5em",
-		Style = GUI_VerticalLayout,
-		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
+		Style = GUI_VerticalLayout
 	};
 	menu.roomsel.rooms = MenuShowRooms(rooms, plr);
-	
-	// Open the menu and store the menu ID.
-	menu_id = GuiOpen(menu);
-	// Notify the clonk and set the menu.
-	clonk->SetMenu(this);
 	return;
 }
 
@@ -150,18 +181,14 @@ public func GetCurrentRoomInfo(proplist roominfo)
 	{
 		roominfo.lobby =
 		{
-			Bottom = "1.5em",
 			Text = "$RoomMenuInLobby$",
-			Style = GUI_TextVCenter	
 		};
 	}
 	else
 	{
 		roominfo.roomname =
 		{
-			Bottom = "1.5em",
 			Text = Format("$RoomMenuInRoom$", current_room->GetRoomName()),
-			Style = GUI_TextVCenter	
 		};	
 	}
 	return;
@@ -189,9 +216,9 @@ public func MenuShowRooms(proplist rooms, int plr)
 			Priority = cnt,
 			Bottom = "1.5em",
 			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "OnRoomHoverIn", {plr = plr, room_id = room_id})],
-			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "OnRoomHoverOut", {plr = plr, room_id = room_id})],
-			OnClick = GuiAction_Call(this, "OnRoomClick", room_id),
+			OnMouseIn = GuiAction_SetTag("Hover"),
+			OnMouseOut = GuiAction_SetTag("Std"),
+			OnClick = GuiAction_Call(this, "UpdateRoomSelectionInformation", {plr = plr, room_id = room_id}),
 			symbol = 
 			{
 				Target = this,
@@ -223,20 +250,21 @@ public func MenuShowRooms(proplist rooms, int plr)
 	return rooms;
 }
 
-public func MakeNumberMenuEntry(proplist parent, int number)
+public func MakeNumberMenuEntry(proplist parent, int number, int height)
 {
 	var hundreds = (number % 1000) / 100;
 	var tens = (number % 100) / 10;
 	var ones = number % 10;
+	if (height == nil)
+		height = 33;
+	
 	var separator = 0;
 	if (hundreds)
 	{
 		parent.hundreds = 
 		{
-			Target = this,
-			ID = Random(500000),
 			Right = Format("%d%%", separator + 33),
-			Bottom = "33%",
+			Bottom = Format("%d%%", height),
 			Symbol = Icon_Number,
 			GraphicsName = Format("%d", hundreds)
 		};
@@ -246,11 +274,9 @@ public func MakeNumberMenuEntry(proplist parent, int number)
 	{
 		parent.tens = 
 		{
-			Target = this,
-			ID = Random(500000),
 			Left = Format("%d%%", separator),
 			Right = Format("%d%%", separator + 33),
-			Bottom = "33%",
+			Bottom = Format("%d%%", height),
 			Symbol = Icon_Number,
 			GraphicsName = Format("%d", tens)
 		};
@@ -258,31 +284,19 @@ public func MakeNumberMenuEntry(proplist parent, int number)
 	}
 	parent.ones = 
 	{
-		Target = this,
-		ID = Random(500000),
 		Left = Format("%d%%", separator),
 		Right = Format("%d%%", separator + 33),
-		Bottom = "33%",
+		Bottom = Format("%d%%", height),
 		Symbol = Icon_Number,
 		GraphicsName = Format("%d", ones)
 	};
 	return;
 }
 
-public func OnRoomHoverIn(proplist pars)
+public func UpdateRoomSelectionInformation(proplist pars)
 {
-	UpdateRoomSelectionInformation(pars.plr, pars.room_id);
-	return;
-}
-
-public func OnRoomHoverOut(proplist pars)
-{
-	UpdateRoomSelectionInformation(pars.plr, nil);
-	return;
-}
-
-public func UpdateRoomSelectionInformation(int plr, id room_id)
-{
+	var plr = pars.plr;
+	var room_id = pars.room_id;
 	if (room_id == nil)
 	{
 		if (menu.selinfo.room != nil)
@@ -303,8 +317,8 @@ public func UpdateRoomSelectionInformation(int plr, id room_id)
 		{
 			Target = this,
 			ID = 32,
-			Right = "3em",
-			Bottom = "3em",
+			Right = "4em",
+			Bottom = "4em",
 			Symbol = room_id,
 			completed = 
 			{
@@ -319,8 +333,8 @@ public func UpdateRoomSelectionInformation(int plr, id room_id)
 		{
 			Target = this,
 			ID = 35,
-			Left = "3em",
-			Bottom = "1.5em",
+			Left = "4em",
+			Bottom = "1em",
 			Style = GUI_TextVCenter,
 			Text = Format("$RoomMenuInfoRoom$", room_id->GetRoomName())
 		},
@@ -328,9 +342,9 @@ public func UpdateRoomSelectionInformation(int plr, id room_id)
 		{
 			Target = this,
 			ID = 36,
-			Left = "3em",
-			Top = "1.5em",
-			Bottom = "3em",
+			Left = "4em",
+			Top = "1em",
+			Bottom = "2em",
 			Style = GUI_TextVCenter,
 			Text = Format("$RoomMenuInfoAuthor$", room_id->GetRoomAuthor())
 		},
@@ -338,9 +352,22 @@ public func UpdateRoomSelectionInformation(int plr, id room_id)
 		{
 			Target = this,
 			ID = 37,
-			Top = "3em",
-			Bottom = "6em",
+			Left = "4em",
+			Top = "2em",
+			Bottom = "4em",
 			Text = Format("$RoomMenuInfoDescription$", room_id->GetRoomDescription())
+		},
+		play = 
+		{
+			Target = this,
+			ID = 37,
+			Top = "100%-3em",
+			Right = "3em",
+			Symbol = Icon_Play,
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			OnMouseIn = GuiAction_SetTag("Hover"),
+			OnMouseOut = GuiAction_SetTag("Std"),
+			OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
 		}
 	};
 	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
@@ -348,12 +375,175 @@ public func UpdateRoomSelectionInformation(int plr, id room_id)
 	return;
 }
 
-public func OnRoomClick(id room_id)
+public func OnRoomClickPlay(id room_id)
 {
 	CloseRoomMenu();
 	LoadRoom(room_id);
 	return;
 }
+
+
+/*-- Credits --*/
+
+public func ShowRoomMenuCredits(int plr)
+{
+	CloseRoomMenu();
+	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
+	menu_obj->OpenRoomMenu(plr, true);
+	return;
+}
+
+public func MakeCreditsMenu(int plr)
+{
+	// Room menu proplist.
+	menu =
+	{
+		Target = this,
+		Decoration = GUI_MenuDeco,
+		Margin = ["1em", "2em"],
+		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
+	};
+	
+	// The basic panels for the menu.
+	menu.authordesc = 
+	{
+		Target = this,
+		ID = 1,
+		Right = "70%-0.5em",
+		Bottom = "4em",
+		Margin = ["0.1em"],
+		Text = "$RoomMenuCreditsText$"
+	};
+	menu.authorlist = 
+	{
+		Target = this,
+		ID = 1,
+		Top = "4em",
+		Right = "70%-0.5em",
+		Style = GUI_VerticalLayout
+	};
+	menu.buttons =
+	{
+		Target = this,
+		ID = 3,
+		Left = "70%",
+		Bottom = "1.5em"
+	};
+	menu.authorinfo = 
+	{
+		Target = this,
+		ID = 4,
+		Left = "70%",
+		Top = "1.5em",
+		Margin = ["0.1em"]
+	};
+	
+	// Create the list of authors.
+	menu.authorlist = MenuShowRoomAuthors(menu.authorlist);
+	
+	// Room selection: header with close button.
+	menu.buttons.close = 
+	{
+		Target = this,
+		ID = 31,
+		Left = "100%-1.5em",
+		Symbol = Icon_Cancel,
+		Tooltip = "$RoomMenuClose$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "CloseRoomMenu")
+	};
+	menu.buttons.rooms = 
+	{
+		Target = this,
+		ID = 32,
+		Left = "100%-3em",
+		Right = "100%-1.5em",
+		Symbol = Icon_Enter,
+		Tooltip = "$RoomMenuBackToRooms$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "SwitchToRoomMenuSelection", plr)
+	};
+	return;
+}
+
+public func MenuShowRoomAuthors(proplist authors)
+{
+	// Put all authors into the selection menu.
+	var cnt = 0;
+	for (var author in GetAuthorList())
+	{
+		var author =
+		{
+			Target = this,
+			ID = cnt + 1000,
+			Priority = cnt,
+			Bottom = "1.5em",
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "UpdateAuthorSelectionInformation", {author = author[0], rooms = author[2]})],
+			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "UpdateAuthorSelectionInformation")],
+			symbol = 
+			{
+				Target = this,
+				ID = cnt + 2000,
+				Right = "1.5em",
+			},
+			text = 
+			{
+				Target = this,
+				ID = cnt + 4000,
+				Left = "1.5em",
+				Text = Format("%s: %d $RoomMenuCreditsRooms$\n", author[0], author[1]),
+				Style = GUI_TextVCenter
+			}
+		};
+		MakeNumberMenuEntry(author.symbol, cnt + 1, 100);
+		authors[Format("room%d", cnt)] = author;		
+		cnt++;
+	}
+	return authors;
+}
+
+public func UpdateAuthorSelectionInformation(proplist pars)
+{
+	if (pars == nil)
+	{
+		if (menu.authorinfo.author != nil)
+		{
+			GuiClose(menu_id, menu.authorinfo.author.ID, menu.authorinfo.author.Target);
+			menu.authorinfo.author = nil;
+		}
+		return;	
+	}
+	
+	var author_rooms = Format("$RoomMenuCreditsAuthor$", pars.author);
+	for (var room in pars.rooms)
+		author_rooms = Format("%s %s,", author_rooms, room->GetRoomName());
+	
+	menu.authorinfo.author =
+	{
+		Target = this,
+		ID = 41,
+		Style = GUI_TextVCenter,
+		Text = author_rooms
+	};	
+	GuiUpdate(menu.authorinfo, menu_id, menu.authorinfo.ID, this);
+	return;
+}
+
+public func SwitchToRoomMenuSelection(int plr)
+{
+	CloseRoomMenu();
+	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
+	menu_obj->OpenRoomMenu(plr);
+	return;
+}
+
+
+/*-- Closing --*/
 
 public func CloseRoomMenu()
 {

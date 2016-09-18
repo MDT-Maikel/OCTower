@@ -92,3 +92,15 @@ global func GetAuthorList()
 	}
 	return author_list;
 }
+
+// Returns the number of rooms in the tower.
+global func GetRoomCount(bool with_jokers)
+{
+	if (!with_jokers)
+		return GetLength(GetRoomList());
+	var cnt = 0;
+	for (var room in GetRoomList())
+		if (room->HasJoker())
+			cnt++;
+	return cnt;
+}

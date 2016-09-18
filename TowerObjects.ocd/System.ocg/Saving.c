@@ -77,7 +77,6 @@ global func SavePlayerRoomData(int plr)
 	// Loop over all loaded rooms.
 	for (var room in GetRoomList())
 	{
-		Log("%v", room);
 		// Get the progress for room, jokers, etc.
 		var room_data = TOWER_Saving_None;
 		if (HasPlayerCompletedRoom(plr, room))

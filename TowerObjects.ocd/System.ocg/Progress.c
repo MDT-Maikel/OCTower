@@ -122,6 +122,20 @@ global func AddPlayerUsedJoker(int plr, id room)
 	return;
 }
 
+// Add the given room to the rooms where the player has used a joker.
+global func RemovePlayerUsedJoker(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	// Safety: check if progress entry already exists.
+	if (g_tower_plr_used_jokers == nil)
+		g_tower_plr_used_jokers = [];
+	if (g_tower_plr_used_jokers[plrid] == nil)
+		g_tower_plr_used_jokers[plrid] = [];
+	// Remove the joker.
+	RemoveArrayValue(g_tower_plr_used_jokers[plrid], room);
+	return;
+}
+
 // Returns whether the player has found the joker in this room.
 global func HasPlayerUsedJoker(int plr, id room)
 {
@@ -131,6 +145,14 @@ global func HasPlayerUsedJoker(int plr, id room)
 	if (g_tower_plr_used_jokers[plrid] == nil)
 		return false;
 	return IsValueInArray(g_tower_plr_used_jokers[plrid], room);
+}
+
+
+/*-- Available Jokes --*/
+
+global func GetPlayerAvailableJokers(int plr)
+{
+	return GetLength(GetPlayerFoundJokers(plr)) - GetLength(GetPlayerUsedJokers(plr));
 }
 
 

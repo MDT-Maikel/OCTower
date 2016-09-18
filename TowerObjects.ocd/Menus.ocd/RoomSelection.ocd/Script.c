@@ -121,7 +121,7 @@ public func MakeRoomMenu(int plr)
 	};
 	
 	// Display info on current room.
-	GetCurrentRoomInfo(menu.roominfo);
+	GetCurrentRoomInfo(menu.roominfo, plr);
 	
 	// Room selection: header.
 	menu.roomsel.header = 
@@ -141,7 +141,7 @@ public func MakeRoomMenu(int plr)
 	menu.buttons.close = 
 	{
 		Target = this,
-		ID = 33,
+		ID = 21,
 		Left = "100%-1.5em",
 		Symbol = Icon_Cancel,
 		Tooltip = "$RoomMenuClose$",
@@ -153,7 +153,7 @@ public func MakeRoomMenu(int plr)
 	menu.buttons.credits = 
 	{
 		Target = this,
-		ID = 34,
+		ID = 22,
 		Left = "100%-3em",
 		Right = "100%-1.5em",
 		Symbol = Icon_Wealth,
@@ -174,23 +174,26 @@ public func MakeRoomMenu(int plr)
 	return;
 }
 
-public func GetCurrentRoomInfo(proplist roominfo)
+public func GetCurrentRoomInfo(proplist roominfo, int plr)
 {
+	// Get lobby or room text.
 	var current_room = GetCurrentRoom();
-	if (!current_room)
+	var room_info = "$RoomMenuInLobby$";
+	if (current_room)
+		room_info = Format("$RoomMenuInRoom$", current_room->GetRoomName());
+	// Get rooms completed and jokers found.
+	var nr_rooms =GetRoomCount();
+	var completed = GetLength(GetPlayerCompletedRooms(plr));
+	var total_jokers = GetRoomCount(true);
+	var found_jokers = GetLength(GetPlayerFoundJokers(plr));
+	var used_jokers = GetLength(GetPlayerUsedJokers(plr));
+	room_info = Format("%s\n\n$RoomMenuRoomsCompleted$", room_info, completed - used_jokers, nr_rooms);
+	room_info = Format("%s\n$RoomMenuJokersFound$", room_info, found_jokers, total_jokers, found_jokers - used_jokers);
+	// Add the text to the menu.
+	roominfo.text =
 	{
-		roominfo.lobby =
-		{
-			Text = "$RoomMenuInLobby$",
-		};
-	}
-	else
-	{
-		roominfo.roomname =
-		{
-			Text = Format("$RoomMenuInRoom$", current_room->GetRoomName()),
-		};	
-	}
+		Text = room_info,
+	};
 	return;
 }
 
@@ -208,7 +211,11 @@ public func MenuShowRooms(proplist rooms, int plr)
 	{
 		var room_completed = nil;
 		if (HasPlayerCompletedRoom(plr, room_id))
+		{
 			room_completed = Icon_Ok;
+			if (HasPlayerUsedJoker(plr, room_id))
+				room_completed = Joker;
+		}
 		var room =
 		{
 			Target = this,
@@ -297,35 +304,39 @@ public func UpdateRoomSelectionInformation(proplist pars)
 {
 	var plr = pars.plr;
 	var room_id = pars.room_id;
-	if (room_id == nil || menu.selinfo.room_id != room_id)
+	// Reset the menu selection info.
+	if (menu.selinfo.room != nil)
 	{
-		if (menu.selinfo.room != nil)
-		{
-			GuiClose(menu_id, menu.selinfo.room.ID, menu.selinfo.room.Target);
-			menu.selinfo.room = nil;
-		}
-		if (room_id == nil)
-			return;
+		GuiClose(menu_id, menu.selinfo.room.ID, menu.selinfo.room.Target);
+		menu.selinfo.room = nil;
 	}
+	// If no room is specified stop here.
+	if (room_id == nil)
+		return;
+
 	menu.selinfo.room_id = room_id;	
 	var room_completed = nil;
 	if (HasPlayerCompletedRoom(plr, room_id))
+	{
 		room_completed = Icon_Ok;
+		if (HasPlayerUsedJoker(plr, room_id))
+			room_completed = Joker;
+	}
 	menu.selinfo.room =
 	{
 		Target = this,
-		ID = 31,
+		ID = 41,
 		icon =
 		{
 			Target = this,
-			ID = 32,
+			ID = 42,
 			Right = "4em",
 			Bottom = "4em",
 			Symbol = room_id,
 			completed = 
 			{
 				Target = this,
-				ID = 33,
+				ID = 43,
 				Left = "50%",
 				Top = "50%",
 				Symbol = room_completed				
@@ -334,7 +345,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		name = 
 		{
 			Target = this,
-			ID = 35,
+			ID = 44,
 			Left = "4em",
 			Bottom = "1em",
 			Style = GUI_TextVCenter,
@@ -343,7 +354,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		author = 
 		{
 			Target = this,
-			ID = 36,
+			ID = 45,
 			Left = "4em",
 			Top = "1em",
 			Bottom = "2em",
@@ -353,35 +364,47 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		desc =
 		{
 			Target = this,
-			ID = 37,
+			ID = 46,
 			Left = "4em",
 			Top = "2em",
 			Bottom = "4em",
 			Text = Format("$RoomMenuInfoDescription$", room_id->GetRoomDescription())
 		},
-		play = 
+		options =
 		{
 			Target = this,
-			ID = 38,
+			ID = 47,
 			Top = "4em",
-			Bottom = "6em",
-			icon = 
-			{
-				Right = "2em",
-				Symbol = Icon_Play,
-				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-				OnMouseIn = GuiAction_SetTag("Hover"),
-				OnMouseOut = GuiAction_SetTag("Std"),
-				OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
-			},
-			text =
-			{
-				Left = "2em",
-				Style = GUI_TextVCenter,
-				Text = "$RoomMenuInfoPlayRoom$"				
-			}
+			Style = GUI_VerticalLayout
+		
+		
 		}
 	};
+	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
+	
+	// Add a play button.
+	menu.selinfo.room.options.play = 
+	{
+		Target = this,
+		ID = 48,
+		Bottom = "2em",
+		icon = 
+		{
+			Right = "2em",
+			Symbol = Icon_Play,
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			OnMouseIn = GuiAction_SetTag("Hover"),
+			OnMouseOut = GuiAction_SetTag("Std"),
+			OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
+		},
+		text =
+		{
+			Left = "2em",
+			Style = GUI_TextVCenter,
+			Text = "$RoomMenuInfoPlayRoom$"				
+		}
+	};	
+	
 	// Add joker information to the room if available.
 	if (room_id->HasJoker())
 	{
@@ -392,12 +415,11 @@ public func UpdateRoomSelectionInformation(proplist pars)
 			joker_text = "$RoomMenuInfoRoomFoundJoker$";
 			joker_completed = Icon_Ok;
 		}
-		menu.selinfo.room.joker = 
+		menu.selinfo.room.options.joker = 
 		{
 			Target = this,
-			ID = 39,
-			Top = "6em",
-			Bottom = "8em",
+			ID = 49,
+			Bottom = "2em",
 			icon = 
 			{
 				Right = "2em",
@@ -415,9 +437,42 @@ public func UpdateRoomSelectionInformation(proplist pars)
 				Style = GUI_TextVCenter,
 				Text = joker_text				
 			}		
-		};	
-	}	
-	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
+		};
+	}
+	
+	// Add skip button if jokers are available.
+	if (GetPlayerAvailableJokers(plr) > 0 && !HasPlayerCompletedRoom(plr, room_id))
+	{
+		menu.selinfo.room.options.skip = 
+		{
+			Target = this,
+			ID = 50,
+			Bottom = "2em",
+			icon = 
+			{
+				Right = "2em",
+				Symbol = Joker,
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				OnMouseIn = GuiAction_SetTag("Hover"),
+				OnMouseOut = GuiAction_SetTag("Std"),
+				OnClick = GuiAction_Call(this, "OnRoomClickSkip", {plr = plr, room_id = room_id}),
+				completed = 
+				{
+					Left = "50%",
+					Top = "50%",
+					Symbol = Icon_Grab	
+				}
+			},
+			text =
+			{
+				Left = "2em",
+				Style = GUI_TextVCenter,
+				Text = "$RoomMenuInfoSkipRoom$"				
+			}		
+		};
+	}
+	
+	// Update menu.
 	GuiUpdate(menu.selinfo, menu_id, menu.selinfo.ID, this);
 	return;
 }
@@ -426,6 +481,19 @@ public func OnRoomClickPlay(id room_id)
 {
 	CloseRoomMenu();
 	LoadRoom(room_id);
+	return;
+}
+
+public func OnRoomClickSkip(proplist pars)
+{
+	var plr = pars.plr;
+	var room_id = pars.room_id;
+	AddPlayerUsedJoker(plr, room_id);
+	AddPlayerCompletedRoom(plr, room_id);
+	// Save the progress.
+	SavePlayerRoomData(plr);
+	// Update selection.
+	UpdateRoomSelectionInformation(pars);
 	return;
 }
 

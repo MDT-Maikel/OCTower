@@ -66,6 +66,8 @@ public func OnRoomCompleted(object crew, id room)
 	var plr = crew->GetOwner();
 	// Add this room to the player's completion list.
 	AddPlayerCompletedRoom(plr, room);
+	// Remove a possible used joker for this room.
+	RemovePlayerUsedJoker(plr, room);
 	// Save the progress.
 	SavePlayerRoomData(plr);
 	

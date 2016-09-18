@@ -1,0 +1,14 @@
+[DefCore]
+id=Joker
+Version=8,0
+Category=C4D_Object
+Picture=0,0,70,70
+Width=10
+Height=10
+Offset=-5,-5
+Vertices=4
+VertexX=-2,-2,2,2
+VertexY=-4,4,-4,4
+VertexFriction=40,40,40,40
+Mass=2
+Rotate=1

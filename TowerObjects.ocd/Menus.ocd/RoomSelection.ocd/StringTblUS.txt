@@ -11,6 +11,9 @@ RoomMenuBackToRooms=Back to room selection.
 RoomMenuInfoRoom=<c cc0000>Room:</c> %s
 RoomMenuInfoAuthor=<c cc0000>Author(s):</c> %s
 RoomMenuInfoDescription=<c cc0000>Description:</c> %s
+RoomMenuInfoRoomHasJoker=This room has a joker you did not collect yet.
+RoomMenuInfoRoomFoundJoker=You collected the joker in this room.
+RoomMenuInfoPlayRoom=Click to play this room.
 
 RoomMenuCreditsText=Tower of Despair\nCreated by Sven2 & Maikel.\n\nList of room authors:\n
 RoomMenuCreditsRooms=room(s)

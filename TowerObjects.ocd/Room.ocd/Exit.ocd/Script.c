@@ -14,9 +14,15 @@ public func Construction()
 	return true;
 }
 
-public func Collection2(object obj)
+public func Collection2(object crew)
 {
-	GameCallEx("OnRoomExitEntered", obj);
+	// Check if the clonk is carrying a joker.
+	var joker = FindObject(Find_Container(crew), Find_Func("IsJoker"));
+	// Notify goals and scenario scripts a joker has been collected.
+	if (joker)
+		GameCallEx("OnJokerCollected", crew, joker);
+	// Let goal and scenario know the exit has been entered.
+	GameCallEx("OnRoomExitEntered", crew);
 	return;
 }
 

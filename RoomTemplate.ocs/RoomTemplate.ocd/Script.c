@@ -19,7 +19,8 @@ public func GetRoomName() { return "$RoomName$"; }
 // Add both an English and German version.
 public func GetRoomDescription() { return "$RoomDescription$"; }
 
-// The name of the author of the room, separate multiple authors with comma's (like "John, Jane").
+// The name of the author of the room, separate multiple authors with comma's or & (like "John, Jane & Wipf").
+// Names may not contain white space characters, nor comma's or &.
 public func GetRoomAuthor() { return "Anonymous"; }
 
 // The map section that needs to be loaded for this room, usually equal to the name of the room.

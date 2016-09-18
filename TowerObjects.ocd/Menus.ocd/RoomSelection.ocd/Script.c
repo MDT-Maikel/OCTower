@@ -297,15 +297,17 @@ public func UpdateRoomSelectionInformation(proplist pars)
 {
 	var plr = pars.plr;
 	var room_id = pars.room_id;
-	if (room_id == nil)
+	if (room_id == nil || menu.selinfo.room_id != room_id)
 	{
 		if (menu.selinfo.room != nil)
 		{
 			GuiClose(menu_id, menu.selinfo.room.ID, menu.selinfo.room.Target);
 			menu.selinfo.room = nil;
 		}
-		return;	
+		if (room_id == nil)
+			return;
 	}
+	menu.selinfo.room_id = room_id;	
 	var room_completed = nil;
 	if (HasPlayerCompletedRoom(plr, room_id))
 		room_completed = Icon_Ok;
@@ -360,16 +362,61 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		play = 
 		{
 			Target = this,
-			ID = 37,
-			Top = "100%-3em",
-			Right = "3em",
-			Symbol = Icon_Play,
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-			OnMouseIn = GuiAction_SetTag("Hover"),
-			OnMouseOut = GuiAction_SetTag("Std"),
-			OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
+			ID = 38,
+			Top = "4em",
+			Bottom = "6em",
+			icon = 
+			{
+				Right = "2em",
+				Symbol = Icon_Play,
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				OnMouseIn = GuiAction_SetTag("Hover"),
+				OnMouseOut = GuiAction_SetTag("Std"),
+				OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
+			},
+			text =
+			{
+				Left = "2em",
+				Style = GUI_TextVCenter,
+				Text = "$RoomMenuInfoPlayRoom$"				
+			}
 		}
 	};
+	// Add joker information to the room if available.
+	if (room_id->HasJoker())
+	{
+		var joker_text = "$RoomMenuInfoRoomHasJoker$";
+		var joker_completed = nil;
+		if (HasPlayerFoundJoker(plr, room_id))
+		{
+			joker_text = "$RoomMenuInfoRoomFoundJoker$";
+			joker_completed = Icon_Ok;
+		}
+		menu.selinfo.room.joker = 
+		{
+			Target = this,
+			ID = 39,
+			Top = "6em",
+			Bottom = "8em",
+			icon = 
+			{
+				Right = "2em",
+				Symbol = Joker,
+				completed = 
+				{
+					Left = "50%",
+					Top = "50%",
+					Symbol = joker_completed				
+				}
+			},
+			text =
+			{
+				Left = "2em",
+				Style = GUI_TextVCenter,
+				Text = joker_text				
+			}		
+		};	
+	}	
 	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
 	GuiUpdate(menu.selinfo, menu_id, menu.selinfo.ID, this);
 	return;

@@ -1,6 +1,11 @@
 // Keeps track of the player progress for the rooms.
 
 static g_tower_plr_progress;
+static g_tower_plr_found_jokers;
+static g_tower_plr_used_jokers;
+
+
+/*-- Completed Rooms --*/
 
 // Returns the rooms the player has completed.
 global func GetPlayerCompletedRooms(int plr)
@@ -48,17 +53,103 @@ global func GetPlayerNextOpenRoom(int plr)
 	return nil;
 }
 
-// Loads the completed rooms and stores it as the current progress.
-global func InitPlayerCompletedRooms(int plr)
+
+/*-- Found Jokers --*/
+
+// Returns the rooms in which the player has found a joker.
+global func GetPlayerFoundJokers(int plr)
 {
-	var rooms = LoadPlayerCompletedRooms(plr);
-	for (var room in rooms)
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_found_jokers == nil)
+		g_tower_plr_found_jokers = [];
+	if (g_tower_plr_found_jokers[plrid] == nil)
+		g_tower_plr_found_jokers[plrid] = [];
+	return g_tower_plr_found_jokers[plrid][:];
+}
+
+// Add the given room to the rooms where the player has found a joker.
+global func AddPlayerFoundJoker(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	// Safety: check if progress entry already exists.
+	if (g_tower_plr_found_jokers == nil)
+		g_tower_plr_found_jokers = [];
+	if (g_tower_plr_found_jokers[plrid] == nil)
+		g_tower_plr_found_jokers[plrid] = [];
+	// Add the joker, but don't add twice.
+	if (!IsValueInArray(g_tower_plr_found_jokers[plrid], room))
+		PushBack(g_tower_plr_found_jokers[plrid], room);
+	return;
+}
+
+// Returns whether the player has found the joker in this room.
+global func HasPlayerFoundJoker(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_found_jokers == nil)
+		return false;
+	if (g_tower_plr_found_jokers[plrid] == nil)
+		return false;
+	return IsValueInArray(g_tower_plr_found_jokers[plrid], room);
+}
+
+
+/*-- Used Jokers --*/
+
+// Returns the rooms in which the player has used a joker.
+global func GetPlayerUsedJokers(int plr)
+{
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_used_jokers == nil)
+		g_tower_plr_used_jokers = [];
+	if (g_tower_plr_used_jokers[plrid] == nil)
+		g_tower_plr_used_jokers[plrid] = [];
+	return g_tower_plr_used_jokers[plrid][:];
+}
+
+// Add the given room to the rooms where the player has used a joker.
+global func AddPlayerUsedJoker(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	// Safety: check if progress entry already exists.
+	if (g_tower_plr_used_jokers == nil)
+		g_tower_plr_used_jokers = [];
+	if (g_tower_plr_used_jokers[plrid] == nil)
+		g_tower_plr_used_jokers[plrid] = [];
+	// Add the joker, but don't add twice.
+	if (!IsValueInArray(g_tower_plr_used_jokers[plrid], room))
+		PushBack(g_tower_plr_used_jokers[plrid], room);
+	return;
+}
+
+// Returns whether the player has found the joker in this room.
+global func HasPlayerUsedJoker(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_used_jokers == nil)
+		return false;
+	if (g_tower_plr_used_jokers[plrid] == nil)
+		return false;
+	return IsValueInArray(g_tower_plr_used_jokers[plrid], room);
+}
+
+
+/*-- Init Data --*/
+
+// Loads the completed rooms and stores it as the current progress.
+global func InitPlayerRoomData(int plr)
+{
+	for (var room in LoadPlayerCompletedRooms(plr))
 		room->AddPlayerCompletedRoom(plr, room);
+	for (var room in LoadPlayerFoundJokers(plr))
+		room->AddPlayerFoundJoker(plr, room);		
+	for (var room in LoadPlayerUsedJokers(plr))
+		room->AddPlayerUsedJoker(plr, room);
 	return;
 }
 
 // Reset the rooms the player has completed.
-global func ResetPlayerCompletedRooms(int plr, bool remove_save)
+global func ResetPlayerRoomProgress(int plr, bool remove_save)
 {
 	if (GetLeague())
 		return;
@@ -67,6 +158,6 @@ global func ResetPlayerCompletedRooms(int plr, bool remove_save)
 	var plrid = GetPlayerID(plr);
 	g_tower_plr_progress[plrid] = nil;
 	if (remove_save)
-		ResetPlayerSavedCompletedRooms(plr);
+		ResetPlayerRoomData(plr);
 	return;
 }

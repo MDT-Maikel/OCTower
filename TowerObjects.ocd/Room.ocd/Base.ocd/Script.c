@@ -41,11 +41,10 @@ public func GetRoomAuthorList()
 	var authors = GetRoomAuthor();
 	if (GetType(GetRoomAuthor()) == C4V_String)
 	{
-		var commas = FindSubstring(authors, ", ");
-		PushFront(commas, -2);
-		PushBack(commas, GetLength(authors));
-		for (var index = 0; index < GetLength(commas) - 1; index++)
-			PushBack(author_list, TakeString(authors, commas[index] + 2, commas[index + 1]));
+		// TODO: Allow spaces in author names.
+		author_list = RegexMatch(authors, "[^,&\\s]+");
+		for (var index = 0; index < GetLength(author_list); index++)
+			author_list[index] = author_list[index][0];
 	}
 	return author_list;
 }
@@ -185,9 +184,19 @@ protected func JoinPlayer(int plr)
 
 /*-- Goal Control --*/
 
-public func OnRoomExitEntered(object obj)
+public func OnRoomExitEntered(object crew)
 {
-	GameCall("OnRoomCompleted", obj, GetID());
+	// Notify the scenario script the room has been completed.
+	GameCall("OnRoomCompleted", crew, this->GetID());
+	return;
+}
+
+public func OnJokerCollected(object crew, object joker)
+{
+	// Remove the joker.
+	joker->RemoveObject();	
+	// Notify the scenario script the joker has been collected.
+	GameCall("OnRoomJokerCompleted", crew, this->GetID());
 	return;
 }
 

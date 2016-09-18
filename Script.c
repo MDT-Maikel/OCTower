@@ -13,7 +13,7 @@ public func Initialize()
 
 public func InitializePlayer(int plr)
 {
-	InitPlayerCompletedRooms(plr);
+	InitPlayerRoomData(plr);
 	JoinPlayer(plr);
 	return;
 }
@@ -51,13 +51,23 @@ public func OnRoomEntranceEntered(object crew)
 	return;
 }
 
+public func OnRoomJokerCompleted(object crew, id room)
+{
+	var plr = crew->GetOwner();
+	// Add the joker of this room to the player's completion list.
+	AddPlayerFoundJoker(plr, room);
+	// Save the progress.
+	SavePlayerRoomData(plr);
+	return;
+}
+
 public func OnRoomCompleted(object crew, id room)
 {
 	var plr = crew->GetOwner();
 	// Add this room to the player's completion list.
 	AddPlayerCompletedRoom(plr, room);
 	// Save the progress.
-	SavePlayerCompletedRooms(plr);
+	SavePlayerRoomData(plr);
 	
 	// Get the next room and load that.
 	var next_room = GetNextRoom(room);

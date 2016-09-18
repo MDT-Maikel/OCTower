@@ -39,13 +39,9 @@ public func GetRoomAuthorList()
 {
 	var author_list = [];
 	var authors = GetRoomAuthor();
+	// Split author names at , and & with arbitrary number of whitespaces.
 	if (GetType(GetRoomAuthor()) == C4V_String)
-	{
-		// TODO: Allow spaces in author names.
-		author_list = RegexMatch(authors, "[^,&\\s]+");
-		for (var index = 0; index < GetLength(author_list); index++)
-			author_list[index] = author_list[index][0];
-	}
+		author_list = RegexSplit(authors, "\\s*[,&]\\s*");
 	return author_list;
 }
 

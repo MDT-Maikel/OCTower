@@ -89,7 +89,8 @@ public func DoLoadRoom(bool reload)
 public func InitRoom()
 {
 	// Create basic rules.
-	CreateObject(Rule_Restart);	
+	if (!GameCall("IsTemplateRoom"))
+		CreateObject(Rule_Restart);	
 	// Call to the specific room object to init objects.
 	OnRoomInit();
 	// Initialize players in this room.

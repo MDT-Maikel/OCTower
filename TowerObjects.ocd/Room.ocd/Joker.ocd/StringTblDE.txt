@@ -1,2 +1,2 @@
 Name=Joker
-Description=Einsammeln und zum Leveleingang- oder Ausgang bringen, um ihn freizuschalten. Mit Jokern koennen Räume übersprungen werden.
+Description=Einsammeln und zum Raumeingang- oder Ausgang bringen, um ihn freizuschalten. Mit Jokern koennen Räume übersprungen werden.

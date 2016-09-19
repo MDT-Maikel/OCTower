@@ -1,2 +1,2 @@
 Name=Joker
-Description=Collect and deliver to the level entry or exit to free them. Once freed, you can use them to skip a room.
+Description=Collect and deliver to the room entry or exit to free them. Once freed, you can use them to skip a room.

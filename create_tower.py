@@ -116,6 +116,7 @@ shutil.copy("MapBg.bmp", tower_dir)
 shutil.copy("MapFg.bmp", tower_dir)
 shutil.copy("Map.c", tower_dir)
 shutil.copy("Icon.png", tower_dir)
+shutil.copy("Title.jpg", tower_dir)
 
 
 # copy tower objects into the new directory

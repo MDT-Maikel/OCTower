@@ -28,6 +28,9 @@ global func LoadPlayerRoomData(int plr)
 	for (var index = 0; index < GetLength(rooms); index++)
 	{
 		var room_id = GetRoomFromID(TakeString(rooms[index][0], 0, 2));
+		// Make sure the saved room still exists in the tower.
+		if (room_id == nil)
+			continue;
 		var room_data = StringToInteger(TakeString(rooms[index][0], 2));
 		rooms[index] = [room_id, room_data];	
 	}

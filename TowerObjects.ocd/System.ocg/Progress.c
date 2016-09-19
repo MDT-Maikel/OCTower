@@ -204,6 +204,8 @@ global func InitPlayerRoomData(int plr)
 {
 	for (var room in LoadPlayerCompletedRooms(plr))
 		room->AddPlayerCompletedRoom(plr, room);
+	for (var room in LoadPlayerFoundTablets(plr))
+		room->AddPlayerFoundTablet(plr, room);	
 	for (var room in LoadPlayerFoundJokers(plr))
 		room->AddPlayerFoundJoker(plr, room);		
 	for (var room in LoadPlayerUsedJokers(plr))

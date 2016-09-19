@@ -61,6 +61,16 @@ public func OnRoomJokerCompleted(object crew, id room)
 	return;
 }
 
+public func OnRoomTabletCompleted(object crew, id room)
+{
+	var plr = crew->GetOwner();
+	// Add the tablet of this room to the player's completion list.
+	AddPlayerFoundTablet(plr, room);
+	// Save the progress.
+	SavePlayerRoomData(plr);
+	return;
+}
+
 public func OnRoomCompleted(object crew, id room)
 {
 	var plr = crew->GetOwner();

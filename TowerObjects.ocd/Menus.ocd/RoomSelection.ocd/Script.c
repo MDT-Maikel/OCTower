@@ -404,6 +404,41 @@ public func UpdateRoomSelectionInformation(proplist pars)
 			Text = "$RoomMenuInfoPlayRoom$"				
 		}
 	};	
+
+	// Add tablet information to the room if available.
+	if (room_id->HasTablet())
+	{
+		var tablet_text = "$RoomMenuInfoRoomHasTablet$";
+		var tablet_completed = nil;
+		if (HasPlayerFoundTablet(plr, room_id))
+		{
+			tablet_text = "$RoomMenuInfoRoomFoundTablet$";
+			tablet_completed = Icon_Ok;
+		}
+		menu.selinfo.room.options.tablet = 
+		{
+			Target = this,
+			ID = 49,
+			Bottom = "2em",
+			icon = 
+			{
+				Right = "2em",
+				Symbol = AncientTablet,
+				completed = 
+				{
+					Left = "50%",
+					Top = "50%",
+					Symbol = tablet_completed				
+				}
+			},
+			text =
+			{
+				Left = "2em",
+				Style = GUI_TextVCenter,
+				Text = tablet_text				
+			}		
+		};
+	}
 	
 	// Add joker information to the room if available.
 	if (room_id->HasJoker())
@@ -418,7 +453,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		menu.selinfo.room.options.joker = 
 		{
 			Target = this,
-			ID = 49,
+			ID = 50,
 			Bottom = "2em",
 			icon = 
 			{
@@ -446,7 +481,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		menu.selinfo.room.options.skip = 
 		{
 			Target = this,
-			ID = 50,
+			ID = 51,
 			Bottom = "2em",
 			icon = 
 			{

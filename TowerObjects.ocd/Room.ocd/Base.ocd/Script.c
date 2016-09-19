@@ -20,6 +20,8 @@ public func GetRoomID() { return "__"; }
 
 public func GetRoomDifficulty() { return nil; }
 
+public func HasTablet() { return false; }
+
 public func HasJoker() { return false; }
 
 
@@ -178,6 +180,15 @@ public func OnJokerCollected(object crew, object joker)
 	joker->RemoveObject();	
 	// Notify the scenario script the joker has been collected.
 	GameCall("OnRoomJokerCompleted", crew, this->GetID());
+	return;
+}
+
+public func OnTabletCollected(object crew, object tablet)
+{
+	// Remove the tablet.
+	tablet->RemoveObject();	
+	// Notify the scenario script the joker has been collected.
+	GameCall("OnRoomTabletCompleted", crew, this->GetID());
 	return;
 }
 

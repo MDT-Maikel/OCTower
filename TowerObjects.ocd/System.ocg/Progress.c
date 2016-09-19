@@ -1,6 +1,7 @@
 // Keeps track of the player progress for the rooms.
 
 static g_tower_plr_progress;
+static g_tower_plr_found_tablets;
 static g_tower_plr_found_jokers;
 static g_tower_plr_used_jokers;
 
@@ -51,6 +52,46 @@ global func GetPlayerNextOpenRoom(int plr)
 		if (!HasPlayerCompletedRoom(plr, room))
 			return room;
 	return nil;
+}
+
+
+/*-- Found Tablets --*/
+
+// Returns the rooms in which the player has found a tablet.
+global func GetPlayerFoundTablets(int plr)
+{
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_found_tablets == nil)
+		g_tower_plr_found_tablets = [];
+	if (g_tower_plr_found_tablets[plrid] == nil)
+		g_tower_plr_found_tablets[plrid] = [];
+	return g_tower_plr_found_tablets[plrid][:];
+}
+
+// Add the given room to the rooms where the player has found a tablet.
+global func AddPlayerFoundTablet(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	// Safety: check if progress entry already exists.
+	if (g_tower_plr_found_tablets == nil)
+		g_tower_plr_found_tablets = [];
+	if (g_tower_plr_found_tablets[plrid] == nil)
+		g_tower_plr_found_tablets[plrid] = [];
+	// Add the tablet, but don't add twice.
+	if (!IsValueInArray(g_tower_plr_found_tablets[plrid], room))
+		PushBack(g_tower_plr_found_tablets[plrid], room);
+	return;
+}
+
+// Returns whether the player has found the tablet in this room.
+global func HasPlayerFoundTablet(int plr, id room)
+{
+	var plrid = GetPlayerID(plr);
+	if (g_tower_plr_found_tablets == nil)
+		return false;
+	if (g_tower_plr_found_tablets[plrid] == nil)
+		return false;
+	return IsValueInArray(g_tower_plr_found_tablets[plrid], room);
 }
 
 

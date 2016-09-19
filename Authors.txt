@@ -4,4 +4,4 @@ Maikel
 
 
 Room authors:
-Room authors are credited in the game.
+Room authors are credited in the scenario.

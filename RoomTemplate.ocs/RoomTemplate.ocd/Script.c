@@ -33,6 +33,9 @@ public func GetRoomID() { return "__"; }
 // The difficulty of this room, ranges from 0 to 999.
 public func GetRoomDifficulty() { return 0; }
 
+// Whether or not the room has an ancient tablet which can be found.
+public func HasTablet() { return false; }
+
 // Whether or not the room has a joker which can be found.
 public func HasJoker() { return false; }
 

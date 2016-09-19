@@ -25,7 +25,7 @@ global func InitializeTemplate()
 		Log("$MsgWarningNoRoomDefinition$");
 	}
 	
-	// Create basic rules.
+	// Create basic rules, but do not save them in a scenario.
 	var rule_restart = CreateObject(Rule_Restart);
 	rule_restart.SaveScenarioObject = Global.NoSave;
 	return;
@@ -53,9 +53,6 @@ global func TestRoom()
 	Log("$MsgRoomHasDescription$", room_def->GetRoomDescription());
 	Log("$MsgRoomHasAuthor$", room_def->GetRoomAuthor());
 	
-	// Check if the author has added a joker both in the room and the settings.
-	// TODO
-	
 	// Check the number of room entrances.
 	if (ObjectCount(Find_ID(RoomEntrance)) == 0)
 		Log("$MsgWarningNoEntrances$");
@@ -67,5 +64,25 @@ global func TestRoom()
 		Log("$MsgWarningNoExits$");
 	else if (ObjectCount(Find_ID(RoomExit)) > 1)
 		Log("$MsgWarningTooManyExits$");
+
+	// Check if the author has added a tablet both in the room and the settings.
+	var tablet_cnt = ObjectCount(Find_ID(AncientTablet));
+	var has_tablet = room_def->HasTablet();
+	if (tablet_cnt > 1)
+		Log("$MsgWarningTooManyTablets$", tablet_cnt);
+	else if (tablet_cnt > 0 && !has_tablet)
+		Log("$MsgWarningTabletFoundNotControl$", tablet_cnt);
+	else if (tablet_cnt == 0 && has_tablet)
+		Log("$MsgWarningNoTabletFound$", tablet_cnt);
+
+	// Check if the author has added a joker both in the room and the settings.
+	var joker_cnt = ObjectCount(Find_ID(Joker));
+	var has_joker = room_def->HasJoker();
+	if (joker_cnt > 1)
+		Log("$MsgWarningTooManyJokers$", joker_cnt);
+	else if (joker_cnt > 0 && !has_joker)
+		Log("$MsgWarningJokerFoundNotControl$", joker_cnt);
+	else if (joker_cnt == 0 && has_joker)
+		Log("$MsgWarningNoJokerFound$", joker_cnt);
 	return;
 }

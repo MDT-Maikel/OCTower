@@ -1,0 +1,2 @@
+Name=Ancient Tablet
+Description=Has something incomprehensible written on it. Bring to room entrance or exit just in case it contains some useful information.

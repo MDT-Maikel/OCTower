@@ -98,7 +98,13 @@ public func InitRoom()
 	{
 		InitializePlayer(plr);
 		for (var plr_start in FindObjects(Find_ID(PlayerStart)))
+		{
+			// Move player start to room entrance for correct crew placement.
+			var room_entrance = FindObject(Find_ID(RoomEntrance));
+			if (room_entrance)
+				plr_start->SetPosition(room_entrance->GetX(), room_entrance->GetY());
 			plr_start->InitializePlayer(plr);
+		}
 	}
 	return;
 }

@@ -12,7 +12,7 @@ global func InitializeTemplate()
 			if (!room_def)
 				room_def = def;
 			else
-				Log("WARNING: Multiple room control definitions found (%i), creating first found %i", def, room_def);
+				Log("$MsgWarningMultipleRoomDefinitions$", def, room_def);
 		}
 	}
 	if (room_def)
@@ -22,7 +22,7 @@ global func InitializeTemplate()
 	}
 	else
 	{
-		Log("WARNING: No room control definition found.");
+		Log("$MsgWarningNoRoomDefinition$");
 	}
 	
 	// Create basic rules.
@@ -49,23 +49,23 @@ global func TestRoom()
 	}
 	
 	// Log room properties.
-	Log("Your room has name: %s", room_def->GetRoomName());
-	Log("Your room has description: %s", room_def->GetRoomDescription());
-	Log("Your room has author: %s", room_def->GetRoomAuthor());
+	Log("$MsgRoomHasName$", room_def->GetRoomName());
+	Log("$MsgRoomHasDescription$", room_def->GetRoomDescription());
+	Log("$MsgRoomHasAuthor$", room_def->GetRoomAuthor());
 	
 	// Check if the author has added a joker both in the room and the settings.
 	// TODO
 	
 	// Check the number of room entrances.
 	if (ObjectCount(Find_ID(RoomEntrance)) == 0)
-		Log("WARNING: Room has no entrances, create one.");
+		Log("$MsgWarningNoEntrances$");
 	else if (ObjectCount(Find_ID(RoomEntrance)) > 1)
-		Log("WARNING: Room has more than one entrances, remove the superfluous ones.");
+		Log("$MsgWarningTooManyEntrances$");
 		
 	// Check the number of room exits.
 	if (ObjectCount(Find_ID(RoomExit)) == 0)
-		Log("WARNING: Room has no exits, create one.");
+		Log("$MsgWarningNoExits$");
 	else if (ObjectCount(Find_ID(RoomExit)) > 1)
-		Log("WARNING: Room has more than one exits, remove the superfluous ones.");
+		Log("$MsgWarningTooManyExits$");
 	return;
 }

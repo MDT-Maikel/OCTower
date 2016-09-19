@@ -1,0 +1,11 @@
+# Template.c
+MsgWarningMultipleRoomDefinitions=WARNING: Multiple room control definitions found (%i), creating first found %i.
+MsgWarningNoRoomDefinition=WARNING: No room control definition found.
+MsgWarningNoEntrances=WARNING: Room has no entrances, create one.
+MsgWarningTooManyEntrances=WARNING: Room has more than one entrances, remove the superfluous ones.
+MsgWarningNoExits=WARNING: Room has no exits, create one.
+MsgWarningTooManyExits=WARNING: Room has more than one exits, remove the superfluous ones.
+
+MsgRoomHasName=Your room has name: %s
+MsgRoomHasDescription=Your room has description: %s
+MsgRoomHasAuthor=Your room has author: %s

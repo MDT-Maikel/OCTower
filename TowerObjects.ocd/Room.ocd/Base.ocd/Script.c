@@ -25,8 +25,6 @@ public func HasJoker() { return false; }
 
 /*-- Advanced Room Properties (Adjustable) --*/
 
-public func GetRoomKnowledge() { return nil; }
-
 public func GetRoomPumpSpeed() { return nil; }
 
 
@@ -120,20 +118,6 @@ public func OnPlayerInit(int plr)
 
 public func InitializePlayer(int plr)
 {
-	// Give player all knowledge or as specified by room.
-	var knowledge = GetRoomKnowledge();
-	if (knowledge)
-	{
-		for (var def in knowledge)
-			SetPlrKnowledge(plr, def);
-	}
-	else
-	{
-		var index = 0, def;
-		while (def = GetDefinition(index++))
-			SetPlrKnowledge(plr, def);
-	}
-	
 	// Join the player with its crew.
 	JoinPlayer(plr);
 	// Call to the specific room object to init the players.

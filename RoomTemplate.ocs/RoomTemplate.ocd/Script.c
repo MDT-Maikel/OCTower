@@ -40,8 +40,7 @@ public func HasJoker() { return false; }
 /*-- Advanced Room Properties --*/
 // Overload these properties if needed.
 
-public func GetRoomKnowledge() { return nil; }
-
+// Adapt the default pump speed to prevent long waiting (the default pump speed is 50).
 public func GetRoomPumpSpeed() { return nil; }
 
 

@@ -1,10 +1,10 @@
 [Head]
 Icon=37
 Title=OCTower
-Version=8,0
+Version=8
+NoInitialize=true
 
 [Definitions]
-Definition1=Objects.ocd
 Definition2=Decoration.ocd
 
 [Player1]
@@ -16,6 +16,9 @@ Definition2=Decoration.ocd
 [Player4]
 
 [Landscape]
-TopOpen=0
-BottomOpen=0
 Sky=Clouds2
+TopOpen=0
+
+[Weather]
+Climate=0
+YearSpeed=0

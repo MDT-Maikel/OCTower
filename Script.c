@@ -33,8 +33,8 @@ public func JoinPlayer(int plr)
 	crew->DoEnergy(crew.MaxEnergy / 1000);
 	
 	// Move clonk to position outside the castle.
-	//crew->SetPosition(40 + RandomX(100), 350);
-	crew->SetPosition(620, 294);
+	crew->SetPosition(40 + RandomX(80), 350);
+	//crew->SetPosition(620, 294);
 	return;
 }
 

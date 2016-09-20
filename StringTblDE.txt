@@ -1,0 +1,9 @@
+DlgArchaeologistGoodDay=Good day stranger.
+DlgArchaeologistCabin=Hi there, what happened to your cabin?
+DlgArchaeologistEvilGuys=There are some evil guys who took over the tower ahead and destroyed my little cabin.
+DlgArchaeologistTower=What is so special about the tower that they would destroy your cabin?
+DlgArchaeologistRiddles=I still have to find out. I am an archaeologist and was studying this ancient tower, it has several rooms with riddles and artifacts.
+DlgArchaeologistEnter=Oh that's interesting! I love riddles, how can I enter the tower?
+DlgArchaeologistLever=Well you just turn the lever ahead and go into the first room. The further you get the harder the riddles! I did not make it to the top before those evil guys came.
+DlgArchaeologistTry=Okay, I am going to give it a try!
+DlgArchaeologistTakeCare=Take care!

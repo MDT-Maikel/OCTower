@@ -1,0 +1,2 @@
+RoomName=Zarter Anfang
+RoomDescription=Die Räume werden stets schwieriger, darum erstmal etwas einfaches.

@@ -1,0 +1,2 @@
+RoomName=Gentle Start
+RoomDescription=The rooms will continuously become harder, so something simple for a start.

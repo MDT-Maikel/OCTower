@@ -1,2 +1,3 @@
 Name=Uralte Tafel
 Description=Da steht etwas unverständliches drauf. Bringe zum Raumeingang- oder Ausgang in dem Fall das irgendwas nutzliches drauf steht.
+DescriptionBackSide=Aber tatsächlich hat diese Tafel auf ihrer Rückseite %d sehr markante Streifen.

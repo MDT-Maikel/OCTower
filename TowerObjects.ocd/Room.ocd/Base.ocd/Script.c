@@ -2,11 +2,11 @@
 	Room Base
 	Base object for the room which contains the room's settings and scripts.
 
-	@author Anonymous
+	@author Maikel
 */
 
 
-/*-- Basic Room Properties (Adjustable) --*/
+/*-- Room Properties (Adjustable) --*/
 
 public func GetRoomName() { return nil; }
 
@@ -23,11 +23,6 @@ public func GetRoomDifficulty() { return nil; }
 public func HasTablet() { return false; }
 
 public func HasJoker() { return false; }
-
-
-/*-- Advanced Room Properties (Adjustable) --*/
-
-public func GetRoomPumpSpeed() { return nil; }
 
 
 /*-- Room Properties (Fixed) --*/

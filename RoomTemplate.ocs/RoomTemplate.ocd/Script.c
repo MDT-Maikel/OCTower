@@ -1,14 +1,14 @@
 /**
-	Room Template
-	Template object for the room which contains the room's settings and scripts.
+	Room Control
+	This object's script contains the properties and the functions of the room.
 
-	@author Anonymous
+	@author See contents of GetRoomAuthor().
 */
 
 #include RoomBase
 
 
-/*-- Basic Room Properties --*/
+/*-- Room Properties --*/
 // Overload these properties if needed.
 
 // The name of the room, appears in menus and the room start.
@@ -40,23 +40,18 @@ public func HasTablet() { return false; }
 public func HasJoker() { return false; }
 
 
-/*-- Advanced Room Properties --*/
-// Overload these properties if needed.
-
-// Adapt the default pump speed to prevent long waiting (the default pump speed is 50).
-public func GetRoomPumpSpeed() { return nil; }
-
-
 /*-- Room Scripts --*/
 
+// Called when the room is initialized.
+// Here you can create effects and extra objects that are needed for the room.
 public func OnRoomInit()
 {
-	// Here you can create effects, extra objects that are needed for the room.
 	return;
 }
 
+// Called when the player starts its room attempt.
+// Here you can create effects and extra objects that are needed for the player and its crew.
 public func OnPlayerInit(int plr)
-{
-	// Here you can create effects, extra objects that are needed for the player and its crew.
+{	
 	return;
 }

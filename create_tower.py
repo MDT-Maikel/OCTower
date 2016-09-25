@@ -4,6 +4,8 @@ import os
 import shutil
 import fnmatch
 import re
+import argparse
+import subprocess
 
 
 #############
@@ -86,13 +88,21 @@ def check_room(room_name, tower_dir):
 # main script #
 ###############
 
+# argument parser
+parser = argparse.ArgumentParser(description='Create the tower scenario from the repository version.')
+parser.add_argument('-p', '--pack', action='store_true', help='create a packed scenario folder if c4group is available')
+args = parser.parse_args()
+
 # create tower directory based on version name
 with open("Version.txt", "r") as content_file:
     version = content_file.read()
 tower_dir = "../OCTowerV" + version + ".ocs"
 ## TODO: query replacing existing directory
-if os.path.exists(tower_dir):
+if os.path.isfile(tower_dir):
+	os.remove(tower_dir)
+elif os.path.exists(tower_dir):
 	shutil.rmtree(tower_dir)
+
 os.makedirs(tower_dir)
 
 
@@ -135,6 +145,21 @@ print "==========================================="
 for room_dir in os.listdir("."):
 	if fnmatch.fnmatch(room_dir, "Room*.ocs") and not fnmatch.fnmatch(room_dir, "RoomTemplate.ocs"):
 		copy_room(room_dir, tower_dir)
+
+# pack the scenario folder if required
+if args.pack:
+	print "==========================================="
+	print "packing scenario folder ..."
+	try:
+		subprocess.call(["c4group", tower_dir, "-p"])
+	except OSError as e:
+		if e.errno == os.errno.ENOENT:
+			a# handle file not found error.
+		else:
+			a# Something else went wrong while trying to run `wget`
+        	raise
+
+# finished
 print "==========================================="
 print "finished"
 

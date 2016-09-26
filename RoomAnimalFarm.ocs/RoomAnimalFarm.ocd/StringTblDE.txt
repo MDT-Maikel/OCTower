@@ -1,0 +1,2 @@
+RoomName=Farm der Tiere
+RoomDescription=Ordnung ist wichtig!

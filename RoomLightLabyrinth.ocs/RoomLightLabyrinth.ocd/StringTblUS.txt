@@ -1,0 +1,2 @@
+RoomName=Labyrinth of Light
+RoomDescription=Follow the lights!

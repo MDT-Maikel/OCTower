@@ -1,0 +1,2 @@
+RoomName=Leuchtendes Labyrinth
+RoomDescription=Folge die Lichter!

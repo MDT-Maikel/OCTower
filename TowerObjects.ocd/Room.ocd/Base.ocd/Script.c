@@ -162,11 +162,13 @@ protected func JoinPlayer(int plr)
 	if (plr == playing_plr || GameCall("IsTemplateRoom"))
 	{
 		// Log that a new player attempts the room.
-		Log("$MsgPlayerAttemptsRoom$", GetTaggedPlayerName(plr), GetRoomName());
+		if (!GameCall("IsTemplateRoom"))
+			Log("$MsgPlayerAttemptsRoom$", GetTaggedPlayerName(plr), GetRoomName());
 		
 		// Also initialize via the player start object.
-		for (var plr_start in FindObjects(Find_ID(PlayerStart)))
-			plr_start->InitializePlayer(plr);
+		if (!GameCall("IsTemplateRoom"))
+			for (var plr_start in FindObjects(Find_ID(PlayerStart)))
+				plr_start->InitializePlayer(plr);
 			
 		// Move the crew to the room entrance if available.	
 		var room_entrance = FindObject(Find_ID(RoomEntrance));
@@ -177,9 +179,12 @@ protected func JoinPlayer(int plr)
 		OnPlayerInit(plr);
 		
 		// Set the view of the other players to the playing player.
-		for (var other_plr in GetPlayers(C4PT_User))
-			if (other_plr != playing_plr)
-				SetViewCursor(other_plr, crew);
+		if (!GameCall("IsTemplateRoom"))
+		{
+			for (var other_plr in GetPlayers(C4PT_User))
+				if (other_plr != playing_plr)
+					SetViewCursor(other_plr, crew);
+		}
 	}
 	else
 	{

@@ -80,12 +80,16 @@ public func OnRoomTabletCompleted(object crew, id room)
 public func OnRoomCompleted(object crew, id room)
 {
 	var plr = crew->GetOwner();
-	// Add this room to the player's completion list.
-	AddPlayerCompletedRoom(plr, room);
-	// Remove a possible used joker for this room.
-	RemovePlayerUsedJoker(plr, room);
-	// Save the progress.
-	SavePlayerRoomData(plr);
+	// Add this room as completed for all players.
+	for (var for_plr in GetPlayers(C4PT_User))
+	{
+		// Add this room to the player's completion list.
+		AddPlayerCompletedRoom(for_plr, room);
+		// Remove a possible used joker for this room.
+		RemovePlayerUsedJoker(for_plr, room);
+		// Save the progress.
+		SavePlayerRoomData(for_plr);
+	}
 	
 	// Append player to the end of playing queue.	
 	AppendPlayerToQueue(plr);

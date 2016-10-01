@@ -18,7 +18,9 @@ Definition2=Decoration.ocd
 [Landscape]
 Sky=Clouds2
 TopOpen=0
+MapWidth=100,0,64,10000
+MapHeight=50,0,40,10000
 
 [Weather]
-Climate=0
-YearSpeed=0
+Climate=0,0,0,100
+YearSpeed=0,0,0,100

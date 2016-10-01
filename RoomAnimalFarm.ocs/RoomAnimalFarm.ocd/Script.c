@@ -107,7 +107,7 @@ public func InitKeypads()
 	
 	// Main keypad: ordered by number of animals.
 	var main_door = CreateObject(StoneDoor, 556, 435);
-	var main_keypad = CreateObject(Keypad, 80, 70);//538, 442);
+	var main_keypad = CreateObject(Keypad, 538, 442);
 	main_keypad->SetStoneDoor(main_door);
 	// Determine code according to animals.
 	var animals = [nil, Wipf, Butterfly, Fish, Bat, Shark, Piranha, Mooq, Chippie, Firefly];

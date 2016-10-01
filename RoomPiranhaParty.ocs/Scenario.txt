@@ -17,6 +17,7 @@ Definition3=OCTower.ocs/TowerObjects.ocd
 [Player4]
 
 [Landscape]
+Sky=Clouds2
 TopOpen=0
 MapWidth=100,0,64,10000
 MapHeight=50,0,40,10000

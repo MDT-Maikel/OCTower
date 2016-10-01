@@ -55,79 +55,73 @@ public func OnRoomInit()
 // Called when the player starts its room attempt.
 // Here you can create effects and extra objects that are needed for the player and its crew.
 public func OnPlayerInit(int plr)
-{	
+{
 	return;
 }
 
 public func InitAnimals()
 {
-	// Normal animals.
-	Wipf->Place(RandomX(1, 9), Rectangle(120, 40, 116, 56));
-	Fish->Place(RandomX(1, 9), Rectangle(384, 24, 160, 72));
-	Bat->Place(RandomX(1, 4), Rectangle(576, 72, 40, 176));
-	Shark->Place(RandomX(1, 9), Rectangle(272, 176, 248, 96));
-	Piranha->Place(RandomX(1, 9), Rectangle(272, 176, 248, 96));
-	for (var cnt = RandomX(1, 5); cnt > 0; cnt--)
-		CreateObject(Mooq, RandomX(32, 116), RandomX(416, 448));
-	for (var cnt = RandomX(1, 9); cnt > 0; cnt--)
-		CreateObject(Chippie, RandomX(180, 300), RandomX(416, 448));
-	// Insects.
-	for (var cnt = RandomX(1, 9); cnt > 0; cnt--)
-		CreateObject(Butterfly, RandomX(120, 176), RandomX(40, 88));
-	//Firefly->SpawnSwarm(FindObject(Find_Func("IsTree"), RandomX(1, 9)));
+	// Create a set of different animal counts.
+	var small_counts = [1, 2, 3, 4, 5, 6, 7, 8];
+	var large_counts = [11, 12, 13, 14, 15];
+	ShuffleArray(small_counts);
+	ShuffleArray(large_counts);
+	
+	// Place animals all with different counts.
+	Wipf->Place(small_counts[0], Rectangle(120, 40, 116, 56));
+	Fish->Place(small_counts[1], Rectangle(384, 24, 160, 72));
+	Bat->Place(small_counts[2], Rectangle(576, 72, 40, 176));
+	Shark->Place(small_counts[3], Rectangle(272, 176, 248, 96));
+	for (var cnt = small_counts[4]; cnt > 0; cnt--)
+		CreateObject(Mooq, RandomX(32, 116), RandomX(416, 440));
+	for (var cnt = small_counts[5]; cnt > 0; cnt--)
+		CreateObject(Chippie, RandomX(180, 300), RandomX(416, 440));
+	Piranha->Place(large_counts[0], Rectangle(272, 176, 248, 96));
+	Butterfly->Place(large_counts[1], Rectangle(120, 40, 56, 96));
+	Firefly->Place(1, large_counts[2], Rectangle(120, 148, 56, 120));
 	
 	// Disable reproduction.
 	for (var animal in FindObjects(Find_Func("IsAnimal")))
-	{
-		animal->SetReproductionRate();
-	}
+		animal->~SetReproductionRate();
+		
+	// Make it night for the fireflies.
+	Time->Init();
+	Time->SetTime(22 * 60 + 30);
+	Time->SetCycleSpeed(0);	
 	return;
 }
 
 public func InitKeypads()
 {
-	// Tablet keypad.
+	// The standard doors open automatically.
+	for (var door in FindObjects(Find_ID(StoneDoor)))
+		door->SetAutoControl(0);	
+	
+	// Tablet keypad: total number of animals.
 	var tablet_door = CreateObject(StoneDoor, 68, 195);
 	var tablet_keypad = CreateObject(Keypad, 88, 204);
 	tablet_keypad->SetStoneDoor(tablet_door);
 	// Determine code according to animals.
-	var tablet_animals = [Butterfly/*, Firefly*/];
-	ShuffleArray(tablet_animals);
-	var tablet_code = "", tablet_cnt = 0;
-	for (var animal in tablet_animals)
-	{
-		DrawWallAnimal(animal, 108 + 20 * tablet_cnt, 204);
-		tablet_cnt++;
-		tablet_code = Format("%s%d", tablet_code, ObjectCount(Find_ID(animal)));
-	}
-	tablet_keypad->SetKeypadCode(tablet_code);
+	var animal_count = ObjectCount(Find_Func("IsAnimal"));
+	tablet_keypad->SetKeypadCode(Format("%d", animal_count));
 	
-	// Main keypad.
+	// Main keypad: ordered by number of animals.
 	var main_door = CreateObject(StoneDoor, 556, 435);
-	var main_keypad = CreateObject(Keypad, 538, 442);
+	var main_keypad = CreateObject(Keypad, 80, 70);//538, 442);
 	main_keypad->SetStoneDoor(main_door);
 	// Determine code according to animals.
-	var main_animals = [Wipf, Fish, Bat, Shark, Piranha, Mooq, Chippie];
-	ShuffleArray(main_animals);
-	var main_code = "", main_cnt = 0;
-	for (var animal in main_animals)
-	{
-		DrawWallAnimal(animal, 392 + 20 * main_cnt, 440);
-		main_cnt++;
-		main_code = Format("%s%d", main_code, ObjectCount(Find_ID(animal)));
-	}
+	var animals = [nil, Wipf, Butterfly, Fish, Bat, Shark, Piranha, Mooq, Chippie, Firefly];
+	main_keypad->SetReplacementImages(animals);
+	PopFront(animals);
+	var ordered_animals = animals[:];
+	for (var index = 0; index < GetLength(ordered_animals); index++)
+		ordered_animals[index] = [ordered_animals[index], ObjectCount(Find_ID(ordered_animals[index]))];
+	SortArrayByArrayElement(ordered_animals, 1, true);
+	for (var index = 0; index < GetLength(ordered_animals); index++)
+		ordered_animals[index] = ordered_animals[index][0];
+	var main_code = "";
+	for (var index = 0; index < GetLength(ordered_animals); index++)
+		main_code = Format("%s%d", main_code, GetIndexOf(animals, ordered_animals[index]) + 1);
 	main_keypad->SetKeypadCode(main_code);
-	return;
-}
-
-public func DrawWallAnimal(id animal, int x, int y)
-{
-	var dummy = CreateObject(Dummy, x, y);
-	dummy.Visibility = VIS_All;
-	dummy.Plane = 100;
-	dummy->SetGraphics(nil, animal, GFX_Overlay, GFXOV_MODE_Base);
-	dummy->SetClrModulation(RGBa(255, 255, 255, 128), GFX_Overlay);
-	var scale = Min(1000, 1000 * 16 / Max(animal->GetDefWidth(), animal->GetDefHeight()));
-	dummy->SetObjDrawTransform(scale, 0, 0, 0, scale, 0, GFX_Overlay);
 	return;
 }

@@ -6,8 +6,8 @@ func InitializeObjects()
 	var Grass002 = CreateObjectAbove(Grass, 128, 94);
 
 	var Flower001 = CreateObjectAbove(Flower, 163, 102);
-	Flower001->SetSeedChance(0);
 	Flower001->SetSeedAmount(0);
+	Flower001->SetSeedChance(0);
 	var Flower002 = CreateObjectAbove(Flower, 205, 102);
 	Flower002->SetSeedAmount(0);
 	Flower002->SetSeedChance(0);
@@ -41,6 +41,7 @@ func InitializeObjects()
 	Tree_Deciduous002->SetCon(105);
 	Tree_Deciduous002->SetSeedAmount(0);
 	Tree_Deciduous002->SetSeedChance(0);
+
 	var Branch001 = CreateObject(Branch, 68, 266);
 	Branch001->SetCon(103);
 	Branch001->SetR(124);
@@ -51,15 +52,15 @@ func InitializeObjects()
 	var Trunk001 = CreateObject(Trunk, 598, 233);
 	Trunk001->SetCon(101);
 	Trunk001->SetR(-41);
-	var Trunk002 = CreateObject(Trunk, 593, 271);
+	var Trunk002 = CreateObject(Trunk, 593, 273);
 	Trunk002->SetCon(93);
 	Trunk002->SetR(30);
 
-	var Branch003 = CreateObject(Branch, 255, 40);
+	var Branch003 = CreateObject(Branch, 255, 41);
 	Branch003->SetCon(95);
 	Branch003->SetR(-145);
 
-	var Fern004 = CreateObjectAbove(Fern, 130, 217);
+	var Fern004 = CreateObjectAbove(Fern, 130, 216);
 	Fern004->SetSeedAmount(0);
 	Fern004->SetSeedChance(0);
 	var Fern005 = CreateObjectAbove(Fern, 116, 303);
@@ -79,7 +80,6 @@ func InitializeObjects()
 	var Cotton001 = CreateObjectAbove(Cotton, 153, 305);
 	Cotton001->SetSeedAmount(0);
 	Cotton001->SetSeedChance(0);
-
 	CreateObjectAbove(RoomEntrance, 55, 80);
 
 	CreateObjectAbove(RoomExit, 590, 456);
@@ -88,62 +88,64 @@ func InitializeObjects()
 	StoneDoor001->SetComDir(COMD_Down);
 	var StoneDoor002 = CreateObject(StoneDoor, 556, 348);
 
-	var SpinWheel001 = CreateObjectAbove(SpinWheel, 289, 80);
-	SpinWheel001->SetStoneDoor(StoneDoor001);
-	var SpinWheel002 = CreateObjectAbove(SpinWheel, 327, 80);
-	SpinWheel002->SetStoneDoor(StoneDoor001);
-	var SpinWheel003 = CreateObjectAbove(SpinWheel, 542, 368);
-	SpinWheel003->SetStoneDoor(StoneDoor002);
-	var SpinWheel004 = CreateObjectAbove(SpinWheel, 575, 368);
-	SpinWheel004->SetStoneDoor(StoneDoor002);
-
 	var Chest001 = CreateObjectAbove(Chest, 39, 215);
 	var Seaweed001 = CreateObjectAbove(Seaweed, 404, 96);
+	Seaweed001->SetYDir(14);
 	Seaweed001->SetSeedAmount(0);
 	Seaweed001->SetSeedChance(0);
 	var Seaweed002 = CreateObjectAbove(Seaweed, 462, 95);
+	Seaweed002->SetYDir(14);
 	Seaweed002->SetSeedAmount(0);
 	Seaweed002->SetSeedChance(0);
 	var Seaweed003 = CreateObjectAbove(Seaweed, 515, 95);
+	Seaweed003->SetYDir(14);
 	Seaweed003->SetSeedAmount(0);
 	Seaweed003->SetSeedChance(0);
 	var Seaweed004 = CreateObjectAbove(Seaweed, 445, 95);
+	Seaweed004->SetYDir(14);
 	Seaweed004->SetSeedAmount(0);
 	Seaweed004->SetSeedChance(0);
 	var Seaweed005 = CreateObjectAbove(Seaweed, 306, 263);
+	Seaweed005->SetYDir(14);
 	Seaweed005->SetSeedAmount(0);
 	Seaweed005->SetSeedChance(0);
 	var Seaweed006 = CreateObjectAbove(Seaweed, 332, 263);
+	Seaweed006->SetYDir(14);
 	Seaweed006->SetSeedAmount(0);
 	Seaweed006->SetSeedChance(0);
 	var Seaweed007 = CreateObjectAbove(Seaweed, 342, 263);
+	Seaweed007->SetYDir(14);
 	Seaweed007->SetSeedAmount(0);
 	Seaweed007->SetSeedChance(0);
 	var Seaweed008 = CreateObjectAbove(Seaweed, 409, 263);
+	Seaweed008->SetYDir(14);
 	Seaweed008->SetSeedAmount(0);
 	Seaweed008->SetSeedChance(0);
 	var Seaweed009 = CreateObjectAbove(Seaweed, 459, 263);
+	Seaweed009->SetYDir(14);
 	Seaweed009->SetSeedAmount(0);
 	Seaweed009->SetSeedChance(0);
 	var Seaweed010 = CreateObjectAbove(Seaweed, 474, 264);
+	Seaweed010->SetYDir(14);
 	Seaweed010->SetSeedAmount(0);
 	Seaweed010->SetSeedChance(0);
 	var Seaweed011 = CreateObjectAbove(Seaweed, 491, 263);
+	Seaweed011->SetYDir(14);
 	Seaweed011->SetSeedAmount(0);
 	Seaweed011->SetSeedChance(0);
 
 	Chest001->CreateContents(AncientTablet);
 
-	var Mushroom001 = CreateObjectAbove(Mushroom, 198, 304);
+	var Mushroom001 = CreateObjectAbove(Mushroom, 198, 303);
 	Mushroom001->SetSeedAmount(0);
 	Mushroom001->SetSeedChance(0);
 	var Mushroom002 = CreateObjectAbove(Mushroom, 140, 303);
 	Mushroom002->SetSeedAmount(0);
 	Mushroom002->SetSeedChance(0);
-	var Mushroom003 = CreateObjectAbove(Mushroom, 178, 214);
+	var Mushroom003 = CreateObjectAbove(Mushroom, 178, 215);
 	Mushroom003->SetSeedAmount(0);
 	Mushroom003->SetSeedChance(0);
-	var Mushroom004 = CreateObjectAbove(Mushroom, 202, 216);
+	var Mushroom004 = CreateObjectAbove(Mushroom, 202, 215);
 	Mushroom004->SetSeedAmount(0);
 	Mushroom004->SetSeedChance(0);
 	return true;

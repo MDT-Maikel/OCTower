@@ -1,2 +1,4 @@
 Name=Room Base
 Description=Base object for the room which contains the room's settings and scripts.
+
+MsgPlayerAttemptsRoom=%s gives room <c ff0000>%s</c> a try!

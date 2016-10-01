@@ -81,6 +81,9 @@ public func DoLoadRoom(bool reload)
 	return;
 }
 
+local playing_plr;
+local waiting_container;
+
 public func InitRoom()
 {
 	// Create basic rules.
@@ -88,19 +91,13 @@ public func InitRoom()
 		CreateObject(Rule_Restart);	
 	// Call to the specific room object to init objects.
 	OnRoomInit();
+	// Determine which player is playing the room.
+	playing_plr = GetNextPlayerInQueue();
+	// Create a container for waiting players.
+	waiting_container = CreateObject(RelaunchContainer, LandscapeWidth() / 2, LandscapeHeight() / 2);
 	// Initialize players in this room.
-	for (var plr in GetPlayers())
-	{
+	for (var plr in GetPlayers(C4PT_User))
 		InitializePlayer(plr);
-		for (var plr_start in FindObjects(Find_ID(PlayerStart)))
-		{
-			// Move player start to room entrance for correct crew placement.
-			var room_entrance = FindObject(Find_ID(RoomEntrance));
-			if (room_entrance)
-				plr_start->SetPosition(room_entrance->GetX(), room_entrance->GetY());
-			plr_start->InitializePlayer(plr);
-		}
-	}
 	return;
 }
 
@@ -123,13 +120,15 @@ public func InitializePlayer(int plr)
 {
 	// Join the player with its crew.
 	JoinPlayer(plr);
-	// Call to the specific room object to init the players.
-	OnPlayerInit(plr);	
 	return;
 }
 
 public func RelaunchPlayer(int plr)
 {
+	// Add the playing player to the playing queue again.
+	if (plr == playing_plr)
+		AppendPlayerToQueue(plr);
+	
 	// Reset the room if not already scheduled and if not in template.
 	if (!GameCall("IsTemplateRoom"))
 	{
@@ -155,13 +154,40 @@ protected func JoinPlayer(int plr)
 		SetCursor(plr, crew);
 	}
 	
-	// Move crew member to room entrance.
-	var room_entrance = FindObject(Find_ID(RoomEntrance));
-	if (room_entrance)
-		crew->SetPosition(room_entrance->GetX(), room_entrance->GetY());
-	
 	// Give clonk its maximum energy.
 	crew->DoEnergy(crew.MaxEnergy / 1000);
+	
+	// Determine if the player is the one playing. If so move crew to
+	// room entrance, otherwise into container object.
+	if (plr == playing_plr || GameCall("IsTemplateRoom"))
+	{
+		// Log that a new player attempts the room.
+		Log("$MsgPlayerAttemptsRoom$", GetTaggedPlayerName(plr), GetRoomName());
+		
+		// Also initialize via the player start object.
+		for (var plr_start in FindObjects(Find_ID(PlayerStart)))
+			plr_start->InitializePlayer(plr);
+			
+		// Move the crew to the room entrance if available.	
+		var room_entrance = FindObject(Find_ID(RoomEntrance));
+		if (room_entrance)
+			crew->SetPosition(room_entrance->GetX(), room_entrance->GetY());
+			
+		// Call to the specific room object to init the players.
+		OnPlayerInit(plr);
+		
+		// Set the view of the other players to the playing player.
+		for (var other_plr in GetPlayers(C4PT_User))
+			if (other_plr != playing_plr)
+				SetViewCursor(other_plr, crew);
+	}
+	else
+	{
+		// Observing players move into the waiting container.
+		crew->Enter(waiting_container);
+		// Set player view to the playing player.
+		SetViewCursor(plr, GetCrew(playing_plr));
+	}
 	return;
 }
 

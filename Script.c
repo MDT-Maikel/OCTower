@@ -13,7 +13,9 @@ public func Initialize()
 
 public func InitializePlayer(int plr)
 {
+	// Init the room data for this player from the saved data.
 	InitPlayerRoomData(plr);
+	// Join the player with its crew.
 	JoinPlayer(plr);
 	return;
 }
@@ -34,7 +36,11 @@ public func JoinPlayer(int plr)
 	
 	// Move clonk to position outside the castle.
 	crew->SetPosition(40 + RandomX(80), 350);
+	crew->SetDir(DIR_Right);
 	//crew->SetPosition(620, 294);
+	
+	// Add the player to the playing queue.
+	AppendPlayerToQueue(plr);
 	return;
 }
 
@@ -80,6 +86,9 @@ public func OnRoomCompleted(object crew, id room)
 	RemovePlayerUsedJoker(plr, room);
 	// Save the progress.
 	SavePlayerRoomData(plr);
+	
+	// Append player to the end of playing queue.	
+	AppendPlayerToQueue(plr);
 	
 	// Get the next room and load that.
 	var next_room = GetNextRoom(room);

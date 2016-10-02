@@ -11,6 +11,18 @@ static g_tower_plr_used_jokers;
 // Returns the rooms the player has completed.
 global func GetPlayerCompletedRooms(int plr)
 {
+	// Add rooms for all players if no player has been specified.	
+	if (plr == nil)
+	{
+		if (g_tower_plr_progress == nil)
+			return;
+		var rooms = [];
+		for (var plr_progress in g_tower_plr_progress)
+			if (plr_progress != nil)
+				rooms = Concatenate(rooms, plr_progress);
+		RemoveDuplicates(rooms);
+		return rooms;
+	}	
 	var plrid = GetPlayerID(plr);
 	if (g_tower_plr_progress == nil)
 		g_tower_plr_progress = [];
@@ -40,6 +52,20 @@ global func HasPlayerCompletedRoom(int plr, id room)
 	var plrid = GetPlayerID(plr);
 	if (g_tower_plr_progress == nil)
 		return false;
+	// Check for all players if no player has been specified.
+	if (plr == nil)
+	{
+		var completed = false;
+		for (var plr_progress in g_tower_plr_progress)
+		{
+			if (plr_progress != nil && IsValueInArray(plr_progress, room))
+			{
+				completed = true;
+				break;
+			}
+		}
+		return completed;
+	}
 	if (g_tower_plr_progress[plrid] == nil)
 		return false;
 	return IsValueInArray(g_tower_plr_progress[plrid], room);

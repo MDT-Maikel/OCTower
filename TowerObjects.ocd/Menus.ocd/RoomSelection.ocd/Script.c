@@ -199,9 +199,9 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 
 public func MenuShowRooms(proplist rooms, int plr)
 {
-	// Show all the active medals in this round.
-	var room_list = SortRoomList(GetPlayerCompletedRooms(plr));
-	var next_room = GetPlayerNextOpenRoom(plr);
+	// Show all the active rooms in this round.
+	var room_list = SortRoomList(GetPlayerCompletedRooms(nil));
+	var next_room = GetPlayerNextOpenRoom(nil);
 	if (next_room)
 		PushBack(room_list, next_room);
 	SortRoomList(room_list);

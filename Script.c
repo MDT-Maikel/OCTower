@@ -59,28 +59,34 @@ public func OnRoomEntranceEntered(object crew)
 
 public func OnRoomJokerCompleted(object crew, id room)
 {
-	var plr = crew->GetOwner();
-	// Add the joker of this room to the player's completion list.
-	AddPlayerFoundJoker(plr, room);
-	// Save the progress.
-	SavePlayerRoomData(plr);
+	// Share the progress among all playing players.
+	for (var for_plr in GetPlayers(C4PT_User))
+	{
+		// Add the joker of this room to the player's completion list.
+		AddPlayerFoundJoker(for_plr, room);
+		// Save the progress.
+		SavePlayerRoomData(for_plr);
+	}
 	return;
 }
 
 public func OnRoomTabletCompleted(object crew, id room)
 {
-	var plr = crew->GetOwner();
-	// Add the tablet of this room to the player's completion list.
-	AddPlayerFoundTablet(plr, room);
-	// Save the progress.
-	SavePlayerRoomData(plr);
+	// Share the progress among all playing players.
+	for (var for_plr in GetPlayers(C4PT_User))
+	{
+		// Add the tablet of this room to the player's completion list.
+		AddPlayerFoundTablet(for_plr, room);
+		// Save the progress.
+		SavePlayerRoomData(for_plr);
+	}
 	return;
 }
 
 public func OnRoomCompleted(object crew, id room)
 {
 	var plr = crew->GetOwner();
-	// Add this room as completed for all players.
+	// Share the progress among all playing players.
 	for (var for_plr in GetPlayers(C4PT_User))
 	{
 		// Add this room to the player's completion list.

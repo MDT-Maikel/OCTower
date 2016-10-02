@@ -85,7 +85,8 @@ public func OnRoomInit()
 	CreateObject(AncientTablet, tablet_x, tablet_y);
 	
 	// Create moving lights.
-	for (var count = 0; count < 44;)
+	var lights_count = 50;
+	for (var count = 0; count < lights_count;)
 	{
 		var light_x = GetRandomPosition();
 		var light_y = GetRandomPosition(true);

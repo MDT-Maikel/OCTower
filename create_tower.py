@@ -17,6 +17,12 @@ def copy_room(room_dir, tower_dir):
 	# get room name
 	room_name = room_dir.split(".")[0][4:]
 	print "copying room " + room_name + " ..."
+	
+	# check against double room names
+	if room_name in room_names:
+		print "ERROR: room name (" + room_name + ") already used."
+		print "WARNING: room " + room_name + " will not be included"
+	room_names.append(room_name)
 
 	# copy room object
 	room_obj_dir = tower_dir + "/Room" + room_name + ".ocd"
@@ -38,8 +44,8 @@ def copy_room(room_dir, tower_dir):
 				for line in lines:
 					if not re.match("Icon=*", line) and not re.match("Title=*", line) and not re.match("Version=*", line) and not re.match("Origin=*", line):
 						f.write(line)
-		# copy scenario map and objects
-		if fnmatch.fnmatch(sect_file, "Map*.bmp") or fnmatch.fnmatch(sect_file, "Objects.c"):
+		# copy scenario map, objects and string tables
+		if fnmatch.fnmatch(sect_file, "Map*.bmp") or fnmatch.fnmatch(sect_file, "Objects.c") or fnmatch.fnmatch(sect_file, "StringTbl*.txt"):
 			shutil.copy(room_dir + "/" + sect_file, sect_dir)
 		# append map script to room control script object.
 		if fnmatch.fnmatch(sect_file, "Map.c"):
@@ -66,19 +72,37 @@ def check_room(room_name, tower_dir):
 		# check room object id
 		for line in lines:
 			if re.match("id=*", line) and not re.match("id=Room" + room_name, line):
-				print "ERROR: Room control object DefCore.txt has wrong id, found " + line + ", expected id=Room" + room_name + "."
+				print "ERROR: Room control object DefCore.txt has wrong id, found " + line.replace("\n", "") + ", expected id=Room" + room_name + "."
 				room_ok = False
 
 	# open room control object script
 	with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "r") as f:
 		lines = f.readlines()
-		# check room section
 		for line in lines:
+			# check room section
 			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
-				print "ERROR: Room control object Script.c has wrong section, found " + line + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }."
+				print "ERROR: Room control object Script.c has wrong section, found " + line.replace("\n", "") + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }."
 				room_ok = False
-
-	# TODO: check room number unique, room name unique.
+			# room id
+			if re.match("public func GetRoomID()*", line):
+				room_id = re.search("\"[a-zA-Z]+\"", line).group(0).replace("\"", "");
+				if room_id in room_ids:
+					print "ERROR: Room control object Script.c has duplicate ID, found " + line.replace("\n", "") + ", expected public func GetRoomID() { return \"??\"; }."
+					room_ok = False
+				else:
+					room_ids.append(room_id)
+			# difficulty
+			if re.match("public func GetRoomDifficulty()*", line):
+				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:];
+				if room_diff in room_diffs:
+					print "ERROR: Room control object Script.c has duplicate difficulty, found " + line.replace("\n", "") + ", expected public func GetRoomDifficulty() { return \"?\"; }."
+					room_ok = False
+				else:
+					room_diffs.append(room_diff)
+	
+	# print room settings
+	if args.verbose and room_ok:
+		print "room properties: id = " + room_id + ", difficulty = " + room_diff
 
 	# return whether the room is ok
 	return room_ok
@@ -91,7 +115,13 @@ def check_room(room_name, tower_dir):
 # argument parser
 parser = argparse.ArgumentParser(description='Create the tower scenario from the repository version.')
 parser.add_argument('-p', '--pack', action='store_true', help='create a packed scenario folder if c4group is available')
+parser.add_argument('-v', '--verbose', action='store_true', help='print more information')
 args = parser.parse_args()
+
+# store room names, id's and difficulties
+room_names = []
+room_ids = []
+room_diffs = []
 
 # create tower directory based on version name
 with open("Version.txt", "r") as content_file:
@@ -102,7 +132,6 @@ if os.path.isfile(tower_dir):
 	os.remove(tower_dir)
 elif os.path.exists(tower_dir):
 	shutil.rmtree(tower_dir)
-
 os.makedirs(tower_dir)
 
 

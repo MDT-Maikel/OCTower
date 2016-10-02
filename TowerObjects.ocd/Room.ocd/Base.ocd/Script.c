@@ -45,16 +45,29 @@ public func GetRoomAuthorList()
 
 public func LoadRoom(bool reload)
 {
+	if (GetEffect("IntScheduleLoadRoom"))
+		return;
+	// Set the current room.
+	SetCurrentRoom(this);
+	// Add an effect to load the room.
 	var fx = AddEffect("IntScheduleLoadRoom", nil, 1, 1, nil, this);
 	fx.reload = reload;
 	return;
 }
 
-public func FxIntScheduleLoadRoomStop(object target, proplist fx, int reason, bool temp)
+// The room loading effect runs for two frames, where in the first the room is loaded.
+// The second frame is to prevent loading another room at the same time.
+public func FxIntScheduleLoadRoomTimer(object target, proplist fx, int time)
 {
-	if (temp || reason != FX_Call_Normal)
+	// Load the room in the first frame.
+	if (time == 1)
+	{
+		DoLoadRoom(fx.reload);
 		return FX_OK;
-	DoLoadRoom(fx.reload);
+	}
+	// Kill effect after the second frame.
+	if (time >= 2)
+		return FX_Execute_Kill;	
 	return FX_OK;
 }
 
@@ -132,7 +145,7 @@ public func RelaunchPlayer(int plr)
 	// Reset the room if not already scheduled and if not in template.
 	if (!GameCall("IsTemplateRoom"))
 	{
-		if (!GetEffect("IntScheduleLoad*"))
+		if (!GetEffect("IntScheduleLoadRoom"))
 			GetID()->LoadRoom(true);
 	}
 	else

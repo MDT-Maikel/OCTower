@@ -13,7 +13,7 @@ global func FxIntScheduleLoadMainStop(object target, proplist fx, int reason, bo
 {
 	if (temp || reason != FX_Call_Normal)
 		return FX_OK;
-	g_tower_current_room = nil;
+	SetCurrentRoom(nil);
 	//Log("[%d]Load section main", FrameCounter());
 	//LogCallStack();
 	LoadScenarioSection("main");
@@ -26,8 +26,14 @@ global func LoadRoom(id room)
 {
 	if (!room->~IsRoom() || room == RoomBase)
 		return;
-	g_tower_current_room = room;	
 	room->LoadRoom();
+	return;
+}
+
+// Sets the current room.
+global func SetCurrentRoom(id room)
+{
+	g_tower_current_room = room;
 	return;
 }
 

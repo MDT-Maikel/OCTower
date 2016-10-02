@@ -48,7 +48,7 @@ static const LabyrinthMap = new AStarMap { step = 24 };
 // Called when the room is initialized.
 // Here you can create effects and extra objects that are needed for the room.
 public func OnRoomInit()
-{
+{	
 	// Get room size.
 	var wdt = LandscapeWidth();
 	var hgt = LandscapeHeight();
@@ -94,7 +94,6 @@ public func OnRoomInit()
 		CreateMovingLight(light_x, light_y);
 		count++;
 	}
-	
 	// Draw slabs of rocks which block the way.
 	CreateBlockingRocks(entrance_x, entrance_y, exit_x, exit_y, tablet_x, tablet_y);
 	
@@ -149,7 +148,8 @@ global func DrawPath(int x1, int y1, int x2, int y2, int n)
 private func CreateBlockingRocks(int entrance_x, int entrance_y, int exit_x, int exit_y, int tablet_x, int tablet_y)
 {
 	// Create 5 random blocks as long as the path between entrance and exit is not blocked.
-	for (var cnt = 0; cnt < 5;)
+	var block_cnt = 0;
+	for (var attempts = 0; attempts < 500 && block_cnt < 5; attempts++)
 	{
 		var rock_x = GetRandomPosition();
 		var rock_y = GetRandomPosition(true);
@@ -171,12 +171,12 @@ private func CreateBlockingRocks(int entrance_x, int entrance_y, int exit_x, int
 		if (left && right && !top && !bottom)
 		{
 			DrawRockSlab(rock_x - 12, rock_y, rock_x + 12, rock_y);
-			cnt++;
+			block_cnt++;
 		}
 		else if (!left && !right && top && bottom)
 		{
 			DrawRockSlab(rock_x, rock_y - 12, rock_x, rock_y + 12);
-			cnt++;
+			block_cnt++;
 		}
 		// Determine whether this has blocked the path from entrance to exit.
 		if (!LabyrinthMap->FindPath({x = entrance_x, y = entrance_y}, {x = exit_x, y = exit_y}))
@@ -224,9 +224,10 @@ private func CreateBlockingRocks(int entrance_x, int entrance_y, int exit_x, int
 // Block the path between 1 and 2, with potentially two rock slabs.
 private func BlockPath(int x1, int y1, int x2, int y2, int x_ex, int y_ex)
 {
-	var path;
-	while (path = LabyrinthMap->FindPath({x = x1, y = y1}, {x = x2, y = y2}))
+	var path, attempts = 0;
+	while ((path = LabyrinthMap->FindPath({x = x1, y = y1}, {x = x2, y = y2})) && attempts < 1000)
 	{
+		attempts++;
 		var length = GetLength(path);
 		var placed = 0;
 		for (var dev = 1; dev <= length / 2; dev++)

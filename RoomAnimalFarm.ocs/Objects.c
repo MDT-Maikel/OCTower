@@ -6,11 +6,11 @@ func InitializeObjects()
 	var Grass002 = CreateObjectAbove(Grass, 128, 94);
 
 	var Flower001 = CreateObjectAbove(Flower, 163, 102);
-	Flower001->SetSeedAmount(0);
 	Flower001->SetSeedChance(0);
+	Flower001->SetSeedAmount(0);
 	var Flower002 = CreateObjectAbove(Flower, 205, 102);
-	Flower002->SetSeedAmount(0);
 	Flower002->SetSeedChance(0);
+	Flower002->SetSeedAmount(0);
 	var Flower003 = CreateObjectAbove(Flower, 231, 103);
 	Flower003->SetSeedChance(0);
 	Flower003->SetSeedAmount(0);
@@ -52,11 +52,11 @@ func InitializeObjects()
 	var Trunk001 = CreateObject(Trunk, 598, 233);
 	Trunk001->SetCon(101);
 	Trunk001->SetR(-41);
-	var Trunk002 = CreateObject(Trunk, 593, 273);
+	var Trunk002 = CreateObject(Trunk, 593, 275);
 	Trunk002->SetCon(93);
 	Trunk002->SetR(30);
 
-	var Branch003 = CreateObject(Branch, 255, 41);
+	var Branch003 = CreateObject(Branch, 255, 42);
 	Branch003->SetCon(95);
 	Branch003->SetR(-145);
 
@@ -66,18 +66,18 @@ func InitializeObjects()
 	var Fern005 = CreateObjectAbove(Fern, 116, 303);
 	Fern005->SetSeedAmount(0);
 	Fern005->SetSeedChance(0);
-	var Fern006 = CreateObjectAbove(Fern, 179, 304);
+	var Fern006 = CreateObjectAbove(Fern, 179, 303);
 	Fern006->SetSeedAmount(0);
 	Fern006->SetSeedChance(0);
 
 	var Flower004 = CreateObjectAbove(Flower, 210, 310);
-	Flower004->SetSeedChance(0);
 	Flower004->SetSeedAmount(0);
+	Flower004->SetSeedChance(0);
 	var Flower005 = CreateObjectAbove(Flower, 134, 310);
 	Flower005->SetSeedChance(0);
 	Flower005->SetSeedAmount(0);
 
-	var Cotton001 = CreateObjectAbove(Cotton, 153, 305);
+	var Cotton001 = CreateObjectAbove(Cotton, 153, 304);
 	Cotton001->SetSeedAmount(0);
 	Cotton001->SetSeedChance(0);
 	CreateObjectAbove(RoomEntrance, 55, 80);
@@ -86,60 +86,76 @@ func InitializeObjects()
 
 	var StoneDoor001 = CreateObject(StoneDoor, 308, 60);
 	StoneDoor001->SetComDir(COMD_Down);
-	var StoneDoor002 = CreateObject(StoneDoor, 556, 348);
+	CreateObject(StoneDoor, 556, 348);
 
 	var Chest001 = CreateObjectAbove(Chest, 39, 215);
+	var Clonk001 = CreateObjectAbove(Clonk, 116, 213);
+	Clonk001->SetDir(DIR_Right);
+	Clonk001->SetColor(0xba8e37);
+	Clonk001->SetMeshMaterial("Clonk_Youngster", 0);
+	Clonk001->SetName("Max");
+	Clonk001->Unstick(7);
+	Clonk001->SetAlternativeSkin("Youngster");
+	var Clonk002 = CreateObjectAbove(Clonk, 489, 455);
+	Clonk002->SetColor(0xff211fa8);
+	Clonk002->SetMeshMaterial("Clonk_YoungsterBlond", 0);
+	Clonk002->SetName("Doug");
+	Clonk002->Unstick(7);
+	Clonk002->SetDir(DIR_Left);
+	Clonk002->SetAlternativeSkin("YoungsterBlond");
+
+	var Lantern001 = Clonk001->CreateContents(Lantern);
+	Lantern001->TurnOn();
+
+	var Dialogue001 = Clonk001->SetDialogue("Editor",true);
+	Dialogue001->SetUserDialogue({Actions=[{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgManOne$"}}],Function="sequence"}, nil);
+
+	var Lantern002 = Clonk002->CreateContents(Lantern);
+	Lantern002->TurnOn();
+
+	var Dialogue002 = Clonk002->SetDialogue("Editor",true);
+	Dialogue002->SetUserDialogue({Actions=[{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgManTwo$"}}],Function="sequence"}, nil);
+
 	var Seaweed001 = CreateObjectAbove(Seaweed, 404, 96);
-	Seaweed001->SetYDir(14);
 	Seaweed001->SetSeedAmount(0);
 	Seaweed001->SetSeedChance(0);
 	var Seaweed002 = CreateObjectAbove(Seaweed, 462, 95);
-	Seaweed002->SetYDir(14);
 	Seaweed002->SetSeedAmount(0);
 	Seaweed002->SetSeedChance(0);
 	var Seaweed003 = CreateObjectAbove(Seaweed, 515, 95);
-	Seaweed003->SetYDir(14);
 	Seaweed003->SetSeedAmount(0);
 	Seaweed003->SetSeedChance(0);
 	var Seaweed004 = CreateObjectAbove(Seaweed, 445, 95);
-	Seaweed004->SetYDir(14);
 	Seaweed004->SetSeedAmount(0);
 	Seaweed004->SetSeedChance(0);
 	var Seaweed005 = CreateObjectAbove(Seaweed, 306, 263);
-	Seaweed005->SetYDir(14);
 	Seaweed005->SetSeedAmount(0);
 	Seaweed005->SetSeedChance(0);
 	var Seaweed006 = CreateObjectAbove(Seaweed, 332, 263);
-	Seaweed006->SetYDir(14);
 	Seaweed006->SetSeedAmount(0);
 	Seaweed006->SetSeedChance(0);
 	var Seaweed007 = CreateObjectAbove(Seaweed, 342, 263);
-	Seaweed007->SetYDir(14);
 	Seaweed007->SetSeedAmount(0);
 	Seaweed007->SetSeedChance(0);
 	var Seaweed008 = CreateObjectAbove(Seaweed, 409, 263);
-	Seaweed008->SetYDir(14);
 	Seaweed008->SetSeedAmount(0);
 	Seaweed008->SetSeedChance(0);
 	var Seaweed009 = CreateObjectAbove(Seaweed, 459, 263);
-	Seaweed009->SetYDir(14);
 	Seaweed009->SetSeedAmount(0);
 	Seaweed009->SetSeedChance(0);
 	var Seaweed010 = CreateObjectAbove(Seaweed, 474, 264);
-	Seaweed010->SetYDir(14);
 	Seaweed010->SetSeedAmount(0);
 	Seaweed010->SetSeedChance(0);
 	var Seaweed011 = CreateObjectAbove(Seaweed, 491, 263);
-	Seaweed011->SetYDir(14);
 	Seaweed011->SetSeedAmount(0);
 	Seaweed011->SetSeedChance(0);
 
 	Chest001->CreateContents(AncientTablet);
 
-	var Mushroom001 = CreateObjectAbove(Mushroom, 198, 303);
+	var Mushroom001 = CreateObjectAbove(Mushroom, 198, 302);
 	Mushroom001->SetSeedAmount(0);
 	Mushroom001->SetSeedChance(0);
-	var Mushroom002 = CreateObjectAbove(Mushroom, 140, 303);
+	var Mushroom002 = CreateObjectAbove(Mushroom, 140, 304);
 	Mushroom002->SetSeedAmount(0);
 	Mushroom002->SetSeedChance(0);
 	var Mushroom003 = CreateObjectAbove(Mushroom, 178, 215);

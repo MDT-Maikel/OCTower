@@ -67,7 +67,7 @@ public func InitAnimals()
 	ShuffleArray(small_counts);
 	ShuffleArray(large_counts);
 	
-	// Place animals all with different counts.
+	// Place animals with small counts.
 	Wipf->Place(small_counts[0], Rectangle(120, 40, 116, 56));
 	Fish->Place(small_counts[1], Rectangle(384, 24, 160, 72));
 	Bat->Place(small_counts[2], Rectangle(576, 72, 40, 176));
@@ -76,6 +76,9 @@ public func InitAnimals()
 		CreateObject(Mooq, RandomX(32, 116), RandomX(416, 440));
 	for (var cnt = small_counts[5]; cnt > 0; cnt--)
 		CreateObject(Chippie, RandomX(180, 300), RandomX(416, 440));
+	Puka->Place(small_counts[6], Rectangle(80, 240, 160, 80));
+
+	// Place animals with large counts.		
 	Piranha->Place(large_counts[0], Rectangle(272, 176, 248, 96));
 	Butterfly->Place(large_counts[1], Rectangle(120, 40, 56, 96));
 	Firefly->Place(1, large_counts[2], Rectangle(120, 148, 56, 120));
@@ -110,9 +113,8 @@ public func InitKeypads()
 	var main_keypad = CreateObject(Keypad, 538, 442);
 	main_keypad->SetStoneDoor(main_door);
 	// Determine code according to animals.
-	var animals = [nil, Wipf, Butterfly, Fish, Bat, Shark, Piranha, Mooq, Chippie, Firefly];
+	var animals = [Puka, Wipf, Butterfly, Fish, Bat, Shark, Piranha, Mooq, Chippie, Firefly];
 	main_keypad->SetReplacementImages(animals);
-	PopFront(animals);
 	var ordered_animals = animals[:];
 	for (var index = 0; index < GetLength(ordered_animals); index++)
 		ordered_animals[index] = [ordered_animals[index], ObjectCount(Find_ID(ordered_animals[index]))];
@@ -121,7 +123,7 @@ public func InitKeypads()
 		ordered_animals[index] = ordered_animals[index][0];
 	var main_code = "";
 	for (var index = 0; index < GetLength(ordered_animals); index++)
-		main_code = Format("%s%d", main_code, GetIndexOf(animals, ordered_animals[index]) + 1);
+		main_code = Format("%s%d", main_code, GetIndexOf(animals, ordered_animals[index]));
 	main_keypad->SetKeypadCode(main_code);
 	return;
 }

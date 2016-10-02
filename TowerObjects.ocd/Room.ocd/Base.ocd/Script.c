@@ -156,6 +156,17 @@ public func RelaunchPlayer(int plr)
 	return;
 }
 
+public func RemovePlayer(int plr)
+{
+	// Reload the room if the player that has been removed was playing the room.
+	if (plr == playing_plr)
+	{
+		if (!GameCall("IsTemplateRoom") && !GetEffect("IntScheduleLoadRoom"))
+			GetID()->LoadRoom(true);
+	}
+	return;
+}
+
 protected func JoinPlayer(int plr)
 {
 	// Get crew member or create new one.

@@ -46,6 +46,14 @@ global func GetNextPlayerInQueue()
 {
 	if (g_tower_plr_queue == nil)
 		return nil;
-	var plrid = PopFront(g_tower_plr_queue);
-	return GetPlayerByID(plrid);
+	// Loop over the player queue until an active player has been found.
+	var plrid;	
+	while ((plrid = PopFront(g_tower_plr_queue)) != nil)
+	{
+		var plr = GetPlayerByID(plrid);
+		// Take player name as an indication of active.
+		if (GetPlayerName(plr))
+			return plr;
+	}
+	return;
 }

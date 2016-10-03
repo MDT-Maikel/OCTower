@@ -1,0 +1,2 @@
+RoomName=Windy Wipf
+RoomDescription=Don't be cruel.

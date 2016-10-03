@@ -1,0 +1,7 @@
+DlgDaveyPoor=Oh no, I am so poor. All I have is a massive pipe!
+DlgDaveyPipe=Cool, I also want a pipe.
+DlgDaveyHave=You have 
+DlgDaveyCheap=. But that is too cheap for me.
+DlgDaveyHappy=I am so happy!
+DlgDaveyNothing=But you don't carry anything.
+DlgDaveyThanks=Thanks! Here you go, take my pipe.

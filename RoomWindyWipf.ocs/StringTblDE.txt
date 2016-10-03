@@ -1,0 +1,7 @@
+DlgDaveyPoor=Oh nein, ich bin so arm. Alles was ich habe ist ein fettes Rohr!
+DlgDaveyPipe=Cool, ich will auch ein Rohr.
+DlgDaveyHave=Du hast 
+DlgDaveyCheap=. Aber das ist mir zu billig.
+DlgDaveyHappy=Ich bin so gluecklich!
+DlgDaveyNothing=Aber du hast ja gar nichts dabei.
+DlgDaveyThanks=Danke! Hier hast du mein Rohr.

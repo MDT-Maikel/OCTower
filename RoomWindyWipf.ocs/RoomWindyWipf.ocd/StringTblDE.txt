@@ -1,0 +1,2 @@
+RoomName=Windiger Wipf
+RoomDescription=Sei nicht grausam.

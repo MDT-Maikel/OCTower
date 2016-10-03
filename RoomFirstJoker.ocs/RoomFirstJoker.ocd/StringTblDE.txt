@@ -1,0 +1,2 @@
+RoomName=Erster Joker
+RoomDescription=Only a few rooms have jokers. Hard to obtain, but so helpful to make progress in the tower. 

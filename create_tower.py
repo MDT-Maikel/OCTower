@@ -21,7 +21,7 @@ def copy_room(room_dir, tower_dir):
 	# check against double room names
 	if room_name in room_names:
 		print "ERROR: room name (" + room_name + ") already used."
-		print "WARNING: room " + room_name + " will not be included"
+		print "WARNING: room " + room_name + " will not be included."
 	room_names.append(room_name)
 
 	# copy room object
@@ -59,7 +59,7 @@ def copy_room(room_dir, tower_dir):
 	if not check_room(room_name, tower_dir):
 		shutil.rmtree(room_obj_dir)
 		shutil.rmtree(sect_dir)
-		print "WARNING: room " + room_name + " will not be included"
+		print "WARNING: room " + room_name + " will not be included."
 
 
 # checks the basics of a room returns if the room is ok
@@ -83,21 +83,24 @@ def check_room(room_name, tower_dir):
 			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
 				print "ERROR: Room control object Script.c has wrong section, found " + line.replace("\n", "") + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }."
 				room_ok = False
-			# room id
+			# room id (either double or excluded)
 			if re.match("public func GetRoomID()*", line):
-				room_id = re.search("\"[a-zA-Z]+\"", line).group(0).replace("\"", "");
+				room_id = re.search("\"[a-zA-Z]+\"", line).group(0).replace("\"", "")
 				if room_id in room_ids:
 					print "ERROR: Room control object Script.c has duplicate ID, found " + line.replace("\n", "") + ", expected public func GetRoomID() { return \"??\"; }."
 					room_ok = False
-				else:
+				elif isinstance(args.exclude, list) and room_id in args.exclude:
+					print "EXCLUDE: Room with id = " + room_id + " will be excluded as requested."
+					room_ok = False
+				elif room_ok:
 					room_ids.append(room_id)
 			# difficulty
 			if re.match("public func GetRoomDifficulty()*", line):
-				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:];
+				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:]
 				if room_diff in room_diffs:
 					print "ERROR: Room control object Script.c has duplicate difficulty, found " + line.replace("\n", "") + ", expected public func GetRoomDifficulty() { return \"?\"; }."
 					room_ok = False
-				else:
+				elif room_ok:
 					room_diffs.append(room_diff)
 	
 	# print room settings
@@ -116,6 +119,7 @@ def check_room(room_name, tower_dir):
 parser = argparse.ArgumentParser(description='Create the tower scenario from the repository version.')
 parser.add_argument('-p', '--pack', action='store_true', help='create a packed scenario folder if c4group is available')
 parser.add_argument('-v', '--verbose', action='store_true', help='print more information')
+parser.add_argument('-e', '--exclude', nargs='+', help='exclude rooms based on their id, get by using verbose option')
 args = parser.parse_args()
 
 # store room names, id's and difficulties

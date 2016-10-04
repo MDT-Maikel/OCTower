@@ -1,0 +1,2 @@
+RoomName=Power Conundrum
+RoomDescription=You need oil to generate power, but you need power to pump oil.

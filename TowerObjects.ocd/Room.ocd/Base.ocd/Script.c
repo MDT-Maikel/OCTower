@@ -193,6 +193,11 @@ protected func JoinPlayer(int plr)
 		if (!GameCall("IsTemplateRoom"))
 			for (var plr_start in FindObjects(Find_ID(PlayerStart)))
 				plr_start->InitializePlayer(plr);
+				
+		// Make the attempting player owner of the objects with the MakeRoomPlayerOwner property.
+		if (!GameCall("IsTemplateRoom"))
+			for (var obj in FindObjects(Find_Property("MakeRoomPlayerOwner")))
+				obj->SetOwner(plr);
 			
 		// Move the crew to the room entrance if available.	
 		var room_entrance = FindObject(Find_ID(RoomEntrance));

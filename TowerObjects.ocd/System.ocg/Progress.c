@@ -215,7 +215,7 @@ global func HasPlayerUsedJoker(int plr, id room)
 }
 
 
-/*-- Available Jokes --*/
+/*-- Available Jokers --*/
 
 global func GetPlayerAvailableJokers(int plr)
 {
@@ -231,13 +231,16 @@ global func InitPlayerRoomData(int plr)
 	for (var room in LoadPlayerCompletedRooms(plr))
 		room->AddPlayerCompletedRoom(plr, room);
 	for (var room in LoadPlayerFoundTablets(plr))
-		room->AddPlayerFoundTablet(plr, room);	
+		room->AddPlayerFoundTablet(plr, room);
 	for (var room in LoadPlayerFoundJokers(plr))
-		room->AddPlayerFoundJoker(plr, room);		
+		room->AddPlayerFoundJoker(plr, room);
 	for (var room in LoadPlayerUsedJokers(plr))
 		room->AddPlayerUsedJoker(plr, room);
 	return;
 }
+
+
+/*-- Editor Control --*/
 
 // Reset the rooms the player has completed.
 global func ResetPlayerRoomProgress(int plr, bool remove_save)
@@ -250,5 +253,20 @@ global func ResetPlayerRoomProgress(int plr, bool remove_save)
 	g_tower_plr_progress[plrid] = nil;
 	if (remove_save)
 		ResetPlayerRoomData(plr);
+	return;
+}
+
+// Gives the player access to all rooms and extras.
+// Used for debugging and development purposes.
+global func GivePlayerFullProgress(int plr)
+{
+	for (var room in GetRoomList())
+	{
+		room->AddPlayerCompletedRoom(plr, room);
+		if (room->HasTablet())
+			room->AddPlayerFoundTablet(plr, room);
+		if (room->HasJoker())
+			room->AddPlayerFoundJoker(plr, room);
+	}
 	return;
 }

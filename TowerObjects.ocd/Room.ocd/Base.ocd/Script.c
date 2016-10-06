@@ -202,7 +202,10 @@ protected func JoinPlayer(int plr)
 		// Move the crew to the room entrance if available.	
 		var room_entrance = FindObject(Find_ID(RoomEntrance));
 		if (room_entrance)
-			crew->SetPosition(room_entrance->GetX(), room_entrance->GetY());
+		{
+			crew->Enter(room_entrance);
+			crew->SetCommand("Exit");
+		}
 			
 		// Call to the specific room object to init the players.
 		OnPlayerInit(plr);

@@ -1,17 +1,18 @@
 /**
-	Room Entrance
-	Provides the entrance to a tower room.
+	Room Exit
+	Provides the exit to a tower room.
 
 	@author Maikel
 */
 
+#include RoomDoor
 
-/*-- Entering --*/
 
 public func Construction()
 {
-	SetEntrance(true);
-	return true;
+	SetGraphics(nil, RoomDoor);
+	SetColor(RGB(200, 50, 50));
+	return;
 }
 
 public func Collection2(object crew)
@@ -36,4 +37,3 @@ public func Collection2(object crew)
 
 local Name = "$Name$";
 local Description = "$Description$";
-local Plane = 200;

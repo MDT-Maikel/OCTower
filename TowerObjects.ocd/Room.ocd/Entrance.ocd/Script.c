@@ -5,13 +5,14 @@
 	@author Maikel
 */
 
+#include RoomDoor
 
-/*-- Entering --*/
 
 public func Construction()
 {
-	SetEntrance(true);
-	return true;
+	SetGraphics(nil, RoomDoor);
+	SetColor(RGB(50, 200, 50));
+	return;
 }
 
 public func Collection2(object crew)
@@ -36,4 +37,3 @@ public func Collection2(object crew)
 
 local Name = "$Name$";
 local Description = "$Description$";
-local Plane = 200;

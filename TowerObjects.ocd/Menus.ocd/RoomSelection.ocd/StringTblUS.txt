@@ -8,6 +8,7 @@ RoomMenuJokersFound=You found %d out of the %d hidden jokers. Currently you have
 
 RoomMenuClose=Close the room menu.
 RoomMenuCredits=Show the credits.
+RoomMenuTablets=Show your tablets.
 RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuSelectRoom=Select room:

@@ -90,7 +90,7 @@ public func MakeRoomMenu(int plr)
 		Target = this,
 		ID = 3,
 		Left = "70%",
-		Top = "1.5em",
+		Top = "2em",
 		Margin = ["0.1em"]
 	};
 	menu.selinfo = 
@@ -104,20 +104,23 @@ public func MakeRoomMenu(int plr)
 	// Make the borders between the submenus.
 	menu.vert_border =
 	{
-		Target = this,
-		ID = 5,
 		Left = "70%-0.5em",
 		Right = "70%",
 		BackgroundColor = {Std = ROOMMENU_BarColor},
 	};
 	menu.hor_border =
 	{
-		Target = this,
-		ID = 6,
 		Right = "70%-0.5em",
 		Top = "40%-0.5em",
 		Bottom = "40%",
 		BackgroundColor = {Std = ROOMMENU_BarColor},
+	};
+	menu.bar_border =
+	{
+		Left = "70%",
+		Top = "1.5em",
+		Bottom = "2em",
+		BackgroundColor = {Std = ROOMMENU_BarColor},	
 	};
 	
 	// Display info on current room.
@@ -162,6 +165,19 @@ public func MakeRoomMenu(int plr)
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "ShowRoomMenuCredits", plr)
+	};
+	menu.buttons.tablets = 
+	{
+		Target = this,
+		ID = 23,
+		Left = "100%-4.5em",
+		Right = "100%-3em",
+		Symbol = AncientTablet,
+		Tooltip = "$RoomMenuTablets$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "ShowRoomMenuTablets", plr)
 	};
 	
 	// Room selection: add a list of available rooms.
@@ -689,6 +705,15 @@ public func SwitchToRoomMenuSelection(int plr)
 	CloseRoomMenu();
 	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
 	menu_obj->OpenRoomMenu(plr);
+	return;
+}
+
+
+/*-- Tablets --*/
+
+public func ShowRoomMenuTablets(int plr)
+{
+
 	return;
 }
 

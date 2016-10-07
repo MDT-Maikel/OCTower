@@ -87,7 +87,7 @@ global func GetAuthorList()
 				}
 			}
 			if (!found)
-				PushBack(author_list, [room->GetRoomAuthorList()[0], 1, [room]]);
+				PushBack(author_list, [author, 1, [room]]);
 		}
 	}
 	return author_list;

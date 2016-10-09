@@ -17,3 +17,8 @@ MsgWarningNoJokerFound=WARNING: No Joker found, but it was specified in room con
 MsgRoomHasName=Your room has name: %s
 MsgRoomHasDescription=Your room has description: %s
 MsgRoomHasAuthor=Your room has author: %s
+
+
+# EditorBase.c
+MakeRoomPlayerOwner=Room owner
+MakeRoomPlayerOwnerHelp=The player who attempts this room will be made the owner of this object.

@@ -22,3 +22,7 @@ MsgRoomHasAuthor=Your room has author: %s
 # EditorBase.c
 MakeRoomPlayerOwner=Room owner
 MakeRoomPlayerOwnerHelp=The player who attempts this room will be made the owner of this object.
+
+
+# GameSpeed.c
+MsgWarningNoGameSpeed=WARNING: You are not allowed to change the game speed.

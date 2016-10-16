@@ -26,3 +26,7 @@ RoomMenuInfoSkipRoom=Use a joker to skip this room.
 RoomMenuCreditsText=Tower of Despair\nCreated by Sven2 & Maikel.\n\nList of room authors:\n
 RoomMenuCreditsRooms=room(s)
 RoomMenuCreditsAuthor=%s made the following rooms:
+
+RoomMenuTabletsText=These are the tablets you own, click on either of them to read the inscription on the back.
+RoomMenuTabletsFound=You have found the tablet of room %s. On the back of this tablet you see %d very distinctive stripes.
+RoomMenuTabletsNotFound=You have not found the tablet of room %s yet.

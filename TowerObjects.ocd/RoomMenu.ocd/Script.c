@@ -10,14 +10,10 @@ static const ROOMMENU_BackgroundColor = 0x77000000;
 static const ROOMMENU_HoverColor = 0x99888888;
 static const ROOMMENU_BarColor = 0x99888888;
 
+
+// Variables to keep track of whom is controlling the menu.
 local menu, menu_id, menu_controller;
 
-
-protected func Initialize()
-{
-
-	return;
-}
 
 // Creates the room menu for the given player.
 public func Create(int plr)
@@ -26,14 +22,14 @@ public func Create(int plr)
 	if (this != RoomMenu)
 		return;	
 	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
-	menu_obj->OpenRoomMenu(plr);
+	menu_obj->OpenRoomMenu(plr, "rooms");
 	return menu_obj;
 }
 
 
 /*-- Room Menu --*/
 
-public func OpenRoomMenu(int plr, bool credits)
+public func OpenRoomMenu(int plr, string menu_type)
 {
 	// Needs the cursor as command object.
 	var clonk = GetCursor(plr);
@@ -46,11 +42,13 @@ public func OpenRoomMenu(int plr, bool credits)
 	this.Visibility = VIS_Owner;
 	menu_controller = clonk;
 	
-	// Make the room/credits menu.
-	if (!credits)
+	// Make the room/credits/tablet menu.
+	if (menu_type == "rooms")
 		MakeRoomMenu(plr);
-	else
+	else if (menu_type == "credits")
 		MakeCreditsMenu(plr);
+	else if	(menu_type == "tablets")
+		MakeTabletsMenu(plr);
 	
 	// Open the menu and store the menu ID.
 	menu_id = GuiOpen(menu);
@@ -102,26 +100,9 @@ public func MakeRoomMenu(int plr)
 		Margin = ["0.1em"]
 	};
 	// Make the borders between the submenus.
-	menu.vert_border =
-	{
-		Left = "70%-0.5em",
-		Right = "70%",
-		BackgroundColor = {Std = ROOMMENU_BarColor},
-	};
-	menu.hor_border =
-	{
-		Right = "70%-0.5em",
-		Top = "40%-0.5em",
-		Bottom = "40%",
-		BackgroundColor = {Std = ROOMMENU_BarColor},
-	};
-	menu.bar_border =
-	{
-		Left = "70%",
-		Top = "1.5em",
-		Bottom = "2em",
-		BackgroundColor = {Std = ROOMMENU_BarColor},	
-	};
+	menu.vert_border = CreateBarMenuEntry("70%-0.5em", "70%", nil, nil);
+	menu.hor_border = CreateBarMenuEntry(nil, "70%-0.5em", "40%-0.5em", "40%");
+	menu.bar_border = CreateBarMenuEntry("70%", nil, "1.5em", "2em");
 	
 	// Display info on current room.
 	GetCurrentRoomInfo(menu.roominfo, plr);
@@ -392,8 +373,6 @@ public func UpdateRoomSelectionInformation(proplist pars)
 			ID = 47,
 			Top = "4em",
 			Style = GUI_VerticalLayout
-		
-		
 		}
 	};
 	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
@@ -555,7 +534,7 @@ public func ShowRoomMenuCredits(int plr)
 {
 	CloseRoomMenu();
 	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
-	menu_obj->OpenRoomMenu(plr, true);
+	menu_obj->OpenRoomMenu(plr, "credits");
 	return;
 }
 
@@ -583,7 +562,7 @@ public func MakeCreditsMenu(int plr)
 	menu.authorlist = 
 	{
 		Target = this,
-		ID = 1,
+		ID = 2,
 		Top = "4em",
 		Right = "70%-0.5em",
 		Style = GUI_VerticalLayout
@@ -700,25 +679,154 @@ public func UpdateAuthorSelectionInformation(proplist pars)
 	return;
 }
 
-public func SwitchToRoomMenuSelection(int plr)
-{
-	CloseRoomMenu();
-	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
-	menu_obj->OpenRoomMenu(plr);
-	return;
-}
-
 
 /*-- Tablets --*/
 
 public func ShowRoomMenuTablets(int plr)
 {
-
+	CloseRoomMenu();
+	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
+	menu_obj->OpenRoomMenu(plr, "tablets");
 	return;
 }
 
+public func MakeTabletsMenu(int plr)
+{
+	// Room menu proplist.
+	menu =
+	{
+		Target = this,
+		Decoration = GUI_MenuDeco,
+		Margin = ["1em", "2em"],
+		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
+	};
+	
+	// The basic panels for the menu.
+	menu.tabletdesc = 
+	{
+		Target = this,
+		ID = 1,
+		Right = "70%-0.5em",
+		Bottom = "4em",
+		Margin = ["0.1em"],
+		Text = "$RoomMenuTabletsText$"
+	};
+	menu.tabletlist = 
+	{
+		Target = this,
+		ID = 2,
+		Top = "2em",
+		Bottom = "80%+0.5em",
+		Style = GUI_GridLayout
+	};
+	menu.buttons =
+	{
+		Target = this,
+		ID = 3,
+		Left = "70%",
+		Bottom = "1.5em"
+	};
+	menu.tabletinfo = 
+	{
+		Target = this,
+		ID = 4,
+		Top = "80%+0.5em",
+		Margin = ["0.1em"]
+	};
+	
+	menu.border1 = CreateBarMenuEntry(nil, nil, "1.5em", "2em");
+	menu.border2 = CreateBarMenuEntry(nil, nil, "80%", "80%+0.5em");
+	
+	menu.tabletlist = MenuShowRoomTablets(menu.tabletlist, plr);
+	
+	// Room selection: header with close button.
+	menu.buttons.close = 
+	{
+		Target = this,
+		ID = 31,
+		Left = "100%-1.5em",
+		Symbol = Icon_Cancel,
+		Tooltip = "$RoomMenuClose$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "CloseRoomMenu")
+	};
+	menu.buttons.rooms = 
+	{
+		Target = this,
+		ID = 32,
+		Left = "100%-3em",
+		Right = "100%-1.5em",
+		Symbol = Icon_Enter,
+		Tooltip = "$RoomMenuBackToRooms$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "SwitchToRoomMenuSelection", plr)
+	};
+	return;
+}
 
-/*-- Closing --*/
+public func MenuShowRoomTablets(proplist tablets, int plr)
+{
+	var cnt = 0;
+	for (var room in GetRoomList())
+	{
+		var tablet_symbol = nil;
+		var room_part = nil;
+		var tablet_found = false;
+		if (HasPlayerFoundTablet(plr, room))
+		{
+			tablet_symbol = AncientTablet;
+			room_part = 
+			{
+				Left = "1.5em",
+				Top = "1.5em",
+				Symbol = room
+			};
+			tablet_found = true;
+		}
+		var tablet =
+		{
+			Target = this,
+			ID = cnt + 1000,
+			Priority = cnt,
+			Right = "3em",
+			Bottom = "3em",
+			Symbol = tablet_symbol,
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			OnMouseIn = GuiAction_SetTag("Hover"),
+			OnMouseOut = GuiAction_SetTag("Std"),
+			OnClick = GuiAction_Call(this, "UpdateTabletSelectionInformation", [room, tablet_found]),
+			room_symbol = room_part
+		};
+		MakeNumberMenuEntry(tablet, cnt + 1);
+		tablets[Format("room%d", cnt)] = tablet;		
+		cnt++;
+	}
+	return tablets;
+}
+
+public func UpdateTabletSelectionInformation(array pars)
+{
+	var room = pars[0];
+	var found = pars[1];
+	var text = Format("$RoomMenuTabletsNotFound$", room->GetRoomName());
+	if (found)
+		text = Format("$RoomMenuTabletsFound$", room->GetRoomName(), AncientTablet->GetTabletCode(room->GetRoomID()));
+
+	menu.tabletinfo.tablet =
+	{
+		Target = this,
+		ID = 41,
+		Text = text
+	};	
+	GuiUpdate(menu.tabletinfo, menu_id, menu.tabletinfo.ID, this);
+	return;
+}
+
+/*-- Closing & Switching --*/
 
 public func CloseRoomMenu()
 {
@@ -733,9 +841,34 @@ public func CloseRoomMenu()
 
 public func Close() { return RemoveObject(); }
 
+public func SwitchToRoomMenuSelection(int plr)
+{
+	CloseRoomMenu();
+	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
+	menu_obj->OpenRoomMenu(plr, "rooms");
+	return;
+}
+
+
+/*-- Saving --*/
 
 // UI not saved.
 public func SaveScenarioObject() { return false; }
+
+
+/*-- Misc Functionality --*/
+
+private func CreateBarMenuEntry(string left, string right, string top, string bottom)
+{
+	return
+	{
+		Left = left,
+		Right = right,
+		Top = top,
+		Bottom = bottom,
+		BackgroundColor = {Std = ROOMMENU_BarColor}
+	};
+}
 
 
 /*-- Proplist --*/

@@ -16,9 +16,15 @@ public func Hit(int x, int y)
 public func Entrance()
 {
 	var room = GetCurrentRoom();
-	if (room)
-		this.Description = Format("$Description$ $DescriptionBackSide$", GetTabletCode(room->GetRoomID()));
+	this.Description = GetRoomDescription(room);
 	return;
+}
+
+public func GetRoomDescription(id room)
+{
+	if (!room)
+		return "$Description$";
+	return Format("$Description$ $DescriptionBackSide$", GetTabletCode(room->GetRoomID()));
 }
 
 
@@ -35,12 +41,12 @@ public func GetTabletCode(string room_identifier)
 {
 	if (GetLength(room_identifier) != 2)
 		return;	
-	// Initialize offset if needed
+	// Initialize offset if needed.
 	if (tablet_code_offset == nil)
 		tablet_code_offset = Random(2**10);
 	var c1 = GetChar(room_identifier, 1);
 	var c2 = GetChar(room_identifier, 2);
-	return (c1 * 256 + c2 + tablet_code_offset) % 10;
+	return (c1 * 256 + c2 + tablet_code_offset) % 9 + 1;
 }
 
 

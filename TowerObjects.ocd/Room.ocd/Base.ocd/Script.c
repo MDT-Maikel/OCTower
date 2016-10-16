@@ -99,6 +99,8 @@ local waiting_container;
 
 public func InitRoom()
 {
+	// Reset any global settings from the previous room.
+	ResetSettings();
 	// Create basic rules.
 	if (!GameCall("IsTemplateRoom"))
 		CreateObject(Rule_Restart);	
@@ -111,6 +113,31 @@ public func InitRoom()
 	// Initialize players in this room.
 	for (var plr in GetPlayers(C4PT_User))
 		InitializePlayer(plr);
+	return;
+}
+
+// Reset any settings which may remain from the previous room.
+private func ResetSettings()
+{
+	// Reset gravity.
+	SetGravity(20);
+	// Reset climate.
+	SetClimate(50);
+	SetTemperature(100);
+	// Reset landscape and sky adjust.
+	SetSkyAdjust(0xffffffff);
+	SetMatAdjust(0xffffffff);
+	// Player settings.
+	for (var plr in GetPlayers(C4PT_User))
+	{
+		// Set wealth to zero.
+		SetWealth(plr, 0);
+		// Remove all player knowledge, base material and production are
+		// removed when all objects are removed on section change.
+		var def;
+		while (def = GetPlrKnowledge(plr))
+			SetPlrKnowledge(plr, def, true);
+	}
 	return;
 }
 

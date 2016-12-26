@@ -31,7 +31,7 @@ public func GetRoomSection() { return "WaterMaze"; }
 public func GetRoomID() { return "WM"; }
 
 // The difficulty of this room, ranges from 0 to 999.
-public func GetRoomDifficulty() { return 60; }
+public func GetRoomDifficulty() { return 90; }
 
 // Whether or not the room has an ancient tablet which can be found.
 public func HasTablet() { return true; }

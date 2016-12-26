@@ -1,0 +1,2 @@
+RoomName=Wasserlabyrinth
+RoomDescription=Nicht für die mit Klaustrophobie.

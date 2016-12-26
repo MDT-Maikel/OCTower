@@ -22,7 +22,6 @@ def copy_room(room_dir, tower_dir):
 	if room_name in room_names:
 		print "ERROR: room name (" + room_name + ") already used."
 		print "WARNING: room " + room_name + " will not be included."
-	room_names.append(room_name)
 
 	# copy room object
 	room_obj_dir = tower_dir + "/Room" + room_name + ".ocd"
@@ -60,6 +59,9 @@ def copy_room(room_dir, tower_dir):
 		shutil.rmtree(room_obj_dir)
 		shutil.rmtree(sect_dir)
 		print "WARNING: room " + room_name + " will not be included."
+	# add to list of room names
+	else:
+		room_names.append(room_name)
 
 
 # checks the basics of a room returns if the room is ok
@@ -92,16 +94,21 @@ def check_room(room_name, tower_dir):
 				elif isinstance(args.exclude, list) and room_id in args.exclude:
 					print "EXCLUDE: Room with id = " + room_id + " will be excluded as requested."
 					room_ok = False
-				elif room_ok:
-					room_ids.append(room_id)
 			# difficulty
 			if re.match("public func GetRoomDifficulty()*", line):
 				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:]
 				if room_diff in room_diffs:
 					print "ERROR: Room control object Script.c has duplicate difficulty, found " + line.replace("\n", "") + ", expected public func GetRoomDifficulty() { return \"?\"; }."
 					room_ok = False
-				elif room_ok:
-					room_diffs.append(room_diff)
+			# room author(s)
+			if re.match("public func GetRoomAuthor()*", line):
+				room_author = re.search("return \"[^\"]+\";", line).group(0).replace(";", "")[7:]
+
+	# store some room properties
+	if room_ok:
+		room_ids.append(room_id)
+		room_diffs.append(room_diff)
+		room_authors.append(room_author)
 	
 	# print room settings
 	if args.verbose and room_ok:
@@ -126,6 +133,7 @@ args = parser.parse_args()
 room_names = []
 room_ids = []
 room_diffs = []
+room_authors = []
 
 # create tower directory based on version name
 with open("Version.txt", "r") as content_file:
@@ -138,11 +146,9 @@ elif os.path.exists(tower_dir):
 	shutil.rmtree(tower_dir)
 os.makedirs(tower_dir)
 
-
 # log which version is created
 print "creating tower scenario version " + version
 print "==========================================="
-
 
 # copy main scenario files into the new directory
 print "copying main scenario ..."
@@ -163,11 +169,9 @@ shutil.copy("Map.c", tower_dir)
 shutil.copy("Icon.png", tower_dir)
 shutil.copy("Title.jpg", tower_dir)
 
-
 # copy tower objects into the new directory
 print "copying tower objects ..."
 shutil.copytree("TowerObjects.ocd", tower_dir + "/TowerObjects.ocd")
-
 
 # copy empty scenario section into the new directory
 print "copying empty scenario section ..."
@@ -186,11 +190,24 @@ if args.pack:
 	try:
 		subprocess.call(["c4group", tower_dir, "-p"])
 	except OSError as e:
-		if e.errno == os.errno.ENOENT:
-			a# handle file not found error.
-		else:
-			a# Something else went wrong while trying to run `wget`
-        	raise
+		print "ERROR: failed to run c4group."
+
+# if verbose option create the list of rooms sorted according to difficulty
+if args.verbose:
+	print "==========================================="
+	print "list of rooms ..."
+	print "==========================================="
+	print "---------------------------------------------------------------------------"
+	print "| Diff | Room name                | ID | Author(s)                        |"
+	print "---------------------------------------------------------------------------"
+	# create a list of rooms
+	rooms = []
+	for index in range(0, len(room_names) - 1):
+		rooms.append([room_diffs[index], room_names[index], room_ids[index], str(room_authors[index])])
+	rooms.sort(key = lambda r: int(r[0]))
+	for room in rooms:
+		print "| " + " " * (4 - len(room[0])) + room[0] + " | " + room[1] + " " * (24 - len(room[1])) + " | " + room[2] + " | " + room[3] + " " * (32 - len(room[3])) + " |"
+	print "---------------------------------------------------------------------------"
 
 # finished
 print "==========================================="

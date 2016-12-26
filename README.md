@@ -6,7 +6,7 @@ The biggest riddle scenario for OpenClonk. This tower consists of many rooms, ea
 
 How to make a room
 ------------------
-Anyone can contribute to the Tower of Despair by creating a room! Download the repository into your OpenClonk planet folder and start the RoomTemplate scenario in editor mode. Then design the room and place at least the room entrance and the room exit, where the players enter and must leave the room. Save the scenario under a new name and adapt the room control object to your wishes. Start the scenario again and run RoomTest() to see if the room meets the requirements to make it into the tower. More information on room development can be found on the [Tower of Despair information page](http://wiki.openclonk.org/w/Tower_of_Despair#Creating_a_Room). To submit a room create a bug entry here on GitHub or contact on of the main developers elsewhere.
+Anyone can contribute to the Tower of Despair by creating a room! Download the repository into your OpenClonk planet folder and start the RoomTemplate scenario in editor mode. Then design the room and place at least the room entrance and the room exit, where the players enter and must leave the room. Save the scenario under a new name and adapt the room control object to your wishes. Start the scenario again and run RoomTest() to see if the room meets the requirements to make it into the tower. More information on room development can be found on the [Tower of Despair information page](http://wiki.openclonk.org/w/Tower_of_Despair#Creating_a_Room). To submit a room create a bug entry here on GitHub or contact one of the main developers elsewhere.
 
 
 License

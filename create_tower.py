@@ -197,17 +197,19 @@ if args.verbose:
 	print "==========================================="
 	print "list of rooms ..."
 	print "==========================================="
-	print "---------------------------------------------------------------------------"
-	print "| Diff | Room name                | ID | Author(s)                        |"
-	print "---------------------------------------------------------------------------"
+	print "---------------------------------------------------------------------------------"
+	print "|  #  | Diff | Room name                | ID | Author(s)                        |"
+	print "---------------------------------------------------------------------------------"
 	# create a list of rooms
 	rooms = []
-	for index in range(0, len(room_names) - 1):
+	for index in range(0, len(room_names)):
 		rooms.append([room_diffs[index], room_names[index], room_ids[index], str(room_authors[index])])
 	rooms.sort(key = lambda r: int(r[0]))
-	for room in rooms:
-		print "| " + " " * (4 - len(room[0])) + room[0] + " | " + room[1] + " " * (24 - len(room[1])) + " | " + room[2] + " | " + room[3] + " " * (32 - len(room[3])) + " |"
-	print "---------------------------------------------------------------------------"
+	for index in range(0, len(rooms)):
+		room = rooms[index]
+		num = str(index + 1)
+		print "| " + " " * (3 - len(num)) + num + " | " + " " * (4 - len(room[0])) + room[0] + " | " + room[1] + " " * (24 - len(room[1])) + " | " + room[2] + " | " + room[3] + " " * (32 - len(room[3])) + " |"
+	print "---------------------------------------------------------------------------------"
 
 # finished
 print "==========================================="

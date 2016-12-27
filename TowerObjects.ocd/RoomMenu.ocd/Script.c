@@ -49,6 +49,8 @@ public func OpenRoomMenu(int plr, string menu_type)
 		MakeCreditsMenu(plr);
 	else if	(menu_type == "tablets")
 		MakeTabletsMenu(plr);
+	else if	(menu_type == "information")
+		MakeInformationMenu(plr);
 	
 	// Open the menu and store the menu ID.
 	menu_id = GuiOpen(menu);
@@ -159,6 +161,19 @@ public func MakeRoomMenu(int plr)
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "ShowRoomMenuTablets", plr)
+	};
+	menu.buttons.information = 
+	{
+		Target = this,
+		ID = 24,
+		Left = "100%-6em",
+		Right = "100%-4.5em",
+		Symbol = Icon_QuestionMark,
+		Tooltip = "$RoomMenuInformation$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "ShowRoomMenuInformation", plr)
 	};
 	
 	// Room selection: add a list of available rooms.
@@ -382,6 +397,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 	{
 		Target = this,
 		ID = 48,
+		Priority = 1,
 		Bottom = "2em",
 		icon = 
 		{
@@ -414,6 +430,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		{
 			Target = this,
 			ID = 49,
+			Priority = 4,
 			Bottom = "2em",
 			icon = 
 			{
@@ -449,6 +466,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		{
 			Target = this,
 			ID = 50,
+			Priority = 3,
 			Bottom = "2em",
 			icon = 
 			{
@@ -477,6 +495,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		{
 			Target = this,
 			ID = 51,
+			Priority = 2,
 			Bottom = "2em",
 			icon = 
 			{
@@ -555,15 +574,16 @@ public func MakeCreditsMenu(int plr)
 		Target = this,
 		ID = 1,
 		Right = "70%-0.5em",
-		Bottom = "4em",
+		Bottom = "1.5em",
 		Margin = ["0.1em"],
-		Text = "$RoomMenuCreditsText$"
+		Text = "$RoomMenuCreditsText$",
+		Style = GUI_TextVCenter
 	};
 	menu.authorlist = 
 	{
 		Target = this,
 		ID = 2,
-		Top = "4em",
+		Top = "2em",
 		Right = "70%-0.5em",
 		Style = GUI_VerticalLayout
 	};
@@ -579,13 +599,18 @@ public func MakeCreditsMenu(int plr)
 		Target = this,
 		ID = 4,
 		Left = "70%",
-		Top = "1.5em",
+		Top = "2em",
 		Margin = ["0.1em"]
 	};
 	
 	// Create the list of authors.
 	menu.authorlist = MenuShowRoomAuthors(menu.authorlist);
 	
+	// Make the borders between the submenus.
+	menu.vert_border = CreateBarMenuEntry("70%-0.5em", "70%", nil, nil);
+	menu.hor_border = CreateBarMenuEntry(nil, "70%-0.5em", "1.5em", "2em");
+	menu.bar_border = CreateBarMenuEntry("70%", nil, "1.5em", "2em");
+		
 	// Room selection: header with close button.
 	menu.buttons.close = 
 	{
@@ -628,8 +653,8 @@ public func MenuShowRoomAuthors(proplist authors)
 			Priority = cnt,
 			Bottom = "1.5em",
 			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "UpdateAuthorSelectionInformation", {author = author[0], rooms = author[2]})],
-			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "UpdateAuthorSelectionInformation")],
+			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "ShowAuthorSelectionInformation", {author = author[0], rooms = author[2]})],
+			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "CloseAuthorSelectionInformation", {author = author[0], rooms = author[2]})],
 			symbol = 
 			{
 				Target = this,
@@ -652,30 +677,36 @@ public func MenuShowRoomAuthors(proplist authors)
 	return authors;
 }
 
-public func UpdateAuthorSelectionInformation(proplist pars)
+public func ShowAuthorSelectionInformation(proplist pars)
 {
-	if (pars == nil)
-	{
-		if (menu.authorinfo.author != nil)
-		{
-			GuiClose(menu_id, menu.authorinfo.author.ID, menu.authorinfo.author.Target);
-			menu.authorinfo.author = nil;
-		}
-		return;	
-	}
-	
+	menu.authorinfo.pars = pars;
 	var author_rooms = Format("$RoomMenuCreditsAuthor$", pars.author);
-	for (var room in pars.rooms)
-		author_rooms = Format("%s %s,", author_rooms, room->GetRoomName());
+	for (var index = 0; index < GetLength(pars.rooms); index++)
+	{
+		var room = pars.rooms[index];
+		if (index < GetLength(pars.rooms) - 1)
+			author_rooms = Format("%s %s,", author_rooms, room->GetRoomName());
+		else
+			author_rooms = Format("%s %s.", author_rooms, room->GetRoomName());
+	}
 	
 	menu.authorinfo.author =
 	{
 		Target = this,
 		ID = 41,
-		Style = GUI_TextVCenter,
 		Text = author_rooms
 	};	
 	GuiUpdate(menu.authorinfo, menu_id, menu.authorinfo.ID, this);
+	return;
+}
+
+public func CloseAuthorSelectionInformation(proplist pars)
+{
+	if (menu.authorinfo.pars == pars)
+	{
+		GuiClose(menu_id, menu.authorinfo.author.ID, menu.authorinfo.author.Target);
+		menu.authorinfo.author = nil;
+	}
 	return;
 }
 
@@ -707,9 +738,10 @@ public func MakeTabletsMenu(int plr)
 		Target = this,
 		ID = 1,
 		Right = "70%-0.5em",
-		Bottom = "4em",
+		Bottom = "1.5em",
 		Margin = ["0.1em"],
-		Text = "$RoomMenuTabletsText$"
+		Text = "$RoomMenuTabletsText$",
+		Style = GUI_TextVCenter
 	};
 	menu.tabletlist = 
 	{
@@ -736,6 +768,7 @@ public func MakeTabletsMenu(int plr)
 	
 	menu.border1 = CreateBarMenuEntry(nil, nil, "1.5em", "2em");
 	menu.border2 = CreateBarMenuEntry(nil, nil, "80%", "80%+0.5em");
+	menu.border3 = CreateBarMenuEntry("70%-0.5em", "70%", nil, "1.5em");
 	
 	menu.tabletlist = MenuShowRoomTablets(menu.tabletlist, plr);
 	
@@ -825,6 +858,87 @@ public func UpdateTabletSelectionInformation(array pars)
 	GuiUpdate(menu.tabletinfo, menu_id, menu.tabletinfo.ID, this);
 	return;
 }
+
+
+/*-- Information --*/
+
+public func ShowRoomMenuInformation(int plr)
+{
+	CloseRoomMenu();
+	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
+	menu_obj->OpenRoomMenu(plr, "information");
+	return;
+}
+
+public func MakeInformationMenu(int plr)
+{
+	// Room menu proplist.
+	menu =
+	{
+		Target = this,
+		Decoration = GUI_MenuDeco,
+		Margin = ["1em", "2em"],
+		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
+	};
+	
+	// The basic panels for the menu.
+	menu.informationdesc = 
+	{
+		Target = this,
+		ID = 1,
+		Right = "70%-0.5em",
+		Bottom = "1.5em",
+		Margin = ["0.1em"],
+		Text = "$RoomMenuInformationText$",
+		Style = GUI_TextVCenter
+	};
+	menu.information = 
+	{
+		Target = this,
+		ID = 2,
+		Top = "2.0em",
+		Text = "$RoomMenuInformationDesc$"	
+	};
+	menu.buttons =
+	{
+		Target = this,
+		ID = 3,
+		Left = "70%",
+		Bottom = "1.5em"
+	};
+	
+	menu.border1 = CreateBarMenuEntry(nil, nil, "1.5em", "2em");
+	menu.border2 = CreateBarMenuEntry("70%-0.5em", "70%", nil, "1.5em");	
+	
+	// Room selection: header with close button.
+	menu.buttons.close = 
+	{
+		Target = this,
+		ID = 31,
+		Left = "100%-1.5em",
+		Symbol = Icon_Cancel,
+		Tooltip = "$RoomMenuClose$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "CloseRoomMenu")
+	};
+	menu.buttons.rooms = 
+	{
+		Target = this,
+		ID = 32,
+		Left = "100%-3em",
+		Right = "100%-1.5em",
+		Symbol = Icon_Enter,
+		Tooltip = "$RoomMenuBackToRooms$",
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		OnMouseIn = GuiAction_SetTag("Hover"),
+		OnMouseOut = GuiAction_SetTag("Std"),
+		OnClick = GuiAction_Call(this, "SwitchToRoomMenuSelection", plr)
+	};
+	return;
+}
+
 
 /*-- Closing & Switching --*/
 

@@ -9,6 +9,7 @@ RoomMenuJokersFound=You found %d out of the %d hidden jokers. Currently you have
 RoomMenuClose=Close the room menu.
 RoomMenuCredits=Show the credits.
 RoomMenuTablets=Show your tablets.
+RoomMenuInformation=Show information & help.
 RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuSelectRoom=Wähle Raum:
@@ -23,10 +24,13 @@ RoomMenuInfoRoomFoundJoker=You collected the joker in this room.
 RoomMenuInfoPlayRoom=Click to play this room.
 RoomMenuInfoSkipRoom=Use a joker to skip this room.
 
-RoomMenuCreditsText=Tower of Despair\nCreated by Sven2 & Maikel.\n\nList of room authors:\n
+RoomMenuCreditsText=Tower of Despair created by Sven2 & Maikel.
 RoomMenuCreditsRooms=Räum(e)
 RoomMenuCreditsAuthor=%s hat folgende Räume gemacht:
 
-RoomMenuTabletsText=These are the tablets you own, click on either of them to read the inscription on the back.
+RoomMenuTabletsText=List of found tablets, click on either of them to read the inscription.
 RoomMenuTabletsFound=You have found the tablet of room %s. On the back of this tablet you see %d very distinctive stripes.
 RoomMenuTabletsNotFound=You have not found the tablet of room %s yet.
+
+RoomMenuInformationText=Here you will find some information and help for the tower.
+RoomMenuInformationDesc=More information to appear ...

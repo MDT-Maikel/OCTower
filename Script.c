@@ -10,6 +10,7 @@ public func Initialize()
 {
 	// Gather statistics.
 	CreateObject(Statistics_RoomDuration);
+	CreateObject(Statistics_RoomAttempts);
 	return;
 }
 

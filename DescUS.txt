@@ -5,5 +5,5 @@ Your father always told you this story about a sky-high tower in the far east. H
 Goal: Reach the top of the tower by solving all rooms.
 
 Hints:
-- Some of the rooms have a joker, you can use it to skip a room you were not able to finish.
+- Some of the rooms have a joker, you can use it to skip a room you were not able to complete yet.
 - Most of the rooms have an ancient tablet, you need these to progress, so collect them all.

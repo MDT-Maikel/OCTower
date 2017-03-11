@@ -4,8 +4,13 @@
 The biggest riddle scenario for OpenClonk. This tower consists of many rooms, each posing their own challenging riddles with increasing difficulty. Each of the rooms is unique and is based on the versatile gameplay of OpenClonk. Moreover, there will be several side challenges in the rooms, so players should leave no stone unturned. It will require all of your skill, wittyness and ingeniosity to reach the top of the tower where a surprise awaits you. More information can be found on this [page](http://wiki.openclonk.org/w/Tower_of_Despair).
 
 
-How to make a room
-------------------
+How to play
+-----------
+Get the [latest snapshot](http://www.openclonk.org/nightly-builds/) of OpenClonk and download this repository into that or your application data folder. Then run the python script create_tower.py to create the actual tower scenario, which can be started in OpenClonk. 
+
+
+How to create a room
+--------------------
 Anyone can contribute to the Tower of Despair by creating a room! Download the repository into your OpenClonk planet folder and start the RoomTemplate scenario in editor mode. Then design the room and place at least the room entrance and the room exit, where the players enter and must leave the room. Save the scenario under a new name and adapt the room control object to your wishes. Start the scenario again and run RoomTest() to see if the room meets the requirements to make it into the tower. More information on room development can be found on the [Tower of Despair information page](http://wiki.openclonk.org/w/Tower_of_Despair#Creating_a_Room). To submit a room create a bug entry here on GitHub or contact one of the main developers elsewhere.
 
 

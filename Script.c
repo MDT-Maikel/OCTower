@@ -8,6 +8,8 @@
 
 public func Initialize()
 {
+	// Gather statistics.
+	CreateObject(Statistics_RoomDuration);
 	return;
 }
 

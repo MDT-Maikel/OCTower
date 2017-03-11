@@ -113,6 +113,8 @@ public func InitRoom()
 	// Initialize players in this room.
 	for (var plr in GetPlayers(C4PT_User))
 		InitializePlayer(plr);
+	// Notify about room attempt start.
+	GameCallEx("OnRoomAttemptStarted", this->GetID(), playing_plr);
 	return;
 }
 
@@ -173,7 +175,11 @@ public func RelaunchPlayer(int plr)
 	if (!GameCall("IsTemplateRoom"))
 	{
 		if (!GetEffect("IntScheduleLoadRoom"))
+		{
+			// Notify about room attempt failure.
+			GameCallEx("OnRoomAttemptFailed", this->GetID(), playing_plr);
 			GetID()->LoadRoom(true);
+		}
 	}
 	else
 	{
@@ -260,6 +266,8 @@ protected func JoinPlayer(int plr)
 
 public func OnRoomExitEntered(object crew)
 {
+	// Notify about room attempt success.
+	GameCallEx("OnRoomAttemptSucceeded", this->GetID(), playing_plr);
 	// Notify the scenario script the room has been completed.
 	GameCall("OnRoomCompleted", crew, this->GetID());
 	return;
@@ -267,6 +275,8 @@ public func OnRoomExitEntered(object crew)
 
 public func OnJokerCollected(object crew, object joker)
 {
+	// Notify about joker collection success.
+	GameCallEx("OnRoomAttemptJokerCollected", this->GetID(), playing_plr);
 	// Remove the joker.
 	joker->RemoveObject();	
 	// Notify the scenario script the joker has been collected.
@@ -276,6 +286,8 @@ public func OnJokerCollected(object crew, object joker)
 
 public func OnTabletCollected(object crew, object tablet)
 {
+	// Notify about tablet collection success.
+	GameCallEx("OnRoomAttemptTabletCollected", this->GetID(), playing_plr);
 	// Remove the tablet.
 	tablet->RemoveObject();	
 	// Notify the scenario script the joker has been collected.

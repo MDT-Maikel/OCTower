@@ -1,0 +1,7 @@
+[Head]
+Title=RoomTemplate
+
+[Definitions]
+Definition1=Objects.ocd
+Definition2=Decoration.ocd
+Definition3=OCTower.ocs/TowerObjects.ocd

@@ -127,6 +127,7 @@ parser = argparse.ArgumentParser(description='Create the tower scenario from the
 parser.add_argument('-p', '--pack', action='store_true', help='create a packed scenario folder if c4group is available')
 parser.add_argument('-v', '--verbose', action='store_true', help='print more information')
 parser.add_argument('-e', '--exclude', nargs='+', help='exclude rooms based on their id, get by using verbose option')
+parser.add_argument('-t', '--template', action='store_true', help='create room template')
 args = parser.parse_args()
 
 # store room names, id's and difficulties
@@ -191,6 +192,18 @@ if args.pack:
 		subprocess.call(["c4group", tower_dir, "-p"])
 	except OSError as e:
 		print "ERROR: failed to run c4group."
+
+# create template room
+if args.template:
+	print "==========================================="
+	print "create room template ..."
+	template_dir = "../Template.ocg"
+	if not os.path.isdir(template_dir):
+		os.makedirs(template_dir)
+	if os.path.isdir(template_dir + "/RoomTemplate.ocs"):
+		shutil.rmtree(template_dir + "/RoomTemplate.ocs")
+	shutil.copytree("Template.ocg/RoomTemplate.ocs", template_dir + "/RoomTemplate.ocs")
+	shutil.copytree("RoomTemplate.ocs/RoomTemplate.ocd", template_dir + "/RoomTemplate.ocs/RoomTemplate.ocd")
 
 # if verbose option create the list of rooms sorted according to difficulty
 if args.verbose:

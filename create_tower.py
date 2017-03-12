@@ -184,6 +184,20 @@ for room_dir in os.listdir("."):
 	if fnmatch.fnmatch(room_dir, "Room*.ocs") and not fnmatch.fnmatch(room_dir, "RoomTemplate.ocs"):
 		copy_room(room_dir, tower_dir)
 
+# copy stringtables of rooms into scenario one (temporary fix)
+strtbl_us = open(tower_dir + "/StringTblUS.txt", "a")
+strtbl_de = open(tower_dir + "/StringTblDE.txt", "a")
+for sect_dir in os.listdir(tower_dir):
+	if fnmatch.fnmatch(sect_dir, "Sect*.ocg"):
+		if os.path.isfile(tower_dir + "/" +  sect_dir + "/StringTblUS.txt"):
+			f = open(tower_dir + "/" +  sect_dir + "/StringTblUS.txt", "r")
+			strtbl_us.write("\n" + f.read())
+		if os.path.isfile(tower_dir + "/" +  sect_dir + "/StringTblDE.txt"):
+			f = open(tower_dir + "/" +  sect_dir + "/StringTblDE.txt", "r")
+			strtbl_de.write("\n" + f.read())
+strtbl_us.close()
+strtbl_de.close()
+
 # pack the scenario folder if required
 if args.pack:
 	print "==========================================="

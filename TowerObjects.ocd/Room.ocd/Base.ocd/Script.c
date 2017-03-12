@@ -160,6 +160,8 @@ public func OnPlayerInit(int plr)
 
 public func InitializePlayer(int plr)
 {
+	if (GetPlayerType(plr) != C4PT_User)
+		return;	
 	// Join the player with its crew.
 	JoinPlayer(plr);
 	return;
@@ -167,6 +169,9 @@ public func InitializePlayer(int plr)
 
 public func RelaunchPlayer(int plr)
 {
+
+	if (GetPlayerType(plr) != C4PT_User)
+		return;
 	// Add the playing player to the playing queue again.
 	if (plr == playing_plr)
 		AppendPlayerToQueue(plr);
@@ -191,6 +196,8 @@ public func RelaunchPlayer(int plr)
 
 public func RemovePlayer(int plr)
 {
+	if (GetPlayerType(plr) != C4PT_User)
+		return;
 	// Reload the room if the player that has been removed was playing the room.
 	if (plr == playing_plr)
 	{

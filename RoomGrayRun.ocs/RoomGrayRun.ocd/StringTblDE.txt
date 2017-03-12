@@ -1,0 +1,2 @@
+RoomName=Gray Run
+RoomDescription=They start running when life becomes gray.

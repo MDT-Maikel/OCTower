@@ -140,6 +140,8 @@ private func ResetSettings()
 		while (def = GetPlrKnowledge(plr))
 			SetPlrKnowledge(plr, def, true);
 	}
+	// Restore ambience control.
+	InitializeAmbience();
 	return;
 }
 

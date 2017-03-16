@@ -1,0 +1,17 @@
+[ControlDefs]
+
+	[ControlDef]
+	Identifier=RoomMenu
+	ExtraData=RoomMenu
+	Hold=true
+	GUIName=RoomMenu
+	GUIDesc=RoomMenu
+	
+[ControlSets]
+
+	[ControlSet]
+	Name=*
+	
+		[Assignment]
+		Key=M
+		Control=RoomMenu

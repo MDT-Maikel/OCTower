@@ -56,7 +56,9 @@ public func InitMain()
 
 public func OnRoomEntranceEntered(object crew)
 {
-	RoomMenu->Create(crew->GetController());
+	// Only open room menu if entering the tower.
+	if (GetCurrentRoom() == nil)
+		RoomMenu->Create(crew->GetController());
 	return;
 }
 

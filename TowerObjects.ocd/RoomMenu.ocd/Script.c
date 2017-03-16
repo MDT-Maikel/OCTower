@@ -1,6 +1,6 @@
 /**
 	Room Menu
-	Let's the player select the next room to attempt.
+	Lets the player select the next room to attempt.
 	
 	@author Maikel
 */
@@ -32,7 +32,7 @@ public func OpenRoomMenu(int plr, string new_menu_type)
 	var clonk = GetCursor(plr);
 	
 	// If the menu is already open, don't open another instance.
-	if (clonk->GetMenu() && clonk->GetMenu().ID == menu_id)
+	if (clonk->GetMenu() && menu_id != nil && clonk->GetMenu().ID == menu_id)
 		return;
 		
 	// This object functions as menu target and for visibility.
@@ -55,6 +55,77 @@ public func OpenRoomMenu(int plr, string new_menu_type)
 	// Notify the clonk and set the menu.
 	clonk->SetMenu(this);
 	return;
+}
+
+
+/*-- Player Control --*/
+
+// Called then the player hits a control with RoomMenu as spec_id, in this case CON_RoomMenu.
+public func ForwardedPlayerControl(int plr, int ctrl, int x, int y, int strength, bool repeat, bool release)
+{
+	if (release)
+		return;
+	if (ctrl == CON_RoomMenu)
+	{
+		if (RoomMenu->HasPlrRoomMenuOpen(plr))
+		{
+			RoomMenu->ClosePlrRoomMenu(plr);
+		}
+		else
+		{
+			if (RoomMenu->CanPlrRoomMenuOpen(plr))
+				RoomMenu->OpenPlrRoomMenu(plr);
+		}
+	}
+	return;
+}
+
+// Definition call: opens scoreboard for the player.
+public func OpenPlrRoomMenu(int plr)
+{
+	var cursor = GetCursor(plr);
+	if (!cursor)
+		return false;
+	RoomMenu->Create(plr);	
+	return;
+}
+
+// Definition call: closes scoreboard for the player.
+public func ClosePlrRoomMenu(int plr)
+{
+	var cursor = GetCursor(plr);
+	if (!cursor)
+		return false;
+	var plr_menu = cursor->GetMenu();
+	if (!plr_menu || !plr_menu->~IsRoomMenu())
+		return;
+	plr_menu->CloseRoomMenu();
+	return;
+}
+
+// Definition call: tells whether the player has a room menu open.
+public func HasPlrRoomMenuOpen(int plr)
+{
+	var cursor = GetCursor(plr);
+	if (!cursor)
+		return false;
+	var plr_menu = cursor->GetMenu();
+	return plr_menu && plr_menu->~IsRoomMenu();
+}
+
+// Definition call: tells whether the player is allowed to open a room menu.
+public func CanPlrRoomMenuOpen(int plr)
+{
+	var cursor = GetCursor(plr);
+	if (!cursor)
+		return false;
+	// Not allowed if not yet entered the tower entrance.
+	if (GetCurrentRoom() == nil)
+	{
+		var entrance = cursor->Contained();
+		return entrance && entrance->GetID() == RoomEntrance;
+	}	
+	return true;
 }
 
 
@@ -173,7 +244,8 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 {
 	// Get lobby or room text.
 	var current_room = GetCurrentRoom();
-	var room_info = "$RoomMenuInLobby$";
+	var menu_key = GetPlayerControlAssignment(plr, CON_RoomMenu, true, true);
+	var room_info = Format("$RoomMenuInLobby$", menu_key);
 	if (current_room)
 		room_info = Format("$RoomMenuInRoom$", current_room->GetRoomName());
 	// Get rooms completed and jokers found.

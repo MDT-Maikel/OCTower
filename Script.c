@@ -49,6 +49,7 @@ public func JoinPlayer(int plr)
 
 public func InitMain()
 {
+	SetCurrentRoom(nil);
 	for (var plr in GetPlayers())
 		JoinPlayer(plr);
 	return;

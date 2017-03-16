@@ -266,6 +266,36 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 
 public func MenuShowRooms(proplist rooms, int plr)
 {
+	// Add an option to exit the tower for currently playing player.
+	if (GetCurrentRoom() != nil && IsActivePlayer(plr))
+	{
+		rooms.lobby =
+		{
+			Target = this,
+			ID = 1000,
+			Priority = 0,
+			Bottom = "1.5em",
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			OnMouseIn = GuiAction_SetTag("Hover"),
+			OnMouseOut = GuiAction_SetTag("Std"),
+			OnClick = GuiAction_Call(Global, "LoadMain"),
+			symbol = 
+			{
+				Target = this,
+				ID = 2000,
+				Right = "1.5em",
+				Symbol = Icon_Exit,
+			},
+			text = 
+			{
+				Target = this,
+				ID = 4000,
+				Left = "1.5em",
+				Text = "$RoomMenuExitTower$",
+				Style = GUI_TextVCenter
+			}
+		};
+	}	
 	// Show all the active rooms in this round.
 	var room_list = SortRoomList(GetPlayerCompletedRooms(nil));
 	var next_room = GetPlayerNextOpenRoom(nil);
@@ -273,7 +303,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 		PushBack(room_list, next_room);
 	SortRoomList(room_list);
 	// Put all rooms into the selection menu.
-	var cnt = 0;
+	var cnt = 1;
 	for (var room_id in room_list)
 	{
 		var room_completed = nil;

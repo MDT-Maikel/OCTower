@@ -1,6 +1,7 @@
 // Keeps track of the queue of player's who want to attempt the room.
 
 static g_tower_plr_queue;
+static g_current_plr;
 
 // Append a player to the room queue.
 global func AppendPlayerToQueue(int plr)
@@ -42,6 +43,7 @@ global func IsPlayerInQueue(int plr)
 }
 
 // Returns the player who is first in the room queue and removes that player.
+// Every time this function is called a new player next in the queue is returned.
 global func GetNextPlayerInQueue()
 {
 	if (g_tower_plr_queue == nil)
@@ -53,7 +55,22 @@ global func GetNextPlayerInQueue()
 		var plr = GetPlayerByID(plrid);
 		// Take player name as an indication of active.
 		if (GetPlayerName(plr))
+		{
+			g_current_plr = plr;
 			return plr;
+		}
 	}
 	return;
+}
+
+// Returns the player that is currently attempting the room.
+global func GetActivePlayer()
+{
+	return g_current_plr;
+}
+
+// Returns whether the given player is currently attempting a room.
+global func IsActivePlayer(int plr)
+{
+	return plr == g_current_plr;
 }

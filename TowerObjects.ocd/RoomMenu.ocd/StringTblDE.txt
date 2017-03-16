@@ -13,6 +13,7 @@ RoomMenuInformation=Show information & help.
 RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuSelectRoom=Wähle Raum:
+RoomMenuExitTower=Verlasse Turm
 
 RoomMenuInfoRoom=<c cc0000>Raum:</c> %s
 RoomMenuInfoAuthor=<c cc0000>Autor(en)</c>: %s

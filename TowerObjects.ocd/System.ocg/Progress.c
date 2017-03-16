@@ -245,6 +245,14 @@ global func InitPlayerRoomData(int plr)
 // Reset the rooms the player has completed.
 global func ResetPlayerRoomProgress(int plr, bool remove_save)
 {
+	// Loop over all players for argument nil.
+	if (plr == nil)
+	{
+		for (var cplr in GetPlayers(C4PT_User))
+			ResetPlayerRoomProgress(cplr, remove_save);
+		return;
+	}
+	// Remove all room progress.
 	if (GetLeague())
 		return;
 	if (g_tower_plr_progress == nil)
@@ -253,6 +261,8 @@ global func ResetPlayerRoomProgress(int plr, bool remove_save)
 	g_tower_plr_progress[plrid] = nil;
 	if (remove_save)
 		ResetPlayerRoomData(plr);
+	// Update open room menus.
+	UpdateRoomMenus();
 	return;
 }
 
@@ -260,6 +270,14 @@ global func ResetPlayerRoomProgress(int plr, bool remove_save)
 // Used for debugging and development purposes.
 global func GivePlayerFullProgress(int plr)
 {
+	// Loop over all players for argument nil.
+	if (plr == nil)
+	{
+		for (var cplr in GetPlayers(C4PT_User))
+			GivePlayerFullProgress(cplr);
+		return;
+	}
+	// Add all rooms.
 	for (var room in GetRoomList())
 	{
 		room->AddPlayerCompletedRoom(plr, room);
@@ -268,5 +286,7 @@ global func GivePlayerFullProgress(int plr)
 		if (room->HasJoker())
 			room->AddPlayerFoundJoker(plr, room);
 	}
+	// Update open room menus.
+	UpdateRoomMenus();
 	return;
 }

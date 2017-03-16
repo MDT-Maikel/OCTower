@@ -12,7 +12,7 @@ static const ROOMMENU_BarColor = 0x99888888;
 
 
 // Variables to keep track of whom is controlling the menu.
-local menu, menu_id, menu_controller;
+local menu, menu_id, menu_controller, menu_type;
 
 
 // Creates the room menu for the given player.
@@ -26,7 +26,7 @@ public func Create(int plr)
 	return menu_obj;
 }
 
-public func OpenRoomMenu(int plr, string menu_type)
+public func OpenRoomMenu(int plr, string new_menu_type)
 {
 	// Needs the cursor as command object.
 	var clonk = GetCursor(plr);
@@ -40,6 +40,7 @@ public func OpenRoomMenu(int plr, string menu_type)
 	menu_controller = clonk;
 	
 	// Make the room/credits/tablet menu.
+	menu_type = new_menu_type;
 	if (menu_type == "rooms")
 		MakeRoomMenu(plr);
 	else if (menu_type == "credits")
@@ -53,6 +54,37 @@ public func OpenRoomMenu(int plr, string menu_type)
 	menu_id = GuiOpen(menu);
 	// Notify the clonk and set the menu.
 	clonk->SetMenu(this);
+	return;
+}
+
+
+/*-- Updating --*/
+
+global func UpdateRoomMenus()
+{
+	for (var plr in GetPlayers(C4PT_User))
+	{
+		// Check if the cursor has a room menu open.
+		var cursor = GetCursor(plr);
+		if (!cursor)
+			return;
+		var plr_menu = cursor->GetMenu();
+		if (!plr_menu || !plr_menu->~IsRoomMenu())
+			return;
+		plr_menu->UpdateMenu();
+	}
+	return;
+}
+
+public func IsRoomMenu() { return true; }
+
+public func UpdateMenu()
+{
+	var plr = menu_controller->GetOwner();
+	var type = menu_type;
+	CloseRoomMenu();
+	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
+	menu_obj->OpenRoomMenu(plr, type);
 	return;
 }
 

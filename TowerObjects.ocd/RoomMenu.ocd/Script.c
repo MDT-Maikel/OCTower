@@ -74,7 +74,15 @@ public func ForwardedPlayerControl(int plr, int ctrl, int x, int y, int strength
 		else
 		{
 			if (RoomMenu->CanPlrRoomMenuOpen(plr))
+			{
 				RoomMenu->OpenPlrRoomMenu(plr);
+			}
+			else
+			{
+				var cursor = GetCursor(plr);
+				if (cursor)
+					cursor->PlayerMessage(plr, "$RoomMenuUnableToOpen$");
+			}	
 		}
 	}
 	return;
@@ -180,7 +188,7 @@ public func MakeRoomMenu(int plr)
 		Margin = ["1em", "2em"],
 		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
 	};
-	// The four basic panels for the menu.
+	// The basic panels for the menu.
 	menu.roominfo = 
 	{
 		Target = this,
@@ -246,10 +254,10 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 	var current_room = GetCurrentRoom();
 	var menu_key = GetPlayerControlAssignment(plr, CON_RoomMenu, true, true);
 	var room_info = Format("$RoomMenuInLobby$", menu_key);
-	if (current_room)
+	if (current_room != nil)
 		room_info = Format("$RoomMenuInRoom$", current_room->GetRoomName());
 	// Get rooms completed and jokers found.
-	var nr_rooms =GetRoomCount();
+	var nr_rooms = GetRoomCount();
 	var completed = GetLength(GetPlayerCompletedRooms(plr));
 	var total_jokers = GetRoomCount(true);
 	var found_jokers = GetLength(GetPlayerFoundJokers(plr));
@@ -260,7 +268,38 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 	roominfo.text =
 	{
 		Text = room_info,
+		Bottom = "100%-2em"
 	};
+	// Add option to abandon or vote against current attempt.
+	if (current_room != nil)
+	{
+		roominfo.buttons =
+		{
+			Top = "100%-2em"
+		};
+	 	if (IsActivePlayer(plr))
+		{
+			roominfo.buttons.abandon =
+			{
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				OnMouseIn = GuiAction_SetTag("Hover"),
+				OnMouseOut = GuiAction_SetTag("Std"),
+				OnClick = GuiAction_Call(Rule_Restart, "Activate", plr),
+				symbol = 
+				{
+					Right = "2em",
+					Symbol = Icon_Cancel
+				},
+				text =
+				{
+					Left = "2em",	
+					Text = "$RoomMenuAbandonAttempt$",
+					Style = GUI_TextVCenter
+				}	
+			};
+		}
+	}
+	
 	return;
 }
 
@@ -284,7 +323,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 				Target = this,
 				ID = 2000,
 				Right = "1.5em",
-				Symbol = Icon_Exit,
+				Symbol = Icon_Exit
 			},
 			text = 
 			{

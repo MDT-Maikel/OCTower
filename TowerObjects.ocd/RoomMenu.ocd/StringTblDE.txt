@@ -1,6 +1,8 @@
 Name=Raum-Menü
 Description=Let's the player pick the next room to attempt.
 
+RoomMenuUnableToOpen=Can only open room menu when inside the tower.
+
 RoomMenuInLobby=You are about to enter the tower. You can select a room in the right panel which you would like to attempt. The rooms marked with a green tick are those which you have already completed. Rooms marked with a joker have been skipped and the joker can be freed if you complete the room. While in the tower you can open and close this menu by pressing [%s].
 RoomMenuInRoom=You are in room <c dd0000>%s</c>.
 RoomMenuRoomsCompleted=You completed %d out of the %d rooms.
@@ -14,6 +16,7 @@ RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuSelectRoom=Wähle Raum:
 RoomMenuExitTower=Verlasse Turm
+RoomMenuAbandonAttempt=Versuch aufgeben
 
 RoomMenuInfoRoom=<c cc0000>Raum:</c> %s
 RoomMenuInfoAuthor=<c cc0000>Autor(en)</c>: %s

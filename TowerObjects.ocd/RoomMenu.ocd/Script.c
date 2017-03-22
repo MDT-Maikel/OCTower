@@ -908,22 +908,66 @@ public func MakeInformationMenu(int plr)
 		Right = "70%-0.5em",
 		Bottom = "1.5em",
 		Margin = ["0.1em"],
-		Text = "$RoomMenuInformationText$",
-		Style = GUI_TextVCenter
+		text = 
+		{
+			Text = "$RoomMenuInformationText$",
+			Style = GUI_TextVCenter
+		}
 	};
 	menu.information = 
 	{
 		Target = this,
 		ID = 2,
-		Top = "2.0em",
-		Text = "$RoomMenuInformationDesc$"	
+		Top = "2.0em",		
+		Style = GUI_VerticalLayout
 	};
+	AddInformationMenuEntries(menu.information);
 	
 	menu.border1 = CreateBarMenuEntry(nil, nil, "1.5em", "2em");
 	menu.border2 = CreateBarMenuEntry("70%-0.5em", "70%", nil, "1.5em");	
 	
 	// Room selection: header with close button.
 	menu.buttons = CreateMenuButtons(plr, "information"); 
+	return;
+}
+
+public func AddInformationMenuEntries(proplist info)
+{
+	var info_entries = [];
+	// Get room specific entries.
+	var current_room = GetCurrentRoom();
+	if (current_room != nil)
+	{
+		var hints = current_room->~GetRoomHints();
+		if (hints)
+			info_entries = hints;	
+	}
+	// Get tower entries: are there all the time.
+	for (var cnt = 1; cnt <= 3; cnt++)
+		PushBack(info_entries, Translate(Format("RoomMenuInformationEntry%d", cnt))); 
+	// Add the entries to the list.
+	var cnt = 1;	
+	for (var entry in info_entries)
+	{
+		var prop_entry = 
+		{
+			Bottom = "2em",
+			Priority = cnt,
+			symbol = 
+			{
+				Right = "2em",
+				Symbol = Icon_QuestionMark
+			},
+			text =
+			{
+				Left = "2em",
+				Text = entry
+			}
+		};
+		MakeNumberMenuEntry(prop_entry.symbol, cnt);
+		info[Format("entry%d", cnt)] = prop_entry;		
+		cnt++;
+	}
 	return;
 }
 

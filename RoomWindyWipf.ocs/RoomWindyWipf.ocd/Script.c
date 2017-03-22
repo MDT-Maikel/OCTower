@@ -21,7 +21,7 @@ public func GetRoomDescription() { return "$RoomDescription$"; }
 
 // The name of the author of the room, separate multiple authors with comma's or & (like "John, Jane & Wipf").
 // Names may not contain comma's or &.
-public func GetRoomAuthor() { return "Sven2, Maikel"; }
+public func GetRoomAuthor() { return "Sven2 & Maikel"; }
 
 // The map section that needs to be loaded for this room, usually equal to the name of the room.
 public func GetRoomSection() { return "WindyWipf"; }
@@ -38,6 +38,10 @@ public func HasTablet() { return false; }
 
 // Whether or not the room has a joker which can be found.
 public func HasJoker() { return false; }
+
+// Hints and tricks shown in the help menu when currently playing this room.
+// Pass a list of strings which represent the hints, each is shown separately.
+public func GetRoomHints() { return nil; }
 
 
 /*-- Room Scripts --*/

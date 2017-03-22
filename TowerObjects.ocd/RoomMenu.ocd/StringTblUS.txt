@@ -28,7 +28,7 @@ RoomMenuInfoRoomFoundJoker=You collected the joker in this room.
 RoomMenuInfoPlayRoom=Click to play this room.
 RoomMenuInfoSkipRoom=Use a joker to skip this room.
 
-RoomMenuCreditsText=Tower of Despair created by Sven2 & Maikel.
+RoomMenuCreditsText=Tower of Despair created by Maikel & Sven2.
 RoomMenuCreditsRooms=room(s)
 RoomMenuCreditsAuthor=%s made the following rooms:
 
@@ -36,5 +36,7 @@ RoomMenuTabletsText=List of found tablets, click on either of them to read the i
 RoomMenuTabletsFound=You have found the tablet of room %s. On the back of this tablet you see %d very distinctive stripes.
 RoomMenuTabletsNotFound=You have not found the tablet of room %s yet.
 
-RoomMenuInformationText=Here you will find some information and help for the tower.
-RoomMenuInformationDesc=More information to appear ...
+RoomMenuInformationText=Here you will find some helpful hints and tricks for the tower.
+RoomMenuInformationEntry1=Some of the rooms have a joker, you can use it to skip a room you were not able to complete yet.
+RoomMenuInformationEntry2=Most of the rooms have an ancient tablet, you need these to progress, so collect them all.
+RoomMenuInformationEntry3=You gain a tablet or joker when you collect it and bring either to the room entrance or exit.

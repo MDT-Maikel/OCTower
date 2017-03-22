@@ -1,9 +1,10 @@
 Turm der Verzweiflung
 
-Your father always told you this story about a sky-high tower in the far east. He and his friends went over once and found it was almost infinite floors stacked on top of each other. Each floor is on single room and contains at least one riddle which needs to be solved to proceed. Nowadays it is a site for archaeologists as the rooms contain many signs of our ancient past. You decide you want to step in the footsteps of your father and are standing at the foot of the tower. 
+Your father always told you this story about a sky-high tower in the far east. He and his friends went over once and they observed an enormous stack of floors reaching as far as the eye could see. Each floor is a single room and contains at least one riddle which needs to be solved to proceed. Nowadays it is a site for archaeologists as the rooms contain many signs of our ancient past. You decide you want to step in the footsteps of your father and are standing at the foot of the tower. 
 
 Ziel: Erreiche das höchste Punkt der Turm durch alle Räume zu lösen.
 
 Tipps:
 - Some of the rooms have a joker, you can use it to skip a room you were not able to complete yet.
 - Most of the rooms have an ancient tablet, you need these to progress, so collect them all.
+- More information can be found in the menu opened with [M].

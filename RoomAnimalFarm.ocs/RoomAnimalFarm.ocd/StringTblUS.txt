@@ -1,2 +1,5 @@
 RoomName=Animal Farm
 RoomDescription=Order is important!
+
+Hint1=To open the bottom door you need to count the number of animals per species and order the species in descending order.
+Hint2=To open the left door you need to count the total number of animals and type in that number as the code.

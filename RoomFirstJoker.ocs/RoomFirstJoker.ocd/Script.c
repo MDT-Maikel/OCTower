@@ -39,6 +39,10 @@ public func HasTablet() { return true; }
 // Whether or not the room has a joker which can be found.
 public func HasJoker() { return true; }
 
+// Hints and tricks shown in the help menu when currently playing this room.
+// Pass a list of strings which represent the hints, each is shown separately.
+public func GetRoomHints() { return nil; }
+
 
 /*-- Room Scripts --*/
 

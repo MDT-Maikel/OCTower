@@ -45,6 +45,9 @@ def black_to_transparent(im):
 # main script #
 ###############
 
+# assume planet directory is the parent of this directory
+planet_dir = os.path.dirname(os.getcwd())
+
 tower_img_width = 80
 tower_img_border = 4
 tower_image_scale = 2
@@ -55,10 +58,23 @@ fg_images = []
 bg_images = []
 for room_dir in os.listdir("."):
 	if fnmatch.fnmatch(room_dir, "Room*.ocs") and not fnmatch.fnmatch(room_dir, "RoomTemplate.ocs"):
-		if os.path.isfile(room_dir + "/MapFg.bmp"):
+		if os.path.isfile(room_dir + "/MapFg.bmp") and os.path.isfile(room_dir + "/MapBg.bmp"):
 			fg_images.append((img.open(room_dir + "/MapFg.bmp"), get_room_nr(room_dir)))
-		if os.path.isfile(room_dir + "/MapBg.bmp"):
 			bg_images.append((img.open(room_dir + "/MapBg.bmp"), get_room_nr(room_dir)))
+			print "included " + room_dir
+		elif not os.path.isfile(room_dir + "/MapFg.bmp") and not os.path.isfile(room_dir + "/MapBg.bmp") and os.path.isfile(room_dir + "/Map.c"):
+			try:
+				subprocess.call(["./../ocmapgen", room_dir + "/Map.c", room_dir + "/MapFgTemp.png", "--root", planet_dir, "--width", "80"])
+				subprocess.call(["./../ocmapgen", room_dir + "/Map.c", room_dir + "/MapBgTemp.png", "--root", planet_dir, "--width", "80"])
+				fg_images.append((img.open(room_dir + "/MapFgTemp.png"), get_room_nr(room_dir)))
+				bg_images.append((img.open(room_dir + "/MapBgTemp.png"), get_room_nr(room_dir)))
+				os.remove(room_dir + "/MapFgTemp.png")
+				os.remove(room_dir + "/MapBgTemp.png")
+				print "included " + room_dir
+			except OSError as e:
+				print "excluded " + room_dir + " (failed to run ocmapgen)"
+		else:
+			print "excluded " + room_dir + " (no map found)"
 
 # sort images according to room number
 fg_images = sorted(fg_images, key = lambda x: x[1], reverse=True)
@@ -76,18 +92,24 @@ for fg, bg in zip(fg_images, bg_images):
 	cb_images.append(cb)
 
 # determine tower image dimensions
+cb_images_resized = []
 tower_img_height = tower_img_border * tower_image_scale
 for cb_im in cb_images:
-	tower_img_height += (cb_im.size[1] + tower_img_border) * tower_image_scale
+	size = list(cb_im.size)
+	size[1] = tower_img_width * size[1] / size[0]
+	size[0] = tower_img_width
+	cb_images_resized.append(cb_im.resize(size))
+	tower_img_height += size[1] + tower_img_border * tower_image_scale
 tower_image = img.new("RGBA", (tower_img_width + 2 * tower_img_border * tower_image_scale, tower_img_height), "gray")
 
 # place all the images
 cnt = 0
 height = 0
-for cb_im in cb_images:
-	size = [x * tower_image_scale for x in cb_im.size]
-	tower_image.paste(cb_im.resize(size), (tower_img_border * tower_image_scale, tower_img_border * tower_image_scale + height))
-	height += (cb_im.size[1] + tower_img_border) * tower_image_scale
+for cb_im in cb_images_resized:
+	#size = [x * tower_image_scale for x in cb_im.size]
+	#print size.resize(size)
+	tower_image.paste(cb_im, (tower_img_border * tower_image_scale, tower_img_border * tower_image_scale + height))
+	height += cb_im.size[1] + tower_img_border * tower_image_scale
 
 # load base and top image
 base_image = img.open("tower_base.png")
@@ -96,7 +118,6 @@ base_image = base_image.resize(new_size)
 top_image = img.open("tower_top.png")
 new_size = [x * tower_image_scale for x in top_image.size]
 top_image = top_image.resize(new_size)
-
 
 # combine entrance and tower
 mount_point = 60

@@ -35,7 +35,7 @@ global func InitializeTemplate()
 global func NoSave() { return false; }
 
 // Run in the template scenario to check all settings.
-global func TestRoom()
+global func TestRoom(bool no_logging)
 {
 	// Find room object and test the settings.
 	var def, index, room_def;
@@ -49,9 +49,12 @@ global func TestRoom()
 	}
 	
 	// Log room properties.
-	Log("$MsgRoomHasName$", room_def->GetRoomName());
-	Log("$MsgRoomHasDescription$", room_def->GetRoomDescription());
-	Log("$MsgRoomHasAuthor$", room_def->GetRoomAuthor());
+	if (!no_logging)
+	{
+		Log("$MsgRoomHasName$", room_def->GetRoomName());
+		Log("$MsgRoomHasDescription$", room_def->GetRoomDescription());
+		Log("$MsgRoomHasAuthor$", room_def->GetRoomAuthor());
+	}
 	
 	// Check the number of room entrances.
 	if (ObjectCount(Find_ID(RoomEntrance)) == 0)
@@ -86,3 +89,13 @@ global func TestRoom()
 		Log("$MsgWarningNoJokerFound$", joker_cnt);
 	return;
 }
+
+// Called from the engine when a scenario is saved.
+global func SaveScenarioObjects(f, duplicate_objects)
+{
+	// Display problems with the current room when saving it.
+	if (GameCall("IsTemplateRoom"))
+		TestRoom(true);
+	return _inherited(f, duplicate_objects, ...);
+}
+

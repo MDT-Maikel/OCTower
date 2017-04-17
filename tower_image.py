@@ -65,7 +65,7 @@ for room_dir in os.listdir("."):
 		elif not os.path.isfile(room_dir + "/MapFg.bmp") and not os.path.isfile(room_dir + "/MapBg.bmp") and os.path.isfile(room_dir + "/Map.c"):
 			try:
 				subprocess.call(["./../ocmapgen", room_dir + "/Map.c", room_dir + "/MapFgTemp.png", "--root", planet_dir, "--width", "80"])
-				subprocess.call(["./../ocmapgen", room_dir + "/Map.c", room_dir + "/MapBgTemp.png", "--root", planet_dir, "--width", "80"])
+				subprocess.call(["./../ocmapgen", room_dir + "/Map.c", room_dir + "/MapBgTemp.png", "--bg", "--root", planet_dir, "--width", "80"])
 				fg_images.append((img.open(room_dir + "/MapFgTemp.png"), get_room_nr(room_dir)))
 				bg_images.append((img.open(room_dir + "/MapBgTemp.png"), get_room_nr(room_dir)))
 				os.remove(room_dir + "/MapFgTemp.png")

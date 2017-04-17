@@ -49,11 +49,6 @@ func InitializeObjects()
 	LargeCaveMushroom008->SetCon(3);
 	LargeCaveMushroom008->SetClrModulation(0xfff0e7e3);
 
-	CreateObject(Rule_Restart);
-	CreateObject(Rule_Restart);
-	CreateObject(Rule_Restart);
-	CreateObject(Rule_Restart);
-
 	var LargeCaveMushroom009 = CreateObjectAbove(LargeCaveMushroom, 521, 311);
 	LargeCaveMushroom009->SetCon(45);
 	LargeCaveMushroom009->SetClrModulation(0xffe3daef);

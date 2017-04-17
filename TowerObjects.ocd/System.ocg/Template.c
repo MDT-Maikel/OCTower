@@ -26,8 +26,8 @@ global func InitializeTemplate()
 	}
 	
 	// Create basic rules, but do not save them in a scenario.
-	var rule_restart = CreateObject(Rule_Restart);
-	rule_restart.SaveScenarioObject = Global.NoSave;
+	var rule_relaunch = GetRelaunchRule();
+	rule_relaunch.SaveScenarioObject = Global.NoSave;
 	return;
 }
 

@@ -284,7 +284,7 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
-				OnClick = GuiAction_Call(Rule_Restart, "Activate", plr),
+				OnClick = GuiAction_Call(Rule_Relaunch, "Activate", plr),
 				symbol = 
 				{
 					Right = "2em",
@@ -299,7 +299,6 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 			};
 		}
 	}
-	
 	return;
 }
 

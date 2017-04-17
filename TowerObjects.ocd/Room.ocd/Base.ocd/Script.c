@@ -103,7 +103,7 @@ public func InitRoom()
 	ResetSettings();
 	// Create basic rules.
 	if (!GameCall("IsTemplateRoom"))
-		CreateObject(Rule_Restart);	
+		GetRelaunchRule()->EnablePlayerRestart();
 	// Call to the specific room object to init objects.
 	OnRoomInit();
 	// Determine which player is playing the room.

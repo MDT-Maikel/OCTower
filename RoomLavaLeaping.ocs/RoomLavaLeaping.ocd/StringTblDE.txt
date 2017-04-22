@@ -1,0 +1,2 @@
+RoomName=Lava Leaping
+RoomDescription=Leap over all lava obstacles.

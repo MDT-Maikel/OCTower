@@ -1,6 +1,5 @@
 [Head]
 Icon=37
-Title=OCTower
 Version=8
 NoInitialize=true
 
@@ -16,7 +15,6 @@ Definition2=Decoration.ocd
 [Player4]
 
 [Landscape]
-Sky=Clouds2
 TopOpen=0
 MapWidth=100,0,64,10000
 MapHeight=50,0,40,10000

@@ -251,6 +251,9 @@ protected func JoinPlayer(int plr)
 		{
 			crew->Enter(room_entrance);
 			crew->SetCommand("Exit");
+			// Briefly disable crew to prevent aborting the exit process.
+			crew->SetCrewEnabled(false);
+			ScheduleCall(crew, "SetCrewEnabled", 20, 0, true);
 		}
 			
 		// Call to the specific room object to init the players.
@@ -266,8 +269,9 @@ protected func JoinPlayer(int plr)
 	}
 	else
 	{
-		// Observing players move into the waiting container.
+		// Observing players move into the waiting container, remove light range.
 		crew->Enter(waiting_container);
+		crew->SetLightRange(0, 0);
 		// Set player view to the playing player.
 		SetViewCursor(plr, GetCrew(playing_plr));
 	}

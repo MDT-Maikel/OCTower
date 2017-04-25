@@ -11,3 +11,4 @@ VertexY=11,11,-11,-11
 VertexFriction=100,100,100,100
 Entrance=-8,-12,16,24
 ClosedContainer=2
+Exclusive=1

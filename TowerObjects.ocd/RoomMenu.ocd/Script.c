@@ -472,29 +472,32 @@ public func UpdateRoomSelectionInformation(proplist pars)
 	};
 	MakeNumberMenuEntry(menu.selinfo.room.icon, GetRoomNumber(room_id));
 	
-	// Add a play button.
-	menu.selinfo.room.options.play = 
+	// Add a play button for the active player or when not in a room.
+	if (!GetCurrentRoom() || IsActivePlayer(plr))
 	{
-		Target = this,
-		ID = 48,
-		Priority = 1,
-		Bottom = "2em",
-		icon = 
+		menu.selinfo.room.options.play = 
 		{
-			Right = "2em",
-			Symbol = Icon_Play,
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
-			OnMouseIn = GuiAction_SetTag("Hover"),
-			OnMouseOut = GuiAction_SetTag("Std"),
-			OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
-		},
-		text =
-		{
-			Left = "2em",
-			Style = GUI_TextVCenter,
-			Text = "$RoomMenuInfoPlayRoom$"				
-		}
-	};	
+			Target = this,
+			ID = 48,
+			Priority = 1,
+			Bottom = "2em",
+			icon = 
+			{
+				Right = "2em",
+				Symbol = Icon_Play,
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				OnMouseIn = GuiAction_SetTag("Hover"),
+				OnMouseOut = GuiAction_SetTag("Std"),
+				OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
+			},
+			text =
+			{
+				Left = "2em",
+				Style = GUI_TextVCenter,
+				Text = "$RoomMenuInfoPlayRoom$"				
+			}
+		};
+	}
 
 	// Add tablet information to the room if available.
 	if (room_id->HasTablet())

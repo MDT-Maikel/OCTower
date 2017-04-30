@@ -6,8 +6,8 @@ MsgWarningTooManyEntrances=WARNING: Room has more than one entrances, remove the
 MsgWarningNoExits=WARNING: Room has no exits, create one.
 MsgWarningTooManyExits=WARNING: Room has more than one exits, remove the superfluous ones.
 
-MsgWarningTooManyTablets=WARNING: Found % Ancient Tablets, only one allowed, remove the superfluous ones.
-MsgWarningTabletFoundNotControl=WARNING: %d Ancient tablet(s) found, but not specified in room control object.
+MsgWarningTooManyTablets=WARNING: Found %d ancient tablets, only one allowed, remove the superfluous ones.
+MsgWarningTabletFoundNotControl=WARNING: %d ancient tablet(s) found, but not specified in room control object.
 MsgWarningNoTabletFound=WARNING: No Ancient Tablet found, but it was specified in room control object.
 
 MsgWarningTooManyJokers=WARNING: Found %d Jokers, only one allowed, remove the superfluous ones.

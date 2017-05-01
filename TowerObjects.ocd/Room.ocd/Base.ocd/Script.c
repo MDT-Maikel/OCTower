@@ -105,7 +105,7 @@ public func InitRoom()
 	if (!GameCall("IsTemplateRoom"))
 	{
 		var relaunch_rule = GetRelaunchRule();
-		relaunch_rule->AllowPlayerRestart();
+		relaunch_rule->SetAllowPlayerRestart(true);
 		relaunch_rule->SetPerformRestart(false);
 	}
 	// Call to the specific room object to init objects.

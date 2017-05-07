@@ -1,0 +1,2 @@
+RoomName=Die Luken
+RoomDescription=Öffne die Luken im richtigen Moment!

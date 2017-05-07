@@ -1,0 +1,2 @@
+RoomName=Hatch It
+RoomDescription=Open hatches at the right time!

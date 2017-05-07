@@ -1,0 +1,2 @@
+RoomName=Key Search
+RoomDescription=Find that key.

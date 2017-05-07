@@ -1,0 +1,2 @@
+RoomName=Schlüsselsuche
+RoomDescription=Finde den Schlüssel.

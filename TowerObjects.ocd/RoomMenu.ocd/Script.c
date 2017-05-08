@@ -626,6 +626,8 @@ public func OnRoomClickSkip(proplist pars)
 	SavePlayerRoomData(plr);
 	// Update selection.
 	UpdateRoomSelectionInformation(pars);
+	// Update open room menus.
+	UpdateRoomMenus();
 	return;
 }
 

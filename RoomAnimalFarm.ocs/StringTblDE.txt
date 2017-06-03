@@ -1,2 +1,2 @@
 DlgManOne=Hi! My boss told me to enter the total number of animals, but I only have ten fingers.
-DlgManTwo=Welcome! It's my boss that told me to order the animal according to their number, but I have such bad memory.
+DlgManTwo=Welcome! It's my boss that told me to order the animals from high to low count, but I have such bad memory.

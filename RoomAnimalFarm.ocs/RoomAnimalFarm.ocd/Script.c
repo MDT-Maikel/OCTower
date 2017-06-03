@@ -60,6 +60,9 @@ public func OnRoomInit()
 // Here you can create effects and extra objects that are needed for the player and its crew.
 public func OnPlayerInit(int plr)
 {
+	var crew = GetCrew(plr);
+	crew->CreateEffect(FxBlockDamage, 100);
+	crew->CreateEffect(FxBlockFire, 100);
 	return;
 }
 
@@ -87,10 +90,14 @@ public func InitAnimals()
 	Butterfly->Place(large_counts[1], Rectangle(120, 40, 56, 96));
 	Firefly->Place(1, large_counts[2], Rectangle(120, 148, 56, 120));
 	
-	// Disable reproduction.
+	// Disable reproduction and make animals invincible.
 	for (var animal in FindObjects(Find_Func("IsAnimal")))
+	{
 		animal->~SetReproductionRate();
-		
+		animal->CreateEffect(FxBlockDamage, 100);
+		animal->CreateEffect(FxBlockFire, 100);
+	}
+	
 	// Make it night for the fireflies.
 	Time->Init();
 	Time->SetTime(22 * 60 + 30);
@@ -131,3 +138,4 @@ public func InitKeypads()
 	main_keypad->SetKeypadCode(main_code);
 	return;
 }
+

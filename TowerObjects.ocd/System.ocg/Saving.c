@@ -21,7 +21,7 @@ global func LoadPlayerRoomData(int plr)
 	if (GetType(load_string) != C4V_String)
 		return [];
 	// Get the version of the loaded save data.
-	var load_version = StringToInteger(TakeString(load_string, 0, 4));
+	var load_version = ParseInt(TakeString(load_string, 0, 4));
 	// Get a list of the rooms of the form letter letter digits.
 	var rooms = RegexMatch(load_string, "[a-zA-Z]{2}[0-9]*");
 	// Convert this form to the room id and room data.
@@ -31,7 +31,7 @@ global func LoadPlayerRoomData(int plr)
 		// Make sure the saved room still exists in the tower.
 		if (room_id == nil)
 			continue;
-		var room_data = StringToInteger(TakeString(rooms[index][0], 2));
+		var room_data = ParseInt(TakeString(rooms[index][0], 2));
 		rooms[index] = [room_id, room_data];	
 	}
 	//Log("Load: plr %d, version %d, load_string %s, rooms %v", plr, load_version, load_string, rooms);

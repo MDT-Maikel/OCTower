@@ -125,7 +125,7 @@ func InitializeObjects()
 	CreateObject(Column, 437, 307);
 	CreateObject(Column, 300, 306);
 	var Switch001 = CreateObjectAbove(Switch, 83, 312);
-	Switch001->SetTarget(StoneDoor002);
+	Switch001->SetSwitchTarget(StoneDoor002);
 	Switch001->SetSwitchDir(1);
 
 	var PlayerStart001 = CreateObject(PlayerStart, 77, 443);

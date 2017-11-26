@@ -162,7 +162,8 @@ func InitializeObjects()
 
 	CreateObjectAbove(Ruin_WoodenCabin, 343, 335);
 	var Switch001 = CreateObjectAbove(Switch, 443, 320);
-	Switch001->SetTarget(StoneDoor004);
+	Switch001->SetSwitchTarget(StoneDoor004);
+	Switch001->SetSwitchDir(1);
 
 	var Clonk001 = CreateObjectAbove(Clonk, 342, 335);
 	Clonk001->SetColor(0x813100);

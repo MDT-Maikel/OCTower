@@ -113,7 +113,7 @@ func InitializeObjects()
 	MovingBrick002->SetPosition(410, 212);
 	MovingBrick002->SetMoveSpeed(120);
 	var Switch001 = CreateObjectAbove(Switch, 286, 376);
-	Switch001->SetTarget(StoneDoor001);
+	Switch001->SetSwitchTarget(StoneDoor001);
 	Switch001->SetSwitchDir(1);
 
 	var StrawMan001 = CreateObject(StrawMan, 44, 43);

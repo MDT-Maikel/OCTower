@@ -37,12 +37,12 @@ func InitializeObjects()
 	var Grass028 = CreateObjectAbove(Grass, 229, 358);
 	var Grass029 = CreateObjectAbove(Grass, 208, 358);
 
-	var Deco_Tree_Deciduous3001 = CreateObjectAbove(Deco_Tree_Deciduous3, 133, 355);
+	var Deco_Tree_Deciduous3001 = CreateObjectAbove(Deco_Tree_Deciduous3, 133, 347);
 	Deco_Tree_Deciduous3001->SetCon(102);
 	Deco_Tree_Deciduous3001->SetSeedAmount(0);
 	Deco_Tree_Deciduous3001->SetSeedChance(0);
 
-	var Tree_Deciduous001 = CreateObjectAbove(Tree_Deciduous, 153, 362);
+	var Tree_Deciduous001 = CreateObjectAbove(Tree_Deciduous, 153, 363);
 	Tree_Deciduous001->SetCon(102);
 	Tree_Deciduous001->SetSeedAmount(0);
 	Tree_Deciduous001->SetSeedChance(0);
@@ -147,7 +147,7 @@ func InitializeObjects()
 	var Keypad003 = CreateObjectAbove(Keypad, 539, 52);
 	Keypad003->SetStoneDoor(StoneDoor003);
 
-	var Deco_Tree_Deciduous4001 = CreateObjectAbove(Deco_Tree_Deciduous4, 253, 362);
+	var Deco_Tree_Deciduous4001 = CreateObjectAbove(Deco_Tree_Deciduous4, 253, 360);
 	Deco_Tree_Deciduous4001->SetCon(101);
 	Deco_Tree_Deciduous4001.Plane = 101;
 	Deco_Tree_Deciduous4001->SetSeedAmount(0);

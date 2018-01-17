@@ -1,0 +1,2 @@
+RoomName=Acid Flood
+RoomDescription=Just don't go for a swim!

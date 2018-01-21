@@ -253,7 +253,8 @@ protected func JoinPlayer(int plr)
 			crew->SetCommand("Exit");
 			// Briefly disable crew to prevent aborting the exit process.
 			crew->SetCrewEnabled(false);
-			ScheduleCall(crew, "SetCrewEnabled", 20, 0, true);
+			ScheduleCall(crew, "SetCrewEnabled", 19, 0, true);
+			ScheduleCall(crew, "SetCursor", 20, 0, crew->GetOwner(), crew);
 		}
 			
 		// Call to the specific room object to init the players.

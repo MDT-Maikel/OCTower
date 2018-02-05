@@ -76,7 +76,7 @@ global func TestRoom(bool no_logging)
 	if (tablet_cnt > 1)
 		Log("$MsgWarningTooManyTablets$", tablet_cnt);
 	else if (tablet_cnt > 0 && !has_tablet)
-		Log("$MsgWarningTabletFoundNotControl$", tablet_cnt);
+		Log("$MsgWarningTabletFoundNoControl$", tablet_cnt);
 	else if (tablet_cnt == 0 && has_tablet)
 		Log("$MsgWarningNoTabletFound$", tablet_cnt);
 
@@ -86,7 +86,7 @@ global func TestRoom(bool no_logging)
 	if (joker_cnt > 1)
 		Log("$MsgWarningTooManyJokers$", joker_cnt);
 	else if (joker_cnt > 0 && !has_joker)
-		Log("$MsgWarningJokerFoundNotControl$", joker_cnt);
+		Log("$MsgWarningJokerFoundNoControl$", joker_cnt);
 	else if (joker_cnt == 0 && has_joker)
 		Log("$MsgWarningNoJokerFound$", joker_cnt);
 	return;

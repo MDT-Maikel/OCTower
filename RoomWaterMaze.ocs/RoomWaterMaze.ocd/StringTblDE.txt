@@ -1,2 +1,5 @@
 RoomName=Wasserlabyrinth
 RoomDescription=Nicht für die mit Klaustrophobie.
+
+Hint1=All liquids are infinite and will reappear when pumped away.
+Hint2=You need a long-lasting power supply.

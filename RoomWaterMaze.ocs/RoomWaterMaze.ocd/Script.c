@@ -41,7 +41,7 @@ public func HasJoker() { return false; }
 
 // Hints and tricks shown in the help menu when currently playing this room.
 // Pass a list of strings which represent the hints, each is shown separately.
-public func GetRoomHints() { return nil; }
+public func GetRoomHints() { return ["$Hint1$", "$Hint2$"]; }
 
 
 /*-- Room Scripts --*/

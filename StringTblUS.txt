@@ -7,3 +7,5 @@ DlgArchaeologistEnter=Oh that's interesting! I love riddles, how can I enter the
 DlgArchaeologistLever=Well you just turn the lever ahead and go into the first room. The further you get the harder the riddles! I did not make it to the top before those evil guys came.
 DlgArchaeologistTry=Okay, I am going to give it a try!
 DlgArchaeologistTakeCare=Take care!
+
+MsgEvaluationData=You did not make it to the top of the tower, however, your progress is saved. If you play Tower of Despair again you can start with the last unfinished room.

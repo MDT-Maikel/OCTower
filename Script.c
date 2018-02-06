@@ -47,6 +47,19 @@ public func JoinPlayer(int plr)
 	return;
 }
 
+public func RemovePlayer(int plr)
+{
+	if (GetPlayerCount(C4PT_User) <= 1)
+		return GameOver();
+	return;
+}
+
+public func OnGameOver()
+{
+	HideSettlementScoreInEvaluation(true);
+	AddEvaluationData("$MsgEvaluationData$", 0);
+}
+
 public func InitMain()
 {
 	SetCurrentRoom(nil);

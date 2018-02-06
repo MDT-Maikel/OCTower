@@ -13,10 +13,11 @@ public func Hit(int x, int y)
 	return;
 }
 
-public func Entrance()
+public func Entrance(object clonk)
 {
 	var room = GetCurrentRoom();
 	this.Description = GetRoomDescription(room);
+	GameCall("OnRoomTabletCollected", clonk, this);
 	return;
 }
 

@@ -8,4 +8,7 @@ DlgArchaeologistLever=Well you just turn the lever ahead and go into the first r
 DlgArchaeologistTry=Okay, I am going to give it a try!
 DlgArchaeologistTakeCare=Take care!
 
-MsgEvaluationData=You did not make it to the top of the tower, however, your progress is saved. If you play Tower of Despair again you can start with the last unfinished room.
+MsgEvaluationData=You did not make it to the top of the tower, however, your progress is saved. If you play Tower of 
+
+MsgJokerCollected=<c 00ffff>Joker eingesammelt!</c>|Bringe den Joker in den Raumeingang oder Ausgang, um ihn einzuloesen.
+MsgTabletCollected=<c 00ffff>Tafel eingesammelt!</c>|Bringe den Tafel in den Raumeingang oder Ausgang, um ihn einzuloesen.

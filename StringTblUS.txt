@@ -9,3 +9,6 @@ DlgArchaeologistTry=Okay, I am going to give it a try!
 DlgArchaeologistTakeCare=Take care!
 
 MsgEvaluationData=You did not make it to the top of the tower, however, your progress is saved. If you play Tower of Despair again you can start with the last unfinished room.
+
+MsgJokerCollected=<c 00ffff>Joker collected!</c>|Deliver the joker to the room entry or exit to use it.
+MsgTabletCollected=<c ffff00>Tablet collected!</c>|Deliver the tablet to the room entry or exit to use it.

@@ -77,6 +77,12 @@ public func OnRoomEntranceEntered(object crew)
 	return;
 }
 
+public func OnRoomJokerCollected(object crew, object joker)
+{
+	CustomMessage("$MsgJokerCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = joker->GetID()});
+	return;
+}
+
 public func OnRoomJokerCompleted(object crew, id room)
 {
 	// Share the progress among all playing players.
@@ -87,6 +93,12 @@ public func OnRoomJokerCompleted(object crew, id room)
 		// Save the progress.
 		SavePlayerRoomData(for_plr);
 	}
+	return;
+}
+
+public func OnRoomTabletCollected(object crew, object tablet)
+{
+	CustomMessage("$MsgTabletCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = tablet->GetID()});
 	return;
 }
 

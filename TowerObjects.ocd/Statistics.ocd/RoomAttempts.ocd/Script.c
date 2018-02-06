@@ -30,10 +30,10 @@ public func OnRoomAttemptFailed(id room, int by_plr)
 		var room_str = Format("%i", room);
 		if (!stats[room_str])
 			stats[room_str] = {};
-		if (!stats[room_str].FailedCnt)
-			stats[room_str].FailedCnt = 1;
+		if (!stats[room_str].FailedCount)
+			stats[room_str].FailedCount = 1;
 		else
-			stats[room_str].FailedCnt++;
+			stats[room_str].FailedCount++;
 		current_room = nil;
 		room_plr = nil;
 	}
@@ -47,10 +47,10 @@ public func OnRoomAttemptSucceeded(id room, int by_plr)
 		var room_str = Format("%i", room);
 		if (!stats[room_str])
 			stats[room_str] = {};
-		if (!stats[room_str].SuccessCnt)
-			stats[room_str].SuccessCnt = 1;
+		if (!stats[room_str].SuccessCount)
+			stats[room_str].SuccessCount = 1;
 		else
-			stats[room_str].SuccessCnt++;
+			stats[room_str].SuccessCount++;
 		current_room = nil;
 		room_plr = nil;
 	}

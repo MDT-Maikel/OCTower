@@ -37,7 +37,7 @@ public func OnRoomAttemptSucceeded(id room, int by_plr)
 	if (current_room == room && room_plr == by_plr)
 	{
 		var duration = FrameCounter() - room_time;
-		PushBack(stats, {Room = current_room, Duration = duration});
+		PushBack(stats, {Room = Format("%i", current_room), Duration = duration});
 		current_room = nil;
 		room_plr = nil;
 	}

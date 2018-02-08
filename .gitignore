@@ -1,4 +1,6 @@
 *~
 Room*.ocs/Teams.txt
-tower_image.png
-Solutions.txt
+scripts/tower_image.png
+scripts/statistics.sqlite
+misc/
+rooms/

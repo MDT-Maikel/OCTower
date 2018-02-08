@@ -8,7 +8,9 @@ import numpy
 import argparse
 import subprocess
 
-import Image as img
+from PIL import Image as img
+from PIL import ImageFont as font
+from PIL import ImageDraw as draw
 
 
 #############
@@ -24,6 +26,16 @@ def get_room_nr(room_dir):
 				room_nr = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:]
 	return int(room_nr)
 
+def get_room_authors(room_dir):
+	room_name = room_dir.split(".")[0]
+	with open(room_dir + "/" + room_name + ".ocd/Script.c", "r") as f:
+		lines = f.readlines()
+		for line in lines:
+			if re.match("public func GetRoomAuthor()*", line):
+				room_authors = re.search("return \"[0-9A-Za-z\,\&\s]+\";", line).group(0)
+				room_authors = room_authors.replace(";", "").replace("\"", "")[7:]
+	return room_authors		
+		
 def black_to_sky(im):
 	im = im.convert("RGBA")
 	data = numpy.array(im)
@@ -50,17 +62,19 @@ planet_dir = os.path.dirname(os.getcwd())
 
 tower_img_width = 80
 tower_img_border = 4
-tower_image_scale = 2
+tower_image_scale = 4
 tower_img_width *= tower_image_scale
 
 # load all map images
 fg_images = []
 bg_images = []
+room_authors = []
 for room_dir in os.listdir("."):
 	if fnmatch.fnmatch(room_dir, "Room*.ocs") and not fnmatch.fnmatch(room_dir, "RoomTemplate.ocs"):
 		if os.path.isfile(room_dir + "/MapFg.bmp") and os.path.isfile(room_dir + "/MapBg.bmp"):
 			fg_images.append((img.open(room_dir + "/MapFg.bmp"), get_room_nr(room_dir)))
 			bg_images.append((img.open(room_dir + "/MapBg.bmp"), get_room_nr(room_dir)))
+			room_authors.append((get_room_authors(room_dir), get_room_nr(room_dir)))
 			print "included " + room_dir
 		elif not os.path.isfile(room_dir + "/MapFg.bmp") and not os.path.isfile(room_dir + "/MapBg.bmp") and os.path.isfile(room_dir + "/Map.c"):
 			try:
@@ -70,9 +84,11 @@ for room_dir in os.listdir("."):
 				bg_images.append((img.open(room_dir + "/MapBgTemp.png"), get_room_nr(room_dir)))
 				os.remove(room_dir + "/MapFgTemp.png")
 				os.remove(room_dir + "/MapBgTemp.png")
+				room_authors.append((get_room_authors(room_dir), get_room_nr(room_dir)))
 				print "included " + room_dir
 			except OSError as e:
 				print "excluded " + room_dir + " (failed to run ocmapgen)"
+				print "ERROR: " + str(e)
 		else:
 			print "excluded " + room_dir + " (no map found)"
 
@@ -81,6 +97,8 @@ fg_images = sorted(fg_images, key = lambda x: x[1], reverse=True)
 fg_images = [x[0] for x in fg_images]
 bg_images = sorted(bg_images, key = lambda x: x[1], reverse=True)
 bg_images = [x[0] for x in bg_images]
+room_authors = sorted(room_authors, key = lambda x: x[1], reverse=True)
+room_authors = [x[0] for x in room_authors]
 
 # combine foreground and background and insert sky
 fg_images = [black_to_transparent(x) for x in fg_images]
@@ -102,12 +120,15 @@ for cb_im in cb_images:
 	tower_img_height += size[1] + tower_img_border * tower_image_scale
 tower_image = img.new("RGBA", (tower_img_width + 2 * tower_img_border * tower_image_scale, tower_img_height), "gray")
 
+# add authors to each room image
+for cb_im, authors in zip(cb_images_resized, room_authors):
+	cb_draw = draw.Draw(cb_im)
+	cb_draw.text((1, 0), "Authors: " + authors, (125, 20, 20))
+	
 # place all the images
 cnt = 0
 height = 0
 for cb_im in cb_images_resized:
-	#size = [x * tower_image_scale for x in cb_im.size]
-	#print size.resize(size)
 	tower_image.paste(cb_im, (tower_img_border * tower_image_scale, tower_img_border * tower_image_scale + height))
 	height += cb_im.size[1] + tower_img_border * tower_image_scale
 

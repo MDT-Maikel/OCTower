@@ -10,7 +10,8 @@ public func IsJoker() { return true; }
 
 public func Entrance(object clonk)
 {
-	GameCall("OnRoomJokerCollected", clonk, this);
+	if (clonk->GetOCF() & OCF_CrewMember)
+		GameCall("OnRoomJokerCollected", clonk, this);
 	return;
 }
 

@@ -79,7 +79,8 @@ public func OnRoomEntranceEntered(object crew)
 
 public func OnRoomJokerCollected(object crew, object joker)
 {
-	CustomMessage("$MsgJokerCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = joker->GetID()});
+	if (GetPlayerType(crew->GetOwner()) == C4PT_User)
+		CustomMessage("$MsgJokerCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = joker->GetID()});
 	return;
 }
 
@@ -98,7 +99,8 @@ public func OnRoomJokerCompleted(object crew, id room)
 
 public func OnRoomTabletCollected(object crew, object tablet)
 {
-	CustomMessage("$MsgTabletCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = tablet->GetID()});
+	if (GetPlayerType(crew->GetOwner()) == C4PT_User)
+		CustomMessage("$MsgTabletCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = tablet->GetID()});
 	return;
 }
 

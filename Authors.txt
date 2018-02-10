@@ -5,3 +5,7 @@ Maikel
 
 Room authors:
 Room authors are credited in the scenario.
+
+
+Misc authors:
+Loader1.png       - Sven2 (CC BY 4.0)

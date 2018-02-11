@@ -10,7 +10,9 @@ func InitializeObjects()
 	RoomEntrance001->SetColor(0xff32c832);
 
 	var Chest001 = CreateObjectAbove(Chest, 520, 455);
+	Chest001->MakeInvincible(false);
 	var Chest002 = CreateObjectAbove(Chest, 77, 231);
+	Chest002->MakeInvincible(false);
 
 	var RoomExit001 = CreateObjectAbove(RoomExit, 567, 63);
 	RoomExit001->SetColor(0xffc83232);

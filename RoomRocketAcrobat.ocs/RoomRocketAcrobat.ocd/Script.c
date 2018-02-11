@@ -50,6 +50,7 @@ public func GetRoomHints() { return nil; }
 // Here you can create effects and extra objects that are needed for the room.
 public func OnRoomInit()
 {
+	CreateEffect(FxFallingClonks, 100, 20);
 	return;
 }
 
@@ -59,3 +60,28 @@ public func OnPlayerInit(int plr)
 {	
 	return;
 }
+
+local FxFallingClonks = new Effect
+{
+
+	Timer = func()
+	{
+		if (Random(4))
+			return FX_OK;
+		var clonk = CreateObject(Clonk, RandomX(100, 340), -30);
+		clonk->SetAction("Tumble");
+		clonk->SetXDir(-16 - Random(18));
+		clonk->SetYDir(6 + Random(8));
+		clonk.Plane = -1000;
+		clonk->SetCon(RandomX(60, 80));
+		while(clonk->RemoveVertex()) {};
+		clonk.Death = this.None;
+		clonk->SetCategory(C4D_Vehicle);
+		clonk->SetAlternativeSkin(RandomElement(["Carpenter", "MaleBlackHair", "MaleBrownHair", "MaleDarkHair", "Youngster", "YoungsterBlond"]));
+		clonk->SetColor(HSL(Random(255), 180, 200));
+		clonk->SetObjectLayer(clonk);
+		return FX_OK;
+	},
+	
+	None = func() { return;	}
+};

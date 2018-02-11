@@ -117,6 +117,8 @@ public func InitRoom()
 	// Initialize players in this room.
 	for (var plr in GetPlayers(C4PT_User))
 		InitializePlayer(plr);
+	// Do room effects.
+	DoRoomEffects();
 	// Notify about room attempt start.
 	GameCallEx("OnRoomAttemptStarted", this->GetID(), playing_plr);
 	return;
@@ -213,7 +215,7 @@ public func RemovePlayer(int plr)
 	return;
 }
 
-protected func JoinPlayer(int plr)
+public func JoinPlayer(int plr)
 {
 	// Get crew member or create new one.
 	var crew = GetCrew(plr);
@@ -251,12 +253,17 @@ protected func JoinPlayer(int plr)
 		{
 			crew->Enter(room_entrance);
 			crew->SetCommand("Exit");
+			// Open the door a bit earlier to speed up entering the room.
+			ScheduleCall(room_entrance, "SetEntrance", 12, 0, true);
 			// Briefly disable crew to prevent aborting the exit process.
 			crew->SetCrewEnabled(false);
-			ScheduleCall(crew, "SetCrewEnabled", 19, 0, true);
-			ScheduleCall(crew, "SetCursor", 20, 0, crew->GetOwner(), crew);
+			ScheduleCall(crew, "SetCrewEnabled", 13, 0, true);
+			ScheduleCall(crew, "SetCursor", 14, 0, crew->GetOwner(), crew);
 		}
-			
+		
+		// Do player join effects.
+		DoPlayerEffects(crew, room_entrance->GetX(), room_entrance->GetY());
+		
 		// Call to the specific room object to init the players.
 		OnPlayerInit(plr);
 		
@@ -276,6 +283,47 @@ protected func JoinPlayer(int plr)
 		// Set player view to the playing player.
 		SetViewCursor(plr, GetCrew(playing_plr));
 	}
+	return;
+}
+
+
+/*-- Room Effects --*/
+
+
+private func DoRoomEffects()
+{
+	// Add small reappearing colored clouds.
+	if (HasColoredClouds())
+		CreateObject(RoomColoredClouds);
+	return;
+}
+
+public func HasColoredClouds()
+{
+	// For now rooms have colored clouds if they are inside the tower and thus have non-sky background materials.
+	var bkg_mat = GetBackMaterial(AbsX(LandscapeWidth() / 2), AbsY(LandscapeHeight() / 2));
+	if (bkg_mat != -1)
+		return true;
+	return false;
+}
+
+private func DoPlayerEffects(object clonk, int x, int y)
+{
+	// Sound on room join.
+	Sound("RoomJoin", true);
+	// Flash particles on spawn.
+	var particle_flash = 
+	{
+		Prototype = Particles_Flash(),
+		Size = PV_Random(8, 12),
+		R = PV_Random(20, 64),
+		G = PV_Random(20, 64),
+		B = PV_Random(20, 64),
+		Alpha = PV_KeyFrames(0, 0, 20, 100, 160, 900, 160, 1000, 20)
+	};
+	CreateParticle("Flash", PV_Random(x - 12, x + 12), PV_Random(y - 12, y + 12), PV_Random(-2, 2), PV_Random(-2, 2), 28, particle_flash, 16);
+	for (var dx = -40; dx <= 40; dx += 20)
+		DrawParticleLine("Flash", x + dx, 0, x, y, 6, PV_Random(-1, 1), PV_Random(-1, 1), 24, particle_flash);
 	return;
 }
 

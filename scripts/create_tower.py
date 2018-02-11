@@ -171,6 +171,10 @@ shutil.copy("Icon.png", tower_dir)
 shutil.copy("Title.jpg", tower_dir)
 shutil.copy("Loader1.png", tower_dir)
 
+# copy sound files into the new directory
+print "copying sound files ..."
+shutil.copytree("Sound.ocg", tower_dir + "/Sound.ocg")
+
 # copy tower objects into the new directory
 print "copying tower objects ..."
 shutil.copytree("TowerObjects.ocd", tower_dir + "/TowerObjects.ocd")

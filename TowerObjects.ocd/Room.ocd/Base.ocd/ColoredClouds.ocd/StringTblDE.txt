@@ -1,0 +1,2 @@
+Name=Colored Clouds
+Description=Distributes some colored smoke in the room.

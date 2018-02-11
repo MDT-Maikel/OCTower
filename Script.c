@@ -38,10 +38,12 @@ public func JoinPlayer(int plr)
 	// Give clonk its maximum energy.
 	crew->DoEnergy(crew.MaxEnergy / 1000);
 	
-	// Move clonk to position outside the castle.
+	// Move clonk to position outside the tower.
 	crew->SetPosition(40 + RandomX(80), 350);
+	// Move directly to entrance in editor mode.
+	if (IsEditor())
+		crew->SetPosition(596, 294);
 	crew->SetDir(DIR_Right);
-	//crew->SetPosition(620, 294);
 	
 	// Add the player to the playing queue.
 	AppendPlayerToQueue(plr);

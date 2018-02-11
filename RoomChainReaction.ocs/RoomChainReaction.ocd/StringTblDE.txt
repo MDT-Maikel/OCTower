@@ -1,0 +1,5 @@
+RoomName=Kettenreaktion
+RoomDescription=Lass' dich von der Kette nicht fangen.
+
+Hint1=Sharks have large mouths, so you might not be the only thing they'll be eating.
+Hint2=

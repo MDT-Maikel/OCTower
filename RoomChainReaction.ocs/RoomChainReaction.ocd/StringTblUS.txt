@@ -1,0 +1,5 @@
+RoomName=Chain Reaction
+RoomDescription=Don't be caught in the chain.
+
+Hint1=Sharks have large mouths, so you might not be the only thing they'll be eating.
+Hint2=

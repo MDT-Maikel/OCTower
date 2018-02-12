@@ -81,8 +81,9 @@ public func OnRoomEntranceEntered(object crew)
 
 public func OnRoomJokerCollected(object crew, object joker)
 {
+	// Message for all players that the joker has been collected.
 	if (GetPlayerType(crew->GetOwner()) == C4PT_User)
-		CustomMessage("$MsgJokerCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = joker->GetID()});
+		CustomMessage("$MsgJokerCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = Joker});
 	return;
 }
 
@@ -96,13 +97,18 @@ public func OnRoomJokerCompleted(object crew, id room)
 		// Save the progress.
 		SavePlayerRoomData(for_plr);
 	}
+	// Message for all players that the joker is available.
+	var menu_key = GetPlayerControlAssignment(crew->GetOwner(), CON_RoomMenu, true, true);
+	var msg = Format("$MsgJokerSecured$", menu_key);
+	CustomMessage(msg, nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = Joker});
 	return;
 }
 
 public func OnRoomTabletCollected(object crew, object tablet)
 {
+	// Message for all players that the tablet has been collected.
 	if (GetPlayerType(crew->GetOwner()) == C4PT_User)
-		CustomMessage("$MsgTabletCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = tablet->GetID()});
+		CustomMessage("$MsgTabletCollected$", nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = AncientTablet});
 	return;
 }
 
@@ -116,6 +122,10 @@ public func OnRoomTabletCompleted(object crew, id room)
 		// Save the progress.
 		SavePlayerRoomData(for_plr);
 	}
+	// Message for all players that the tablet is available.
+	var menu_key = GetPlayerControlAssignment(crew->GetOwner(), CON_RoomMenu, true, true);
+	var msg = Format("$MsgTabletSecured$", menu_key);
+	CustomMessage(msg, nil, NO_OWNER, 90, 70, 0xffffff, GUI_MenuDeco, {Source = AncientTablet});
 	return;
 }
 

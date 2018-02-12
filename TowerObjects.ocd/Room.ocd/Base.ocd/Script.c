@@ -146,6 +146,8 @@ private func ResetSettings()
 		while (def = GetPlrKnowledge(plr))
 			SetPlrKnowledge(plr, def, true);
 	}
+	// Remove any custom message from the previous room.
+	CustomMessage("", nil, NO_OWNER);
 	// Restore ambience control.
 	InitializeAmbience();
 	return;
@@ -322,8 +324,8 @@ private func DoPlayerEffects(object clonk, int x, int y)
 		Alpha = PV_KeyFrames(0, 0, 20, 100, 160, 900, 160, 1000, 20)
 	};
 	CreateParticle("Flash", PV_Random(x - 12, x + 12), PV_Random(y - 12, y + 12), PV_Random(-2, 2), PV_Random(-2, 2), 28, particle_flash, 16);
-	for (var dx = -40; dx <= 40; dx += 20)
-		DrawParticleLine("Flash", x + dx, 0, x, y, 6, PV_Random(-1, 1), PV_Random(-1, 1), 24, particle_flash);
+	for (var dx = -2; dx <= 2; dx += 1)
+		DrawParticleLine("Flash", x + 20 * dx, 0, x + dx, y, 6, PV_Random(-1, 1), PV_Random(-1, 1), 24, particle_flash);
 	return;
 }
 

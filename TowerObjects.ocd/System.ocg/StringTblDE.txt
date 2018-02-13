@@ -26,3 +26,8 @@ MakeRoomPlayerOwnerHelp=The player who attempts this room will be made the owner
 
 # GameSpeed.c
 MsgWarningNoGameSpeed=WARNING: You are not allowed to change the game speed.
+
+
+# Voting.c
+MsgVoteAbortAttempt=%s stimmt für einen Neustart.
+MsgVotingCompleted=%s darf per Mehrheitsbeschluss nicht weiter versuchen!

@@ -148,6 +148,8 @@ private func ResetSettings()
 	}
 	// Remove any custom message from the previous room.
 	CustomMessage("", nil, NO_OWNER);
+	// Reset abort attempt player voting for every attempt.
+	InitAbortAttemptVotes();
 	// Restore ambience control.
 	InitializeAmbience();
 	return;
@@ -290,7 +292,6 @@ public func JoinPlayer(int plr)
 
 
 /*-- Room Effects --*/
-
 
 private func DoRoomEffects()
 {

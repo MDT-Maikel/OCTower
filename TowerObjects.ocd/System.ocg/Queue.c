@@ -63,6 +63,20 @@ global func GetNextPlayerInQueue()
 	return;
 }
 
+global func GetPlayerQueueTaggedString()
+{
+	if (g_tower_plr_queue == nil)
+		return;
+	var first =  GetPlayerByID(g_tower_plr_queue[0]);
+	var queue = GetTaggedPlayerName(first);
+	for (var index = 1; index < GetLength(g_tower_plr_queue); index++)
+	{
+		var plr = GetPlayerByID(g_tower_plr_queue[index]);
+		queue = Format("%s, %s", queue, GetTaggedPlayerName(plr));
+	}
+	return queue;
+}
+
 // Returns the player that is currently attempting the room.
 global func GetActivePlayer()
 {

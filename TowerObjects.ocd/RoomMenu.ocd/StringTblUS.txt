@@ -16,7 +16,13 @@ RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuSelectRoom=Select room:
 RoomMenuExitTower=Exit tower
+RoomMenuCurrentPlayer=Currently playing: %s
+RoomMenuPlayerQueue=Enqueued players: %s
+RoomMenuAttemptVotes=Voted to abort: %s (%d votes needed)
+RoomMenuPlayersNone=None
 RoomMenuAbandonAttempt=Abandon attempt
+RoomMenuAbortAttemptVote=Vote to abort attempt
+RoomMenuAbortAttemptUnvote=Take back vote
 
 RoomMenuInfoRoom=<c cc0000>Room:</c> %s
 RoomMenuInfoAuthor=<c cc0000>Author(s):</c> %s

@@ -265,22 +265,49 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 	room_info = Format("%s\n\n$RoomMenuRoomsCompleted$", room_info, completed - used_jokers, nr_rooms);
 	room_info = Format("%s\n$RoomMenuJokersFound$", room_info, found_jokers, total_jokers, found_jokers - used_jokers);
 	// Add the text to the menu.
-	roominfo.text =
+	roominfo.info_text =
 	{
 		Text = room_info,
-		Bottom = "100%-2em"
+		Bottom = "4em"
 	};
-	// Add option to abandon or vote against current attempt.
+	
+	// Do stuff when attempting a room.
 	if (current_room != nil)
 	{
-		roominfo.buttons =
+		// Add information about current attempt.
+		roominfo.current_attempt = 
 		{
-			Top = "100%-2em"
+			Top = "4em",
+			current_player = 
+			{
+				Bottom = "1em",
+				Text = Format("$RoomMenuCurrentPlayer$", GetTaggedPlayerName(GetActivePlayer()))
+			},
+			player_queue =
+			{
+				Top = "1em",
+				Bottom = "2em",
+				Text = Format("$RoomMenuPlayerQueue$", GetPlayerQueueTaggedString() ?? "$RoomMenuPlayersNone$")
+			},
+			attempt_votes = 
+			{
+				Top = "2em",
+				Bottom = "3em",
+				Text = Format("$RoomMenuAttemptVotes$", GetAbortVotesTaggedString() ?? "$RoomMenuPlayersNone$", RequiredAbortAttemptVoteCount())
+			}
+		};
+	
+		// Add option to abandon or vote against current attempt.
+		roominfo.current_attempt.buttons =
+		{
+			Top = "3em",
+			Bottom = "5em"
 		};
 	 	if (IsActivePlayer(plr))
 		{
-			roominfo.buttons.abandon =
+			roominfo.current_attempt.buttons.abandon =
 			{
+				Right = "50%",
 				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
@@ -297,6 +324,33 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 					Style = GUI_TextVCenter
 				}	
 			};
+		}
+		else
+		{
+			roominfo.current_attempt.buttons.abort_attempt = 
+			{
+				Right = "50%",
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				OnMouseIn = GuiAction_SetTag("Hover"),
+				OnMouseOut = GuiAction_SetTag("Std"),
+				OnClick = GuiAction_Call(Global, "RegisterAbortAttemptVote", plr),
+				symbol = 
+				{
+					Right = "2em",
+					Symbol = Icon_Cancel
+				},
+				text =
+				{
+					Left = "2em",	
+					Text = "$RoomMenuAbortAttemptVote$",
+					Style = GUI_TextVCenter
+				}	
+			};
+			if (HasVotedForAttemptAbortion(plr))
+			{
+				roominfo.current_attempt.buttons.abort_attempt.OnClick = GuiAction_Call(Global, "UnregisterAbortAttemptVote", plr);
+				roominfo.current_attempt.buttons.abort_attempt.text.Text = "$RoomMenuAbortAttemptUnvote$";
+			}
 		}
 	}
 	return;

@@ -1,15 +1,22 @@
 /**
 	Room Menu
 	Lets the player select the next room to attempt.
+
+	The different menu parts can be selected by buttons. While 
+	in the different submenus areas are separated by colors.
 	
 	@author Maikel
 */
 
-// Background colors for hovering and bars and description.
-static const ROOMMENU_BackgroundColor = 0x77000000;
-static const ROOMMENU_HoverColor = 0x99888888;
-static const ROOMMENU_BarColor = 0x99888888;
 
+static const ROOMMENU_Color_Bkg = -16777216; // RGB(0, 0, 0)
+static const ROOMMENU_Color_Hover = -2139062144; // RGBa(128, 128, 128, 128)
+static const ROOMMENU_Color_Buttons = -13631488; // RGB(48, 0, 0)
+static const ROOMMENU_Color_Area1 = -16764928; // RGB(0, 48, 0)
+static const ROOMMENU_Color_Area2 = -16777168; // RGB(0, 0, 48)
+static const ROOMMENU_Color_Area3 = -13619200; // RGB(48, 48, 0)
+static const ROOMMENU_Color_Area4 = -13631440; // RGB(48, 0, 48)
+static const ROOMMENU_Color_Area5 = -16764880; // RGB(0, 48, 48)
 
 // Variables to keep track of whom is controlling the menu.
 local menu, menu_id, menu_controller, menu_type;
@@ -38,6 +45,15 @@ public func OpenRoomMenu(int plr, string new_menu_type)
 	// This object functions as menu target and for visibility.
 	this.Visibility = VIS_Owner;
 	menu_controller = clonk;
+
+	// Basic menu proplist.
+	menu =
+	{
+		Target = this,
+		Decoration = GUI_MenuDeco,
+		Margin = ["1em", "2em"],
+		BackgroundColor = ROOMMENU_Color_Bkg,
+	};
 	
 	// Make the room/credits/tablet menu.
 	menu_type = new_menu_type;
@@ -180,22 +196,14 @@ public func ShowRoomMenuRooms(int plr)
 
 public func MakeRoomMenu(int plr)
 {
-	// Room menu proplist.
-	menu =
-	{
-		Target = this,
-		Decoration = GUI_MenuDeco,
-		Margin = ["1em", "2em"],
-		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
-	};
 	// The basic panels for the menu.
 	menu.roominfo = 
 	{
 		Target = this,
 		ID = 1,
-		Right = "70%-0.5em",
-		Bottom = "40%-0.5em",
-		Margin = ["0.1em"]
+		Right = "70%",
+		Bottom = "50%",
+		BackgroundColor = ROOMMENU_Color_Area1
 	};
 	menu.roomsel = 
 	{
@@ -203,20 +211,16 @@ public func MakeRoomMenu(int plr)
 		ID = 3,
 		Left = "70%",
 		Top = "2em",
-		Margin = ["0.1em"]
+		BackgroundColor = ROOMMENU_Color_Area2
 	};
 	menu.selinfo = 
 	{
 		Target = this,
 		ID = 4,
-		Right = "70%-0.5em",
-		Top = "40%",
-		Margin = ["0.1em"]
+		Right = "70%",
+		Top = "50%",
+		BackgroundColor = ROOMMENU_Color_Area3
 	};
-	// Make the borders between the submenus.
-	menu.vert_border = CreateBarMenuEntry("70%-0.5em", "70%", nil, nil);
-	menu.hor_border = CreateBarMenuEntry(nil, "70%-0.5em", "40%-0.5em", "40%");
-	menu.bar_border = CreateBarMenuEntry("70%", nil, "1.5em", "2em");
 	
 	// Display info on current room.
 	GetCurrentRoomInfo(menu.roominfo, plr);
@@ -231,6 +235,7 @@ public func MakeRoomMenu(int plr)
 		{
 			Target = this,
 			ID = 32,
+			Margin = ["0.2em"],
 			Text = "$RoomMenuSelectRoom$",
 			Style = GUI_TextVCenter
 		}
@@ -264,49 +269,72 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 	var used_jokers = GetLength(GetPlayerUsedJokers(plr));
 	room_info = Format("%s\n\n$RoomMenuRoomsCompleted$", room_info, completed - used_jokers, nr_rooms);
 	room_info = Format("%s\n$RoomMenuJokersFound$", room_info, found_jokers, total_jokers, found_jokers - used_jokers);
-	// Add the text to the menu.
-	roominfo.info_text =
-	{
-		Text = room_info,
-		Bottom = "4em"
-	};
+
 	
-	// Do stuff when attempting a room.
-	if (current_room != nil)
+	// Do stuff differently for outside tower or when attempting a room.
+	if (current_room == nil)
 	{
+		// Add the text to the menu.
+		roominfo.info_text =
+		{
+			text = 
+			{
+				Margin = ["0.2em"],
+				Text = room_info
+			}
+		};
+	}
+	else
+	{
+		// Add the text to the menu.
+		roominfo.info_text =
+		{
+			Bottom = "4.4em",
+			text = 
+			{
+				Margin = ["0.2em"],
+				Text = room_info
+			}
+		};
 		// Add information about current attempt.
 		roominfo.current_attempt = 
 		{
-			Top = "4em",
-			current_player = 
+			Top = "4.4em",
+			BackgroundColor = ROOMMENU_Color_Area4,
+			info = 
 			{
-				Bottom = "1em",
-				Text = Format("$RoomMenuCurrentPlayer$", GetTaggedPlayerName(GetActivePlayer()))
-			},
-			player_queue =
-			{
-				Top = "1em",
-				Bottom = "2em",
-				Text = Format("$RoomMenuPlayerQueue$", GetPlayerQueueTaggedString() ?? "$RoomMenuPlayersNone$")
-			},
-			watch_list =
-			{
-				Top = "2em",
-				Bottom = "3em",
-				Text = Format("$RoomMenuPlayerWatchList$", GetPlayerWatchListTaggedString() ?? "$RoomMenuPlayersNone$")
-			},
-			attempt_votes = 
-			{
-				Top = "3em",
-				Bottom = "4em",
-				Text = Format("$RoomMenuAttemptVotes$", GetAbortVotesTaggedString() ?? "$RoomMenuPlayersNone$", RequiredAbortAttemptVoteCount())
+				Bottom = "4.4em",
+				Margin = ["0.2em"],				
+				current_player = 
+				{
+					Bottom = "1em",
+					Text = Format("$RoomMenuCurrentPlayer$", GetTaggedPlayerName(GetActivePlayer()))
+				},
+				player_queue =
+				{
+					Top = "1em",
+					Bottom = "2em",
+					Text = Format("$RoomMenuPlayerQueue$", GetPlayerQueueTaggedString() ?? "$RoomMenuPlayersNone$")
+				},
+				watch_list =
+				{
+					Top = "2em",
+					Bottom = "3em",
+					Text = Format("$RoomMenuPlayerWatchList$", GetPlayerWatchListTaggedString() ?? "$RoomMenuPlayersNone$")
+				},
+				attempt_votes = 
+				{
+					Top = "3em",
+					Bottom = "4em",
+					Text = Format("$RoomMenuAttemptVotes$", GetAbortVotesTaggedString() ?? "$RoomMenuPlayersNone$", RequiredAbortAttemptVoteCount())
+				}
 			}
 		};
 	
 		// Add option to abandon or vote against current attempt.
 		roominfo.current_attempt.buttons =
 		{
-			Top = "4em",
+			Top = "4.4em",
 			Bottom = "6em"
 		};
 	 	if (IsActivePlayer(plr))
@@ -314,7 +342,7 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 			roominfo.current_attempt.buttons.abandon =
 			{
 				Right = "50%",
-				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
 				OnClick = GuiAction_Call(Rule_Relaunch, "Activate", plr),
@@ -336,7 +364,7 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 			roominfo.current_attempt.buttons.abort_attempt = 
 			{
 				Right = "50%",
-				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
 				OnClick = GuiAction_Call(Global, "RegisterAbortAttemptVote", plr),
@@ -360,7 +388,7 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 			roominfo.current_attempt.buttons.watchlist = 
 			{
 				Left = "50%",
-				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
 				OnClick = [GuiAction_Call(Global, "RemovePlayerFromQueue", plr), GuiAction_Call(Global, "AddPlayerToWatchList", plr)],
@@ -397,7 +425,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 			ID = 1000,
 			Priority = 0,
 			Bottom = "1.5em",
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 			OnMouseIn = GuiAction_SetTag("Hover"),
 			OnMouseOut = GuiAction_SetTag("Std"),
 			OnClick = GuiAction_Call(Global, "LoadMain"),
@@ -441,7 +469,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 			ID = cnt + 1000,
 			Priority = cnt,
 			Bottom = "1.5em",
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 			OnMouseIn = GuiAction_SetTag("Hover"),
 			OnMouseOut = GuiAction_SetTag("Std"),
 			OnClick = GuiAction_Call(this, "UpdateRoomSelectionInformation", {plr = plr, room_id = room_id}),
@@ -569,7 +597,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 			{
 				Right = "2em",
 				Symbol = Icon_Play,
-				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
 				OnClick = GuiAction_Call(this, "OnRoomClickPlay", room_id),
@@ -668,7 +696,7 @@ public func UpdateRoomSelectionInformation(proplist pars)
 			{
 				Right = "2em",
 				Symbol = Joker,
-				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 				OnMouseIn = GuiAction_SetTag("Hover"),
 				OnMouseOut = GuiAction_SetTag("Std"),
 				OnClick = GuiAction_Call(this, "OnRoomClickSkip", {plr = plr, room_id = room_id}),
@@ -728,33 +756,29 @@ public func ShowRoomMenuCredits(int plr)
 
 public func MakeCreditsMenu(int plr)
 {
-	// Room menu proplist.
-	menu =
-	{
-		Target = this,
-		Decoration = GUI_MenuDeco,
-		Margin = ["1em", "2em"],
-		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
-	};
-	
 	// The basic panels for the menu.
 	menu.authordesc = 
 	{
 		Target = this,
 		ID = 1,
-		Right = "70%-0.5em",
-		Bottom = "1.5em",
-		Margin = ["0.1em"],
-		Text = "$RoomMenuCreditsText$",
-		Style = GUI_TextVCenter
+		Right = "70%",
+		Bottom = "2em",		
+		BackgroundColor = ROOMMENU_Color_Area1,
+		text = 
+		{
+			Margin = ["0.2em"],
+			Text = "$RoomMenuCreditsText$",
+			Style = GUI_TextVCenter
+		}
 	};
 	menu.authorlist = 
 	{
 		Target = this,
 		ID = 2,
 		Top = "2em",
-		Right = "70%-0.5em",
-		Style = GUI_VerticalLayout
+		Right = "70%",
+		Style = GUI_VerticalLayout,
+		BackgroundColor = ROOMMENU_Color_Area2
 	};
 	menu.authorinfo = 
 	{
@@ -762,16 +786,11 @@ public func MakeCreditsMenu(int plr)
 		ID = 4,
 		Left = "70%",
 		Top = "2em",
-		Margin = ["0.1em"]
+		BackgroundColor = ROOMMENU_Color_Area3
 	};
 	
 	// Create the list of authors.
 	menu.authorlist = MenuShowRoomAuthors(menu.authorlist);
-	
-	// Make the borders between the submenus.
-	menu.vert_border = CreateBarMenuEntry("70%-0.5em", "70%", nil, nil);
-	menu.hor_border = CreateBarMenuEntry(nil, "70%-0.5em", "1.5em", "2em");
-	menu.bar_border = CreateBarMenuEntry("70%", nil, "1.5em", "2em");
 		
 	// Room selection: header with close button.
 	menu.buttons = CreateMenuButtons(plr, "credits");
@@ -790,7 +809,7 @@ public func MenuShowRoomAuthors(proplist authors)
 			ID = cnt + 1000,
 			Priority = cnt,
 			Bottom = "1.5em",
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 			OnMouseIn = [GuiAction_SetTag("Hover"), GuiAction_Call(this, "ShowAuthorSelectionInformation", {author = author[0], rooms = author[2]})],
 			OnMouseOut = [GuiAction_SetTag("Std"), GuiAction_Call(this, "CloseAuthorSelectionInformation", {author = author[0], rooms = author[2]})],
 			symbol = 
@@ -832,6 +851,7 @@ public func ShowAuthorSelectionInformation(proplist pars)
 	{
 		Target = this,
 		ID = 41,
+		Margin = ["0.2em"],
 		Text = author_rooms
 	};	
 	GuiUpdate(menu.authorinfo, menu_id, menu.authorinfo.ID, this);
@@ -861,45 +881,37 @@ public func ShowRoomMenuTablets(int plr)
 
 public func MakeTabletsMenu(int plr)
 {
-	// Room menu proplist.
-	menu =
-	{
-		Target = this,
-		Decoration = GUI_MenuDeco,
-		Margin = ["1em", "2em"],
-		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
-	};
-	
 	// The basic panels for the menu.
 	menu.tabletdesc = 
 	{
 		Target = this,
 		ID = 1,
-		Right = "70%-0.5em",
-		Bottom = "1.5em",
-		Margin = ["0.1em"],
-		Text = "$RoomMenuTabletsText$",
-		Style = GUI_TextVCenter
+		Right = "70%",
+		Bottom = "2em",
+		BackgroundColor = ROOMMENU_Color_Area1,
+		text = 
+		{
+			Margin = ["0.2em"],	
+			Text = "$RoomMenuTabletsText$",
+			Style = GUI_TextVCenter,
+		}
 	};
 	menu.tabletlist = 
 	{
 		Target = this,
 		ID = 2,
 		Top = "2em",
-		Bottom = "80%+0.5em",
-		Style = GUI_GridLayout
+		Bottom = "80%",
+		Style = GUI_GridLayout,
+		BackgroundColor = ROOMMENU_Color_Area2
 	};
 	menu.tabletinfo = 
 	{
 		Target = this,
 		ID = 4,
-		Top = "80%+0.5em",
-		Margin = ["0.1em"]
+		Top = "80%",
+		BackgroundColor = ROOMMENU_Color_Area3
 	};
-	
-	menu.border1 = CreateBarMenuEntry(nil, nil, "1.5em", "2em");
-	menu.border2 = CreateBarMenuEntry(nil, nil, "80%", "80%+0.5em");
-	menu.border3 = CreateBarMenuEntry("70%-0.5em", "70%", nil, "1.5em");
 	
 	menu.tabletlist = MenuShowRoomTablets(menu.tabletlist, plr);
 	
@@ -935,7 +947,7 @@ public func MenuShowRoomTablets(proplist tablets, int plr)
 			Right = "3em",
 			Bottom = "3em",
 			Symbol = tablet_symbol,
-			BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+			BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 			OnMouseIn = GuiAction_SetTag("Hover"),
 			OnMouseOut = GuiAction_SetTag("Std"),
 			OnClick = GuiAction_Call(this, "UpdateTabletSelectionInformation", [room, tablet_found]),
@@ -960,6 +972,7 @@ public func UpdateTabletSelectionInformation(array pars)
 	{
 		Target = this,
 		ID = 41,
+		Margin = ["0.2em"],
 		Text = text
 	};	
 	GuiUpdate(menu.tabletinfo, menu_id, menu.tabletinfo.ID, this);
@@ -979,40 +992,30 @@ public func ShowRoomMenuInformation(int plr)
 
 public func MakeInformationMenu(int plr)
 {
-	// Room menu proplist.
-	menu =
-	{
-		Target = this,
-		Decoration = GUI_MenuDeco,
-		Margin = ["1em", "2em"],
-		BackgroundColor = {Std = ROOMMENU_BackgroundColor},
-	};
-	
 	// The basic panels for the menu.
 	menu.informationdesc = 
 	{
 		Target = this,
 		ID = 1,
-		Right = "70%-0.5em",
-		Bottom = "1.5em",
-		Margin = ["0.1em"],
+		Right = "70%",
+		Bottom = "2em",
+		BackgroundColor = ROOMMENU_Color_Area1,
 		text = 
 		{
 			Text = "$RoomMenuInformationText$",
-			Style = GUI_TextVCenter
+			Style = GUI_TextVCenter,
+			Margin = ["0.2em"]
 		}
 	};
 	menu.information = 
 	{
 		Target = this,
 		ID = 2,
-		Top = "2.0em",		
-		Style = GUI_VerticalLayout
+		Top = "2em",		
+		Style = GUI_VerticalLayout,
+		BackgroundColor = ROOMMENU_Color_Area2
 	};
 	AddInformationMenuEntries(menu.information);
-	
-	menu.border1 = CreateBarMenuEntry(nil, nil, "1.5em", "2em");
-	menu.border2 = CreateBarMenuEntry("70%-0.5em", "70%", nil, "1.5em");	
 	
 	// Room selection: header with close button.
 	menu.buttons = CreateMenuButtons(plr, "information"); 
@@ -1089,18 +1092,19 @@ private func CreateMenuButtons(int plr, string current_menu)
 	var buttons =
 	{
 		Target = this,
+		BackgroundColor = ROOMMENU_Color_Buttons,
 		ID = 9,
 		Left = "70%",
-		Bottom = "1.5em"
+		Bottom = "2em"
 	};
 	buttons.close = 
 	{
 		Target = this,
 		ID = 91,
-		Left = "100%-1.5em",
+		Left = "100%-2em",
 		Symbol = Icon_Cancel,
 		Tooltip = "$RoomMenuClose$",
-		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "CloseRoomMenu")
@@ -1119,11 +1123,11 @@ private func CreateMenuButtons(int plr, string current_menu)
 	{
 		Target = this,
 		ID = 92,
-		Left = "100%-3em",
-		Right = "100%-1.5em",
+		Left = "100%-4em",
+		Right = "100%-2em",
 		Symbol = room_def,
 		Tooltip = "$RoomMenuBackToRooms$",
-		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "ShowRoomMenuRooms", plr)
@@ -1132,11 +1136,11 @@ private func CreateMenuButtons(int plr, string current_menu)
 	{
 		Target = this,
 		ID = 93,
-		Left = "100%-4.5em",
-		Right = "100%-3em",
+		Left = "100%-6em",
+		Right = "100%-4em",
 		Symbol = Icon_Wealth,
 		Tooltip = "$RoomMenuCredits$",
-		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "ShowRoomMenuCredits", plr)
@@ -1145,11 +1149,11 @@ private func CreateMenuButtons(int plr, string current_menu)
 	{
 		Target = this,
 		ID = 94,
-		Left = "100%-6em",
-		Right = "100%-4.5em",
+		Left = "100%-8em",
+		Right = "100%-6em",
 		Symbol = AncientTablet,
 		Tooltip = "$RoomMenuTablets$",
-		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "ShowRoomMenuTablets", plr)
@@ -1158,11 +1162,11 @@ private func CreateMenuButtons(int plr, string current_menu)
 	{
 		Target = this,
 		ID = 95,
-		Left = "100%-7.5em",
-		Right = "100%-6em",
+		Left = "100%-10em",
+		Right = "100%-8em",
 		Symbol = Icon_QuestionMark,
 		Tooltip = "$RoomMenuInformation$",
-		BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+		BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 		OnMouseIn = GuiAction_SetTag("Hover"),
 		OnMouseOut = GuiAction_SetTag("Std"),
 		OnClick = GuiAction_Call(this, "ShowRoomMenuInformation", plr)
@@ -1177,8 +1181,7 @@ private func CreateBarMenuEntry(string left, string right, string top, string bo
 		Left = left,
 		Right = right,
 		Top = top,
-		Bottom = bottom,
-		BackgroundColor = {Std = ROOMMENU_BarColor}
+		Bottom = bottom
 	};
 }
 

@@ -289,10 +289,16 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 				Bottom = "2em",
 				Text = Format("$RoomMenuPlayerQueue$", GetPlayerQueueTaggedString() ?? "$RoomMenuPlayersNone$")
 			},
-			attempt_votes = 
+			watch_list =
 			{
 				Top = "2em",
 				Bottom = "3em",
+				Text = Format("$RoomMenuPlayerWatchList$", GetPlayerWatchListTaggedString() ?? "$RoomMenuPlayersNone$")
+			},
+			attempt_votes = 
+			{
+				Top = "3em",
+				Bottom = "4em",
 				Text = Format("$RoomMenuAttemptVotes$", GetAbortVotesTaggedString() ?? "$RoomMenuPlayersNone$", RequiredAbortAttemptVoteCount())
 			}
 		};
@@ -300,8 +306,8 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 		// Add option to abandon or vote against current attempt.
 		roominfo.current_attempt.buttons =
 		{
-			Top = "3em",
-			Bottom = "5em"
+			Top = "4em",
+			Bottom = "6em"
 		};
 	 	if (IsActivePlayer(plr))
 		{
@@ -350,6 +356,30 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 			{
 				roominfo.current_attempt.buttons.abort_attempt.OnClick = GuiAction_Call(Global, "UnregisterAbortAttemptVote", plr);
 				roominfo.current_attempt.buttons.abort_attempt.text.Text = "$RoomMenuAbortAttemptUnvote$";
+			}
+			roominfo.current_attempt.buttons.watchlist = 
+			{
+				Left = "50%",
+				BackgroundColor = {Std = 0, Hover = ROOMMENU_HoverColor},
+				OnMouseIn = GuiAction_SetTag("Hover"),
+				OnMouseOut = GuiAction_SetTag("Std"),
+				OnClick = [GuiAction_Call(Global, "RemovePlayerFromQueue", plr), GuiAction_Call(Global, "AddPlayerToWatchList", plr)],
+				symbol = 
+				{
+					Right = "2em",
+					Symbol = Icon_Lightbulb
+				},
+				text =
+				{
+					Left = "2em",	
+					Text = "$RoomMenuJoinWatchList$",
+					Style = GUI_TextVCenter
+				}	
+			};
+			if (IsPlayerOnWatchList(plr))
+			{
+				roominfo.current_attempt.buttons.watchlist.OnClick = [GuiAction_Call(Global, "AppendPlayerToQueue", plr), GuiAction_Call(Global, "RemovePlayerFromWatchList", plr)];
+				roominfo.current_attempt.buttons.watchlist.text.Text = "$RoomMenuLeaveWatchList$";
 			}
 		}
 	}

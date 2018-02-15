@@ -497,7 +497,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 				Style = GUI_TextVCenter
 			}
 		};
-		MakeNumberMenuEntry(room.symbol, GetRoomNumber(room_id));
+		MakeNumberMenuEntry(room.symbol, GetRoomNumber(room_id), 40);
 		rooms[Format("room%d", cnt)] = room;		
 		cnt++;
 	}
@@ -801,7 +801,9 @@ public func MenuShowRoomAuthors(proplist authors)
 {
 	// Put all authors into the selection menu.
 	var cnt = 0;
-	for (var author in GetAuthorList())
+	var room_authors = GetAuthorList();
+	SortArrayByArrayElement(room_authors, 1, true);
+	for (var author in room_authors)
 	{
 		var author =
 		{
@@ -827,7 +829,7 @@ public func MenuShowRoomAuthors(proplist authors)
 				Style = GUI_TextVCenter
 			}
 		};
-		MakeNumberMenuEntry(author.symbol, cnt + 1, 100);
+		MakeNumberMenuEntry(author.symbol, cnt + 1, 60, [0, 20]);
 		authors[Format("room%d", cnt)] = author;		
 		cnt++;
 	}
@@ -1055,7 +1057,7 @@ public func AddInformationMenuEntries(proplist info)
 				Text = entry
 			}
 		};
-		MakeNumberMenuEntry(prop_entry.symbol, cnt);
+		MakeNumberMenuEntry(prop_entry.symbol, cnt, 40);
 		info[Format("entry%d", cnt)] = prop_entry;		
 		cnt++;
 	}
@@ -1185,43 +1187,59 @@ private func CreateBarMenuEntry(string left, string right, string top, string bo
 	};
 }
 
-private func MakeNumberMenuEntry(proplist parent, int number, int height)
+// Adds a number to an existing menu entry, the size is specified in percent of the parent.
+// This means that the height of a number will be adjusted to the total size of the parent.
+// The position is also in percentage relative to the top-left corner of the parent.
+private func MakeNumberMenuEntry(proplist parent, int number, int size, array position)
 {
+	// Default settings.
+	if (size == nil)
+		size = 33;
+	if (position == nil)
+		position = [0, 0];
+	var pos_x = position[0];
+	var pos_y = position[1];
+	// Get the digits.
 	var hundreds = (number % 1000) / 100;
 	var tens = (number % 100) / 10;
 	var ones = number % 10;
-	if (height == nil)
-		height = 33;
-	
+	// Positioning variables.	
+	var off_edge = 6;
+	var overlap = 16;
 	var separator = 0;
+	
 	if (hundreds)
 	{
 		parent.hundreds = 
 		{
-			Right = Format("%d%%", separator + 33),
-			Bottom = Format("%d%%", height),
+			Left = Format("%d%%", pos_x - off_edge),
+			Right = Format("%d%%", pos_x + separator - off_edge + size),
+			Top = Format("%d%%", pos_y),
+			Bottom = Format("%d%%", pos_y + size),
 			Symbol = Icon_Number,
 			GraphicsName = Format("%d", hundreds)
 		};
-		separator += 33;
+		separator += size - overlap;
 	}
 	if (tens)
 	{
 		parent.tens = 
 		{
-			Left = Format("%d%%", separator),
-			Right = Format("%d%%", separator + 33),
-			Bottom = Format("%d%%", height),
+			Left = Format("%d%%", pos_x + separator - off_edge),
+			Right = Format("%d%%", pos_x + separator - off_edge + size),	
+			Top = Format("%d%%", pos_y),
+			Bottom = Format("%d%%", pos_y + size),
 			Symbol = Icon_Number,
 			GraphicsName = Format("%d", tens)
 		};
-		separator += 33;
+		separator += size - overlap;
 	}
 	parent.ones = 
 	{
-		Left = Format("%d%%", separator),
-		Right = Format("%d%%", separator + 33),
-		Bottom = Format("%d%%", height),
+		Left = Format("%d%%", pos_x + separator - off_edge),
+		Right = Format("%d%%", pos_x + separator  - off_edge + size),
+		Top = Format("%d%%", pos_y),
+		Bottom = Format("%d%%", pos_y + size),
 		Symbol = Icon_Number,
 		GraphicsName = Format("%d", ones)
 	};

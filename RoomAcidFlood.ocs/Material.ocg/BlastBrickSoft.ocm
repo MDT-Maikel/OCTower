@@ -1,0 +1,8 @@
+[Material]
+Name=BlastBrickSoft
+Shape=Smoother
+Density=90
+Friction=15
+Placement=60
+TextureOverlay=brick
+BlastFree=1

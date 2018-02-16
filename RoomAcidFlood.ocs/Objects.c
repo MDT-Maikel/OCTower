@@ -45,20 +45,21 @@ func InitializeObjects()
 	Switch001->SetActions({Actions=[{Door={Function="object_constant",Value=StoneDoor001},Function="open_door"},{Door={Function="object_constant",Value=StoneDoor002},Function="open_door"},{Function="Action_script",Script={Function="string_constant",Value={Function="Translate",US="\"ShakeFree(84, 440 - 64, 20)\""}}}],Function="sequence"}, {Actions=[{Door={Function="object_constant",Value=StoneDoor002},Function="close_door"},{Door={Function="object_constant",Value=StoneDoor001},Function="close_door"}],Function="sequence"});
 
 	CreateObjectAbove(Clonk_Grave, 335, 423);
-	CreateObjectAbove(Clonk_Grave, 349, 422);
-	CreateObjectAbove(Clonk_Grave, 325, 422);
+	CreateObjectAbove(Clonk_Grave, 347, 423);
+	CreateObjectAbove(Clonk_Grave, 325, 423);
 
 	var PlayerStart001 = CreateObject(PlayerStart, 144, 381);
 	PlayerStart001->SetPosition(144, 381);
 	PlayerStart001->SetStartingMaterial([]);
 	PlayerStart001->SetClonkMaxEnergy(10);
 	PlayerStart001->SetViewLock(false);
-	var Boompack001 = CreateObjectAbove(Boompack, 463, 422);
+	PlayerStart001->SetZoomSet(500);
+	var Boompack001 = CreateObjectAbove(Boompack, 460, 421);
 	Boompack001->Unstick(7);
 
-	var AncientTablet001 = CreateObject(AncientTablet, 76, 77);
-	AncientTablet001->SetR(171);
-	AncientTablet001->SetPosition(76, 77);
+	var AncientTablet001 = CreateObject(AncientTablet, 74, 78);
+	AncientTablet001->SetR(157);
+	AncientTablet001->SetPosition(74, 78);
 	AncientTablet001->Unstick(7);
 
 	var TeleGlove001 = CreateObject(TeleGlove, 604, 418);
@@ -72,5 +73,25 @@ func InitializeObjects()
 	var Firestone001 = CreateObject(Firestone, 75, 81);
 	Firestone001->SetPosition(75, 81);
 	Firestone001->Unstick(7);
+	var Firestone002 = CreateObjectAbove(Firestone, 189, 223);
+	Firestone002->Unstick(7);
+	var Firestone003 = CreateObjectAbove(Firestone, 206, 222);
+	Firestone003->Unstick(7);
+	var Firestone004 = CreateObjectAbove(Firestone, 211, 223);
+	Firestone004->Unstick(7);
+	var Firestone005 = CreateObjectAbove(Firestone, 123, 263);
+	Firestone005->Unstick(7);
+	var Firestone006 = CreateObjectAbove(Firestone, 135, 262);
+	Firestone006->Unstick(7);
+	var Firestone007 = CreateObjectAbove(Firestone, 193, 223);
+	Firestone007->Unstick(7);
+	var Firestone008 = CreateObjectAbove(Firestone, 211, 223);
+	Firestone008->Unstick(7);
+	var Firestone009 = CreateObjectAbove(Firestone, 199, 222);
+	Firestone009->Unstick(7);
+	var Firestone010 = CreateObjectAbove(Firestone, 210, 303);
+	Firestone010->Unstick(7);
+	var Firestone011 = CreateObjectAbove(Firestone, 193, 303);
+	Firestone011->Unstick(7);
 	return true;
 }

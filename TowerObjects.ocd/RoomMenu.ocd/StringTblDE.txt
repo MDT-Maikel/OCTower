@@ -16,6 +16,8 @@ RoomMenuBackToRooms=Back to room selection.
 
 RoomMenuSelectRoom=Wähle Raum:
 RoomMenuExitTower=Verlasse Turm
+RoomMenuSelectPanel=No room selected, select one in the right panel.
+
 RoomMenuCurrentPlayer=Momentan spielt: %s
 RoomMenuPlayerQueue=Spielerschlange: %s
 RoomMenuPlayerWatchList=Zuschauende Spieler: %s

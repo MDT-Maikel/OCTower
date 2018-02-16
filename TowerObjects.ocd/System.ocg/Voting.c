@@ -18,7 +18,7 @@ global func RegisterAbortAttemptVote(int from_plr)
 	// Add player ID from the new vote to the list.
 	PushBack(g_abort_attempt_votes, from_plr_id);
 	// Update room menus.
-	UpdateRoomMenus();
+	UpdateRoomMenus("rooms");
 	// Log vote.
 	Log("$MsgVoteAbortAttempt$", GetTaggedPlayerName(from_plr));
 	// Check if the vote count to abort the attempt has been reached.
@@ -41,7 +41,7 @@ global func UnregisterAbortAttemptVote(int from_plr)
 	// Remove player ID from the new vote to the list.
 	RemoveArrayValue(g_abort_attempt_votes, from_plr_id);
 	// Update room menus.
-	UpdateRoomMenus();
+	UpdateRoomMenus("rooms");
 	return;
 }
 

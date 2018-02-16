@@ -33,7 +33,7 @@ public func Create(int plr)
 	return menu_obj;
 }
 
-public func OpenRoomMenu(int plr, string new_menu_type)
+public func OpenRoomMenu(int plr, string new_menu_type, proplist selection)
 {
 	// Needs the cursor as command object.
 	var clonk = GetCursor(plr);
@@ -58,7 +58,7 @@ public func OpenRoomMenu(int plr, string new_menu_type)
 	// Make the room/credits/tablet menu.
 	menu_type = new_menu_type;
 	if (menu_type == "rooms")
-		MakeRoomMenu(plr);
+		MakeRoomMenu(plr, selection);
 	else if (menu_type == "credits")
 		MakeCreditsMenu(plr);
 	else if	(menu_type == "tablets")
@@ -72,6 +72,9 @@ public func OpenRoomMenu(int plr, string new_menu_type)
 	clonk->SetMenu(this);
 	return;
 }
+
+// Returns the menu type currently opened for this menu.
+public func GetMenuType() { return menu_type; }
 
 
 /*-- Player Control --*/
@@ -104,7 +107,7 @@ public func ForwardedPlayerControl(int plr, int ctrl, int x, int y, int strength
 	return;
 }
 
-// Definition call: opens scoreboard for the player.
+// Definition call: opens the room menu for the player.
 public func OpenPlrRoomMenu(int plr)
 {
 	var cursor = GetCursor(plr);
@@ -114,7 +117,7 @@ public func OpenPlrRoomMenu(int plr)
 	return;
 }
 
-// Definition call: closes scoreboard for the player.
+// Definition call: closes the room menu for the player.
 public func ClosePlrRoomMenu(int plr)
 {
 	var cursor = GetCursor(plr);
@@ -155,7 +158,7 @@ public func CanPlrRoomMenuOpen(int plr)
 
 /*-- Updating --*/
 
-global func UpdateRoomMenus()
+global func UpdateRoomMenus(string to_update)
 {
 	for (var plr in GetPlayers(C4PT_User))
 	{
@@ -166,6 +169,9 @@ global func UpdateRoomMenus()
 		var plr_menu = cursor->GetMenu();
 		if (!plr_menu || !plr_menu->~IsRoomMenu())
 			return;
+		// Check if updating is needed for this menu type.
+		if (to_update != nil && to_update != plr_menu->GetMenuType())
+			return;
 		plr_menu->UpdateMenu();
 	}
 	return;
@@ -175,11 +181,15 @@ public func IsRoomMenu() { return true; }
 
 public func UpdateMenu()
 {
+	// Get information about currently open menu.
 	var plr = menu_controller->GetOwner();
-	var type = menu_type;
+	var type = GetMenuType();
+	var selection = { pre_select_room = menu.selinfo.currently_selected_room };
+	// Close current menu.
 	CloseRoomMenu();
+	// Open new menu with old information.
 	var menu_obj = CreateObject(RoomMenu, 0, 0, plr);
-	menu_obj->OpenRoomMenu(plr, type);
+	menu_obj->OpenRoomMenu(plr, type, selection);
 	return;
 }
 
@@ -194,7 +204,7 @@ public func ShowRoomMenuRooms(int plr)
 	return;
 }
 
-public func MakeRoomMenu(int plr)
+public func MakeRoomMenu(int plr, proplist selection)
 {
 	// The basic panels for the menu.
 	menu.roominfo = 
@@ -250,6 +260,12 @@ public func MakeRoomMenu(int plr)
 		Style = GUI_VerticalLayout
 	};
 	menu.roomsel.rooms = MenuShowRooms(rooms, plr);
+
+	// Pre-select a room if given.
+	var for_room = nil;
+	if (selection && selection.pre_select_room)
+		for_room = selection.pre_select_room;
+	UpdateRoomSelectionInformation({plr = plr, room_id = for_room});
 	return;
 }
 
@@ -269,7 +285,6 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 	var used_jokers = GetLength(GetPlayerUsedJokers(plr));
 	room_info = Format("%s\n\n$RoomMenuRoomsCompleted$", room_info, completed - used_jokers, nr_rooms);
 	room_info = Format("%s\n$RoomMenuJokersFound$", room_info, found_jokers, total_jokers, found_jokers - used_jokers);
-
 	
 	// Do stuff differently for outside tower or when attempting a room.
 	if (current_room == nil)
@@ -508,16 +523,31 @@ public func UpdateRoomSelectionInformation(proplist pars)
 {
 	var plr = pars.plr;
 	var room_id = pars.room_id;
+	// Set the selection info.
+	menu.selinfo.currently_selected_room = room_id;
 	// Reset the menu selection info.
 	if (menu.selinfo.room != nil)
 	{
 		GuiClose(menu_id, menu.selinfo.room.ID, menu.selinfo.room.Target);
 		menu.selinfo.room = nil;
 	}
-	// If no room is specified stop here.
+	// If no room is specified display a message where to select a room.
 	if (room_id == nil)
+	{
+		menu.selinfo.room = 
+		{
+			Target = this,
+			ID = 41,
+			Margin = ["0.2em"],
+			text = 
+			{
+				Text = "$RoomMenuSelectPanel$"
+			}
+		};
+		GuiUpdate(menu.selinfo, menu_id, menu.selinfo.ID, this);
 		return;
-
+	}
+	
 	menu.selinfo.room_id = room_id;	
 	var room_completed = nil;
 	if (HasPlayerCompletedRoom(plr, room_id))
@@ -739,7 +769,7 @@ public func OnRoomClickSkip(proplist pars)
 	// Update selection.
 	UpdateRoomSelectionInformation(pars);
 	// Update open room menus.
-	UpdateRoomMenus();
+	UpdateRoomMenus("rooms");
 	return;
 }
 

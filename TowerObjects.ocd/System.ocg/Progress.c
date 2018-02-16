@@ -262,7 +262,7 @@ global func ResetPlayerRoomProgress(int plr, bool remove_save)
 	if (remove_save)
 		ResetPlayerRoomData(plr);
 	// Update open room menus.
-	UpdateRoomMenus();
+	UpdateRoomMenus("rooms");
 	return;
 }
 
@@ -287,6 +287,6 @@ global func GivePlayerFullProgress(int plr)
 			room->AddPlayerFoundJoker(plr, room);
 	}
 	// Update open room menus.
-	UpdateRoomMenus();
+	UpdateRoomMenus("rooms");
 	return;
 }

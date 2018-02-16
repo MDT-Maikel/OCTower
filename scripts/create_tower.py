@@ -175,6 +175,10 @@ shutil.copy("Loader1.png", tower_dir)
 print "copying sound files ..."
 shutil.copytree("Sound.ocg", tower_dir + "/Sound.ocg")
 
+# copy material files into the new directory
+print "copying material files ..."
+shutil.copytree("Material.ocg", tower_dir + "/Material.ocg")
+
 # copy tower objects into the new directory
 print "copying tower objects ..."
 shutil.copytree("TowerObjects.ocd", tower_dir + "/TowerObjects.ocd")

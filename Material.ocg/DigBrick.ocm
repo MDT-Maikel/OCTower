@@ -1,0 +1,9 @@
+[Material]
+Name=DigBrick
+Shape=Smoother
+Density=90
+Friction=15
+Placement=80
+TextureOverlay=brick
+DigFree=1
+BlastFree=1

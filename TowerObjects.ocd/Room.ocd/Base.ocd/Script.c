@@ -266,7 +266,8 @@ public func JoinPlayer(int plr)
 		}
 		
 		// Do player join effects.
-		DoPlayerEffects(crew, room_entrance->GetX(), room_entrance->GetY());
+		if (!GameCall("IsTemplateRoom"))
+			DoPlayerEffects(crew, room_entrance->GetX(), room_entrance->GetY());
 		
 		// Call to the specific room object to init the players.
 		OnPlayerInit(plr);

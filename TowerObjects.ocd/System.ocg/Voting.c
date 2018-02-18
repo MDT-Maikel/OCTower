@@ -19,8 +19,9 @@ global func RegisterAbortAttemptVote(int from_plr)
 	PushBack(g_abort_attempt_votes, from_plr_id);
 	// Update room menus.
 	UpdateRoomMenus("rooms");
-	// Log vote.
+	// Log vote and play a sound to warn the player.
 	Log("$MsgVoteAbortAttempt$", GetTaggedPlayerName(from_plr));
+	Sound("Animals::Monster::Growl*", {global = true, volume = 80});
 	// Check if the vote count to abort the attempt has been reached.
 	if (ReachedAbortAttemptVoteCount())
 	{
@@ -42,6 +43,8 @@ global func UnregisterAbortAttemptVote(int from_plr)
 	RemoveArrayValue(g_abort_attempt_votes, from_plr_id);
 	// Update room menus.
 	UpdateRoomMenus("rooms");
+	// Log vote take back.
+	Log("$MsgVoteNotAbortAttempt$", GetTaggedPlayerName(from_plr));
 	return;
 }
 

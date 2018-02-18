@@ -30,4 +30,5 @@ MsgWarningNoGameSpeed=WARNING: You are not allowed to change the game speed.
 
 # Voting.c
 MsgVoteAbortAttempt=%s votes for a new attempt.
+MsgVoteNotAbortAttempt=%s takes back his vote to abort the attempt.
 MsgVotingCompleted=%s won't be allowed to continue by majority vote!

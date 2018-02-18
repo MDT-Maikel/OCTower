@@ -26,6 +26,7 @@ public func OnRoomAttemptFailed(id room, int by_plr)
 
 public func OnRoomAttemptSucceeded(id room, int by_plr)
 {
+	// Update ranking data for all players.
 	for (var plr in GetPlayers(C4PT_User))
 	{
 		var plr_str = GetPlayerName(plr);
@@ -44,6 +45,14 @@ public func OnRoomAttemptTabletCollected(id room, int by_plr)
 	return;
 }
 
+public func InitializePlayer(int plr)
+{
+	// Update ranking data to current progress, could have been made offline and this would be just an upload.
+	var plr_str = GetPlayerName(plr);
+	stats[plr_str] = GetPlayerRankingInfo(plr);
+	return;
+}
+
 private func GetPlayerRankingInfo(int plr)
 {
 	var completed_rooms = GetPlayerCompletedRooms(plr);
@@ -55,7 +64,7 @@ private func GetPlayerRankingInfo(int plr)
 			Difficulty = room->GetRoomDifficulty(),
 			Completed = true,
 			FoundTablet = HasPlayerFoundTablet(plr, room),
-			FoundJoket = HasPlayerFoundJoker(plr, room)
+			FoundJoker = HasPlayerFoundJoker(plr, room)
 		};
 	}
 	return ranking_info;

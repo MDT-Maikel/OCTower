@@ -72,10 +72,11 @@ for stat in stats:
 					room_player_ranking[player] = []
 				rooms = re.findall("\"Room[a-zA-Z0-9]+\":\{[a-zA-Z0-9:,\"]+\}", data)
 				for room in rooms:
-					room_name = re.search("Room[a-zA-Z]+", data).group(0)
-					room_data = re.search("\{[a-zA-Z0-9:,\"]+\}", room).group(0)
-					room_data = room_data.replace("true", "True").replace("false", "False")
-					room_data = ast.literal_eval(room_data)
+					room_name = re.search("Room[a-zA-Z]+", room).group(0)
+					#room_data = re.search("\{[a-zA-Z0-9:,\"]+\}", room).group(0)
+					#room_data = room_data.replace("true", "True").replace("false", "False")
+					#room_data = ast.literal_eval(room_data)
+					#print room_data
 					room_player_ranking[player].append(room_name)
 				
 # process data
@@ -92,8 +93,8 @@ print "-----------------------------------------------------"
 print "| Room name                | Time (s) | Succes rate |"
 print "-----------------------------------------------------"
 for room in room_attempt_duration:
-	time = str(room_attempt_duration[room])
-	rate = str(room_success_rate[room])
+	time = "%.2f" % room_attempt_duration[room]
+	rate = "%.2f" % room_success_rate[room]
 	print "| " + room + " " * (25 - len(room)) + "|" + " " * (9 - len(time)) + time + " |" + " " * (11 - len(rate)) + rate + "% |"
 print "-----------------------------------------------------"
 

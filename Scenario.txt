@@ -3,6 +3,9 @@ Icon=37
 Version=8
 NoInitialize=true
 
+[Game]
+EvaluateOnAbort=true
+
 [Definitions]
 Definition2=Decoration.ocd
 

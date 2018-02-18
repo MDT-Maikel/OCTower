@@ -7,47 +7,48 @@ func InitializeObjects()
 	var Grass003 = CreateObjectAbove(Grass, 334, 182);
 	var Grass004 = CreateObjectAbove(Grass, 344, 182);
 	var Grass005 = CreateObjectAbove(Grass, 349, 180);
-	var Grass006 = CreateObject(Grass, 356, 181);
-	Grass006->SetPosition(356, 181);
-	var Grass007 = CreateObjectAbove(Grass, 340, 181);
-	var Grass008 = CreateObjectAbove(Grass, 303, 182);
-	var Grass009 = CreateObjectAbove(Grass, 296, 181);
-	var Grass010 = CreateObjectAbove(Grass, 288, 181);
-	var Grass011 = CreateObjectAbove(Grass, 114, 262);
-	var Grass012 = CreateObjectAbove(Grass, 120, 262);
-	var Grass013 = CreateObjectAbove(Grass, 127, 262);
-	var Grass014 = CreateObjectAbove(Grass, 135, 263);
-	var Grass015 = CreateObjectAbove(Grass, 146, 262);
-	var Grass016 = CreateObjectAbove(Grass, 157, 262);
-	var Grass017 = CreateObjectAbove(Grass, 167, 262);
-	var Grass018 = CreateObjectAbove(Grass, 176, 262);
-	var Grass019 = CreateObject(Grass, 187, 263);
-	Grass019->SetPosition(187, 263);
-	var Grass020 = CreateObjectAbove(Grass, 195, 262);
-	var Grass021 = CreateObject(Grass, 160, 263);
-	Grass021->SetPosition(160, 263);
-	var Grass022 = CreateObject(Grass, 149, 264);
-	Grass022->SetPosition(149, 264);
-	var Grass023 = CreateObjectAbove(Grass, 441, 263);
-	var Grass024 = CreateObjectAbove(Grass, 448, 263);
-	var Grass025 = CreateObjectAbove(Grass, 457, 263);
-	var Grass026 = CreateObject(Grass, 461, 262);
-	Grass026->SetPosition(461, 262);
-	var Grass027 = CreateObjectAbove(Grass, 473, 263);
-	var Grass028 = CreateObjectAbove(Grass, 479, 262);
-	var Grass029 = CreateObjectAbove(Grass, 489, 263);
-	var Grass030 = CreateObjectAbove(Grass, 494, 263);
-	var Grass031 = CreateObject(Grass, 501, 262);
-	Grass031->SetPosition(501, 262);
-	var Grass032 = CreateObjectAbove(Grass, 519, 264);
-	var Grass033 = CreateObject(Grass, 525, 262);
-	Grass033->SetPosition(525, 262);
-	var Grass034 = CreateObjectAbove(Grass, 530, 263);
-	var Grass035 = CreateObjectAbove(Grass, 532, 263);
-	var Grass036 = CreateObject(Grass, 538, 262);
-	Grass036->SetPosition(538, 262);
-	var Grass037 = CreateObjectAbove(Grass, 542, 263);
-	var Grass038 = CreateObjectAbove(Grass, 497, 262);
+	CreateObjectAbove(Grass, 356, 182);
+	var Grass006 = CreateObjectAbove(Grass, 340, 181);
+	var Grass007 = CreateObjectAbove(Grass, 303, 182);
+	var Grass008 = CreateObjectAbove(Grass, 296, 181);
+	var Grass009 = CreateObjectAbove(Grass, 288, 181);
+	var Grass010 = CreateObjectAbove(Grass, 114, 262);
+	var Grass011 = CreateObjectAbove(Grass, 120, 262);
+	var Grass012 = CreateObjectAbove(Grass, 127, 262);
+	var Grass013 = CreateObject(Grass, 135, 262);
+	Grass013->SetPosition(135, 262);
+	var Grass014 = CreateObjectAbove(Grass, 146, 262);
+	var Grass015 = CreateObjectAbove(Grass, 157, 262);
+	CreateObjectAbove(Grass, 167, 262);
+	var Grass016 = CreateObjectAbove(Grass, 176, 262);
+	var Grass017 = CreateObject(Grass, 187, 263);
+	Grass017->SetPosition(187, 263);
+	var Grass018 = CreateObjectAbove(Grass, 195, 262);
+	var Grass019 = CreateObject(Grass, 160, 263);
+	Grass019->SetPosition(160, 263);
+	var Grass020 = CreateObject(Grass, 149, 264);
+	Grass020->SetPosition(149, 264);
+	var Grass021 = CreateObjectAbove(Grass, 441, 263);
+	var Grass022 = CreateObject(Grass, 448, 262);
+	Grass022->SetPosition(448, 262);
+	var Grass023 = CreateObjectAbove(Grass, 457, 263);
+	var Grass024 = CreateObjectAbove(Grass, 461, 263);
+	var Grass025 = CreateObjectAbove(Grass, 473, 263);
+	var Grass026 = CreateObjectAbove(Grass, 479, 262);
+	var Grass027 = CreateObject(Grass, 489, 262);
+	Grass027->SetPosition(489, 262);
+	var Grass028 = CreateObject(Grass, 494, 262);
+	Grass028->SetPosition(494, 262);
+	var Grass029 = CreateObjectAbove(Grass, 501, 263);
+	var Grass030 = CreateObjectAbove(Grass, 519, 264);
+	var Grass031 = CreateObjectAbove(Grass, 525, 263);
+	var Grass032 = CreateObject(Grass, 530, 262);
+	Grass032->SetPosition(530, 262);
+	var Grass033 = CreateObject(Grass, 532, 262);
+	Grass033->SetPosition(532, 262);
+	var Grass034 = CreateObjectAbove(Grass, 538, 263);
+	var Grass035 = CreateObjectAbove(Grass, 542, 263);
+	var Grass036 = CreateObjectAbove(Grass, 497, 262);
 
 	var Rule_FastPump001 = CreateObject(Rule_FastPump, 297, 291);
 	Rule_FastPump001->SetPosition(297, 291);
@@ -76,7 +77,7 @@ func InitializeObjects()
 
 	var Flower001 = CreateObjectAbove(Flower, 354, 189);
 	var Flower002 = CreateObjectAbove(Flower, 331, 189);
-	var Flower003 = CreateObjectAbove(Flower, 298, 191);
+	CreateObjectAbove(Flower, 298, 191);
 
 	var Wheat001 = CreateObjectAbove(Wheat, 342, 183);
 	Wheat001->SetMeshMaterial("wheat_material_ripe", 0);
@@ -107,6 +108,11 @@ func InitializeObjects()
 	Wheat003->SetCon(22);
 	Wheat003->SetMeshMaterial("wheat_material_ripe", 0);
 	Wheat003->SetPosition(319, 191);
+	var Diamond_Socket001 = CreateObject(Diamond_Socket, 569, 308);
+	Diamond_Socket001->SetPosition(569, 308);
+	var Diamond_Socket002 = CreateObject(Diamond_Socket, 107, 409);
+	Diamond_Socket002->SetPosition(107, 409);
+
 	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 297, 263);
 	RoomEntrance001->SetColor(0xff32c832);
 
@@ -131,12 +137,14 @@ func InitializeObjects()
 	var StoneDoor001 = CreateObject(StoneDoor, 380, 436);
 	StoneDoor001->SetComDir(COMD_Down);
 	StoneDoor001->SetPosition(380, 436);
+	StoneDoor001->SetPlrViewOnSignalChange(true);
 	var StoneDoor002 = CreateObject(StoneDoor, 228, 300);
 	StoneDoor002->MakeInvincible(false);
 	StoneDoor002->SetPosition(228, 300);
+	StoneDoor002->SetPlrViewOnSignalChange(true);
 
 	var SpinWheel001 = CreateObjectAbove(SpinWheel, 362, 456);
-	SpinWheel001->SetStoneDoor(StoneDoor001);
+	SpinWheel001->SetSwitchTarget(StoneDoor001);
 
 	CreateObjectAbove(ToolsWorkshop, 234, 263);
 
@@ -152,7 +160,7 @@ func InitializeObjects()
 	FloorSwitch001->SetPosition(262, 305);
 	FloorSwitch001->SetActions({Door={Function="object_constant",Value=StoneDoor002},Function="open_door"}, {Door={Function="object_constant",Value=StoneDoor002},Function="close_door"});
 
-	CreateObjectAbove(Armory, 72, 119);
+	var Armory001 = CreateObjectAbove(Armory, 72, 119);
 
 	var InventorsLab001 = CreateObjectAbove(InventorsLab, 571, 264);
 
@@ -194,6 +202,7 @@ func InitializeObjects()
 	var Bat002 = CreateObjectAbove(Bat, 593, 415);
 	Bat002->SetComDir(COMD_None);
 	Bat002->SetXDir(-6);
+	Bat002->SetYDir(-6);
 	Bat002->Unstick(7);
 	var Bat003 = CreateObjectAbove(Bat, 575, 439);
 	Bat003->SetComDir(COMD_None);
@@ -202,14 +211,17 @@ func InitializeObjects()
 	Bat003->Unstick(7);
 	var Bat004 = CreateObjectAbove(Bat, 607, 415);
 	Bat004->SetComDir(COMD_None);
+	Bat004->SetYDir(6);
 	Bat004->Unstick(7);
 	var Bat005 = CreateObjectAbove(Bat, 486, 439);
 	Bat005->SetComDir(COMD_None);
 	Bat005->SetXDir(-6);
+	Bat005->SetYDir(-6);
 	Bat005->Unstick(7);
 	var Bat006 = CreateObjectAbove(Bat, 407, 439);
 	Bat006->SetComDir(COMD_None);
 	Bat006->SetXDir(-6);
+	Bat006->SetYDir(-6);
 	Bat006->Unstick(7);
 	var Bat007 = CreateObjectAbove(Bat, 577, 439);
 	Bat007->SetComDir(COMD_None);
@@ -222,6 +234,7 @@ func InitializeObjects()
 	Bat008->Unstick(7);
 	var Bat009 = CreateObjectAbove(Bat, 415, 439);
 	Bat009->SetComDir(COMD_None);
+	Bat009->SetXDir(6);
 	Bat009->SetYDir(-6);
 	Bat009->Unstick(7);
 	var Bat010 = CreateObjectAbove(Bat, 574, 439);
@@ -342,7 +355,7 @@ func InitializeObjects()
 	var Chippie014 = CreateObjectAbove(Chippie, 503, 363);
 	Chippie014->DoEnergy(-4);
 	Chippie014->Unstick(7);
-	var Chippie015 = CreateObjectAbove(Chippie, 426, 422);
+	var Chippie015 = CreateObjectAbove(Chippie, 421, 422);
 	Chippie015->SetDir(DIR_Right);
 	Chippie015->SetComDir(COMD_Right);
 	Chippie015->Unstick(7);
@@ -483,6 +496,14 @@ func InitializeObjects()
 	Metal012->SetPosition(571, 223);
 	var Metal013 = InventorsLab001->CreateContents(Metal);
 	Metal013->SetPosition(571, 223);
+	var Metal014 = Chest004->CreateContents(Metal);
+	Metal014->SetPosition(389, 293);
+	var Metal015 = Chest004->CreateContents(Metal);
+	Metal015->SetPosition(389, 293);
+	var Metal016 = Lorry003->CreateContents(Metal);
+	Metal016->SetPosition(597, 48);
+	var Metal017 = Lorry003->CreateContents(Metal);
+	Metal017->SetPosition(597, 48);
 
 	var Wood001 = Chest006->CreateContents(Wood);
 	Wood001->SetPosition(302, 212);
@@ -512,6 +533,14 @@ func InitializeObjects()
 	Wood012->SetPosition(571, 223);
 	var Wood013 = InventorsLab001->CreateContents(Wood);
 	Wood013->SetPosition(571, 223);
+	var Wood014 = Lorry003->CreateContents(Wood);
+	Wood014->SetPosition(597, 48);
+	var Wood015 = Lorry003->CreateContents(Wood);
+	Wood015->SetPosition(597, 48);
+	var Wood016 = Lorry003->CreateContents(Wood);
+	Wood016->SetPosition(597, 48);
+	var Wood017 = Lorry003->CreateContents(Wood);
+	Wood017->SetPosition(597, 48);
 
 	var Loam001 = Chest007->CreateContents(Loam);
 	Loam001->SetPosition(338, 212);
@@ -528,6 +557,8 @@ func InitializeObjects()
 	var Loam007 = CreateObject(Loam, 233, 382);
 	Loam007->SetPosition(233, 382);
 
+	CreateObjectAbove(Ruby, 320, 49);
+
 	var WallKit001 = Lorry001->CreateContents(WallKit);
 	WallKit001->SetPosition(40, 424);
 
@@ -535,10 +566,10 @@ func InitializeObjects()
 	Pickaxe001->SetPosition(40, 424);
 
 	var DynamiteBox001 = Lorry001->CreateContents(DynamiteBox);
-	DynamiteBox001->SetDynamiteCount(57);
+	DynamiteBox001->SetDynamiteCount(56);
 	DynamiteBox001->SetPosition(40, 424);
 	var DynamiteBox002 = Lorry004->CreateContents(DynamiteBox);
-	DynamiteBox002->SetDynamiteCount(47);
+	DynamiteBox002->SetDynamiteCount(46);
 	DynamiteBox002->SetPosition(280, 407);
 	var Dynamite001 = Chest002->CreateContents(Dynamite);
 	Dynamite001->SetPosition(608, 428);
@@ -611,6 +642,17 @@ func InitializeObjects()
 
 	var Balloon001 = Chest005->CreateContents(Balloon);
 	Balloon001->SetPosition(249, 36);
+	var IronBomb001 = Armory001->CreateContents(IronBomb);
+	IronBomb001->SetPosition(72, 95);
+	var IronBomb002 = Armory001->CreateContents(IronBomb);
+	IronBomb002->SetPosition(72, 95);
+	var IronBomb003 = Armory001->CreateContents(IronBomb);
+	IronBomb003->SetPosition(72, 95);
+	var IronBomb004 = Armory001->CreateContents(IronBomb);
+	IronBomb004->SetPosition(72, 95);
+
+	var Diamond001;
+	var Diamond002;
 	var Firestone001 = Chest001->CreateContents(Firestone);
 	Firestone001->SetPosition(327, 404);
 	var Firestone002 = Chest001->CreateContents(Firestone);
@@ -619,5 +661,21 @@ func InitializeObjects()
 	Firestone003->SetPosition(404, 239);
 	var Firestone004 = ChemicalLab001->CreateContents(Firestone);
 	Firestone004->SetPosition(404, 239);
+	var Firestone005 = Lorry003->CreateContents(Firestone);
+	Firestone005->SetPosition(597, 48);
+	var Firestone006 = Lorry003->CreateContents(Firestone);
+	Firestone006->SetPosition(597, 48);
+	var Firestone007 = Lorry003->CreateContents(Firestone);
+	Firestone007->SetPosition(597, 48);
+	var Firestone008 = Lorry003->CreateContents(Firestone);
+	Firestone008->SetPosition(597, 48);
+	var Firestone009 = Armory001->CreateContents(Firestone);
+	Firestone009->SetPosition(72, 95);
+	var Firestone010 = Armory001->CreateContents(Firestone);
+	Firestone010->SetPosition(72, 95);
+	var Firestone011 = Armory001->CreateContents(Firestone);
+	Firestone011->SetPosition(72, 95);
+	var Firestone012 = Armory001->CreateContents(Firestone);
+	Firestone012->SetPosition(72, 95);
 	return true;
 }

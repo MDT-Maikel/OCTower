@@ -18,7 +18,7 @@ def copy_room(room_dir, tower_dir):
 	# get room name
 	room_name = room_dir.split(".")[0][4:]
 	print("copying room %s ..." % room_name)
-	
+
 	# check against double room names
 	if room_name in room_names:
 		print("ERROR: room name (%s) already used." % room_name)
@@ -53,7 +53,7 @@ def copy_room(room_dir, tower_dir):
 				with open(os.path.join(tower_dir, "Room%s.ocd" % room_name, "Script.c"), "a") as script_file:
 					for line in map_file.readlines():
 						if not re.match("#include *", line):
-							script_file.write(line)	
+							script_file.write(line)
 
 	# check the newly created room, remove if the checks were not satisfied
 	if not check_room(room_name, tower_dir):
@@ -110,7 +110,7 @@ def check_room(room_name, tower_dir):
 		room_ids.append(room_id)
 		room_diffs.append(room_diff)
 		room_authors.append(room_author)
-	
+
 	# print(room settings)
 	if args.verbose and room_ok:
 		print("room properties: id = %s, difficulty = %s" % (room_id, room_diff))
@@ -143,7 +143,7 @@ if not os.path.isfile("Version.txt"):
 	print("ERROR: Version.txt file not found, be sure to run the script from the tower path.")
 	sys.exit(0)
 with open("Version.txt", "r") as content_file:
-    version = content_file.read()
+	version = content_file.read()
 tower_dir = os.path.join("..", "OCTowerV%s.ocs" % version)
 ## TODO: query replacing existing directory
 if os.path.isfile(tower_dir):

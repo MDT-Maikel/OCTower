@@ -25,32 +25,32 @@ def copy_room(room_dir, tower_dir):
 		print("WARNING: room " + room_name + " will not be included.")
 
 	# copy room object
-	room_obj_dir = tower_dir + "/Room" + room_name + ".ocd"
+	room_obj_dir = os.path.join(tower_dir, "Room" + room_name + ".ocd")
 	for object_dir in os.listdir(room_dir):
 		if fnmatch.fnmatch(object_dir, "Room*.ocd"):
-			shutil.copytree(room_dir + "/" + object_dir, room_obj_dir)
+			shutil.copytree(os.path.join(room_dir, object_dir), room_obj_dir)
 
 	# copy room map and stored objects
-	sect_dir = tower_dir + "/Sect" + room_name + ".ocg"
+	sect_dir = os.path.join(tower_dir, "Sect" + room_name + ".ocg")
 	os.makedirs(sect_dir)
 	for sect_file in os.listdir(room_dir):
 		# copy scenario settings
 		if fnmatch.fnmatch(sect_file, "Scenario.txt"):
-			shutil.copy(room_dir + "/" + sect_file, sect_dir)
+			shutil.copy(os.path.join(room_dir, sect_file), sect_dir)
 			# modify scenario.txt to only have the needed settings
-			with open(sect_dir + "/" + sect_file, "r") as f:
+			with open(os.path.join(sect_dir, sect_file), "r") as f:
 				lines = f.readlines()
-			with open(sect_dir + "/" + sect_file, "w") as f:
+			with open(os.path.join(sect_dir, sect_file), "w") as f:
 				for line in lines:
 					if not re.match("Icon=*", line) and not re.match("Title=*", line) and not re.match("Version=*", line) and not re.match("Origin=*", line):
 						f.write(line)
 		# copy scenario map, objects and string tables
 		if fnmatch.fnmatch(sect_file, "Map*.bmp") or fnmatch.fnmatch(sect_file, "Objects.c") or fnmatch.fnmatch(sect_file, "StringTbl*.txt"):
-			shutil.copy(room_dir + "/" + sect_file, sect_dir)
+			shutil.copy(os.path.join(room_dir, sect_file), sect_dir)
 		# append map script to room control script object.
 		if fnmatch.fnmatch(sect_file, "Map.c"):
-			with open(room_dir + "/" + sect_file, "r") as map_file:
-				with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "a") as script_file:
+			with open(os.path.join(room_dir, sect_file), "r") as map_file:
+				with open(os.path.join(tower_dir, "Room" + room_name + ".ocd", "Script.c"), "a") as script_file:
 					for line in map_file.readlines():
 						if not re.match("#include *", line):
 							script_file.write(line)	
@@ -70,7 +70,7 @@ def check_room(room_name, tower_dir):
 	# to store whether room is ok
 	room_ok = True
 	# open room control object defcore
-	with open(tower_dir + "/Room" + room_name + ".ocd/DefCore.txt", "r") as f:
+	with open(os.path.join(tower_dir, "Room" + room_name + ".ocd", "DefCore.txt"), "r") as f:
 		lines = f.readlines()
 		# check room object id
 		for line in lines:
@@ -79,7 +79,7 @@ def check_room(room_name, tower_dir):
 				room_ok = False
 
 	# open room control object script
-	with open(tower_dir + "/Room" + room_name + ".ocd/Script.c", "r") as f:
+	with open(os.path.join(tower_dir, "Room" + room_name + ".ocd", "Script.c"), "r") as f:
 		lines = f.readlines()
 		for line in lines:
 			# check room section
@@ -144,7 +144,7 @@ if not os.path.isfile("Version.txt"):
 	sys.exit(0)
 with open("Version.txt", "r") as content_file:
     version = content_file.read()
-tower_dir = "../OCTowerV" + version + ".ocs"
+tower_dir = os.path.join("..", "OCTowerV" + version + ".ocs")
 ## TODO: query replacing existing directory
 if os.path.isfile(tower_dir):
 	os.remove(tower_dir)
@@ -178,19 +178,19 @@ shutil.copy("Loader1.png", tower_dir)
 
 # copy sound files into the new directory
 print("copying sound files ...")
-shutil.copytree("Sound.ocg", tower_dir + "/Sound.ocg")
+shutil.copytree("Sound.ocg", os.path.join(tower_dir, "Sound.ocg"))
 
 # copy material files into the new directory
 print("copying material files ...")
-shutil.copytree("Material.ocg", tower_dir + "/Material.ocg")
+shutil.copytree("Material.ocg", os.path.join(tower_dir, "Material.ocg"))
 
 # copy tower objects into the new directory
 print("copying tower objects ...")
-shutil.copytree("TowerObjects.ocd", tower_dir + "/TowerObjects.ocd")
+shutil.copytree("TowerObjects.ocd", os.path.join(tower_dir, "TowerObjects.ocd"))
 
 # copy empty scenario section into the new directory
 print("copying empty scenario section ...")
-shutil.copytree("SectEmpty.ocg", tower_dir + "/SectEmpty.ocg")
+shutil.copytree("SectEmpty.ocg", os.path.join(tower_dir, "SectEmpty.ocg"))
 
 # loop over all rooms and copy sections and room object
 print("===========================================")
@@ -199,15 +199,15 @@ for room_dir in os.listdir("."):
 		copy_room(room_dir, tower_dir)
 
 # copy stringtables of rooms into scenario one (temporary fix)
-strtbl_us = open(tower_dir + "/StringTblUS.txt", "a")
-strtbl_de = open(tower_dir + "/StringTblDE.txt", "a")
+strtbl_us = open(os.path.join(tower_dir, "StringTblUS.txt"), "a")
+strtbl_de = open(os.path.join(tower_dir, "StringTblDE.txt"), "a")
 for sect_dir in os.listdir(tower_dir):
 	if fnmatch.fnmatch(sect_dir, "Sect*.ocg"):
-		if os.path.isfile(tower_dir + "/" +  sect_dir + "/StringTblUS.txt"):
-			f = open(tower_dir + "/" +  sect_dir + "/StringTblUS.txt", "r")
+		if os.path.isfile(os.path.join(tower_dir, sect_dir, "StringTblUS.txt")):
+			f = open(os.path.join(tower_dir, sect_dir, "StringTblUS.txt"), "r")
 			strtbl_us.write("\n" + f.read())
-		if os.path.isfile(tower_dir + "/" +  sect_dir + "/StringTblDE.txt"):
-			f = open(tower_dir + "/" +  sect_dir + "/StringTblDE.txt", "r")
+		if os.path.isfile(os.path.join(tower_dir, sect_dir, "StringTblDE.txt")):
+			f = open(os.path.join(tower_dir, sect_dir, "StringTblDE.txt"), "r")
 			strtbl_de.write("\n" + f.read())
 strtbl_us.close()
 strtbl_de.close()
@@ -225,13 +225,13 @@ if args.pack:
 if args.template:
 	print("===========================================")
 	print("create room template ...")
-	template_dir = "../Template.ocg"
+	template_dir = os.path.join("..", "Template.ocg")
 	if not os.path.isdir(template_dir):
 		os.makedirs(template_dir)
-	if os.path.isdir(template_dir + "/RoomTemplate.ocs"):
-		shutil.rmtree(template_dir + "/RoomTemplate.ocs")
-	shutil.copytree("Template.ocg/RoomTemplate.ocs", template_dir + "/RoomTemplate.ocs")
-	shutil.copytree("RoomTemplate.ocs/RoomTemplate.ocd", template_dir + "/RoomTemplate.ocs/RoomTemplate.ocd")
+	if os.path.isdir(os.path.join(template_dir, "RoomTemplate.ocs")):
+		shutil.rmtree(os.path.join(template_dir, "RoomTemplate.ocs"))
+	shutil.copytree(os.path.join("Template.ocg", "RoomTemplate.ocs"), os.path.join(template_dir, "RoomTemplate.ocs"))
+	shutil.copytree(os.path.join("RoomTemplate.ocs", "RoomTemplate.ocd"), os.path.join(template_dir, "RoomTemplate.ocs", "RoomTemplate.ocd"))
 
 # if verbose option create the list of rooms sorted according to difficulty
 if args.verbose:

@@ -1,6 +1,14 @@
+# temporary files
 *~
+
+# unnecessary scenario files
 Room*.ocs/Teams.txt
+Room*.ocs/Parameters.txt
+
+# script misc files
 scripts/tower_image.png
 scripts/statistics.sqlite
+
+# local directories
 misc/
 rooms/

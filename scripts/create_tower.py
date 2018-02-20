@@ -17,21 +17,21 @@ import subprocess
 def copy_room(room_dir, tower_dir):
 	# get room name
 	room_name = room_dir.split(".")[0][4:]
-	print("copying room " + room_name + " ...")
+	print("copying room %s ..." % room_name)
 	
 	# check against double room names
 	if room_name in room_names:
-		print("ERROR: room name (" + room_name + ") already used.")
-		print("WARNING: room " + room_name + " will not be included.")
+		print("ERROR: room name (%s) already used." % room_name)
+		print("WARNING: room %s will not be included." % room_name)
 
 	# copy room object
-	room_obj_dir = os.path.join(tower_dir, "Room" + room_name + ".ocd")
+	room_obj_dir = os.path.join(tower_dir, "Room%s.ocd" % room_name)
 	for object_dir in os.listdir(room_dir):
 		if fnmatch.fnmatch(object_dir, "Room*.ocd"):
 			shutil.copytree(os.path.join(room_dir, object_dir), room_obj_dir)
 
 	# copy room map and stored objects
-	sect_dir = os.path.join(tower_dir, "Sect" + room_name + ".ocg")
+	sect_dir = os.path.join(tower_dir, "Sect%s.ocg" % room_name)
 	os.makedirs(sect_dir)
 	for sect_file in os.listdir(room_dir):
 		# copy scenario settings
@@ -50,7 +50,7 @@ def copy_room(room_dir, tower_dir):
 		# append map script to room control script object.
 		if fnmatch.fnmatch(sect_file, "Map.c"):
 			with open(os.path.join(room_dir, sect_file), "r") as map_file:
-				with open(os.path.join(tower_dir, "Room" + room_name + ".ocd", "Script.c"), "a") as script_file:
+				with open(os.path.join(tower_dir, "Room%s.ocd" % room_name, "Script.c"), "a") as script_file:
 					for line in map_file.readlines():
 						if not re.match("#include *", line):
 							script_file.write(line)	
@@ -59,7 +59,7 @@ def copy_room(room_dir, tower_dir):
 	if not check_room(room_name, tower_dir):
 		shutil.rmtree(room_obj_dir)
 		shutil.rmtree(sect_dir)
-		print("WARNING: room " + room_name + " will not be included.")
+		print("WARNING: room %s will not be included." % room_name)
 	# add to list of room names
 	else:
 		room_names.append(room_name)
@@ -70,36 +70,36 @@ def check_room(room_name, tower_dir):
 	# to store whether room is ok
 	room_ok = True
 	# open room control object defcore
-	with open(os.path.join(tower_dir, "Room" + room_name + ".ocd", "DefCore.txt"), "r") as f:
+	with open(os.path.join(tower_dir, "Room%s.ocd" % room_name, "DefCore.txt"), "r") as f:
 		lines = f.readlines()
 		# check room object id
 		for line in lines:
-			if re.match("id=*", line) and not re.match("id=Room" + room_name, line):
-				print("ERROR: Room control object DefCore.txt has wrong id, found " + line.replace("\n", "") + ", expected id=Room" + room_name + ".")
+			if re.match("id=*", line) and not re.match("id=Room%s" % room_name, line):
+				print("ERROR: Room control object DefCore.txt has wrong id, found %s, expected id=Room%s." % (line.replace("\n", ""), room_name))
 				room_ok = False
 
 	# open room control object script
-	with open(os.path.join(tower_dir, "Room" + room_name + ".ocd", "Script.c"), "r") as f:
+	with open(os.path.join(tower_dir, "Room%s.ocd" % room_name, "Script.c"), "r") as f:
 		lines = f.readlines()
 		for line in lines:
 			# check room section
 			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
-				print("ERROR: Room control object Script.c has wrong section, found " + line.replace("\n", "") + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }.")
+				print('ERROR: Room control object Script.c has wrong section, found %s, expected public func GetRoomSection() { return "%s"; }.' % (line.replace("\n", ""), room_name))
 				room_ok = False
 			# room id (either double or excluded)
 			if re.match("public func GetRoomID()*", line):
 				room_id = re.search("\"[a-zA-Z]+\"", line).group(0).replace("\"", "")
 				if room_id in room_ids:
-					print("ERROR: Room control object Script.c has duplicate ID, found " + line.replace("\n", "") + ", expected public func GetRoomID() { return \"??\"; }.")
+					print("ERROR: Room control object Script.c has duplicate ID, found %s, expected public func GetRoomID() { return \"??\"; }." % line.replace("\n", ""))
 					room_ok = False
 				elif isinstance(args.exclude, list) and room_id in args.exclude:
-					print("EXCLUDE: Room with id = " + room_id + " will be excluded as requested.")
+					print("EXCLUDE: Room with id = %s will be excluded as requested." % room_name)
 					room_ok = False
 			# difficulty
 			if re.match("public func GetRoomDifficulty()*", line):
 				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:]
 				if room_diff in room_diffs:
-					print("ERROR: Room control object Script.c has duplicate difficulty, found " + line.replace("\n", "") + ", expected public func GetRoomDifficulty() { return \"?\"; }.")
+					print("ERROR: Room control object Script.c has duplicate difficulty, found %s, expected public func GetRoomDifficulty() { return \"?\"; }." % line.replace("\n", ""))
 					room_ok = False
 			# room author(s)
 			if re.match("public func GetRoomAuthor()*", line):
@@ -113,7 +113,7 @@ def check_room(room_name, tower_dir):
 	
 	# print(room settings)
 	if args.verbose and room_ok:
-		print("room properties: id = " + room_id + ", difficulty = " + room_diff)
+		print("room properties: id = %s, difficulty = %s" % (room_id, room_diff))
 
 	# return whether the room is ok
 	return room_ok
@@ -144,7 +144,7 @@ if not os.path.isfile("Version.txt"):
 	sys.exit(0)
 with open("Version.txt", "r") as content_file:
     version = content_file.read()
-tower_dir = os.path.join("..", "OCTowerV" + version + ".ocs")
+tower_dir = os.path.join("..", "OCTowerV%s.ocs" % version)
 ## TODO: query replacing existing directory
 if os.path.isfile(tower_dir):
 	os.remove(tower_dir)
@@ -249,7 +249,13 @@ if args.verbose:
 	for index in range(0, len(rooms)):
 		room = rooms[index]
 		num = str(index + 1)
-		print("| " + " " * (3 - len(num)) + num + " | " + " " * (4 - len(room[0])) + room[0] + " | " + room[1] + " " * (24 - len(room[1])) + " | " + room[2] + " | " + room[3] + " " * (32 - len(room[3])) + " |")
+		print("| %s | %s | %s | %s | %s |" % (
+			" " * (3 - len(num)) + num,
+			" " * (4 - len(room[0])) + room[0],
+			room[1] + " " * (24 - len(room[1])),
+			room[2],
+			room[3] + " " * (32 - len(room[3]))
+		))
 	print("---------------------------------------------------------------------------------")
 
 # finished

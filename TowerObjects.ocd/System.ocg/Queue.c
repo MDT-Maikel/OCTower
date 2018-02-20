@@ -105,17 +105,14 @@ global func AddPlayerToWatchList(int plr)
 {
 	var plr_id = GetPlayerID(plr);
 	if (g_tower_plr_watchlist == nil)
-	{
-		g_tower_plr_watchlist = [plr_id];
-		// Update room menus.
-		UpdateRoomMenus("rooms");
-		return;
-	}
+		g_tower_plr_watchlist = [];
 	if (IsValueInArray(g_tower_plr_watchlist, plr_id))
 		return;
 	PushBack(g_tower_plr_watchlist, plr_id);
 	// Update room menus.
 	UpdateRoomMenus("rooms");
+	// Log joining watchlist.
+	Log("$MsgJoinsWatchList$", GetTaggedPlayerName(plr));
 	return;	
 }
 
@@ -125,9 +122,13 @@ global func RemovePlayerFromWatchList(int plr)
 	if (g_tower_plr_watchlist == nil)
 		return;
 	var plr_id = GetPlayerID(plr);
+	if (!IsValueInArray(g_tower_plr_watchlist, plr_id))
+		return;
 	RemoveArrayValue(g_tower_plr_watchlist, plr_id);
 	// Update room menus.
 	UpdateRoomMenus("rooms");
+	// Log leaving watchlist.
+	Log("$MsgLeavesWatchList$", GetTaggedPlayerName(plr));
 	return;
 }
 

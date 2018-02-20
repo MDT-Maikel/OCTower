@@ -271,46 +271,70 @@ public func MakeRoomMenu(int plr, proplist selection)
 
 public func GetCurrentRoomInfo(proplist roominfo, int plr)
 {
-	// Get lobby or room text.
+	// Get lobby info text.
 	var current_room = GetCurrentRoom();
 	var menu_key = GetPlayerControlAssignment(plr, CON_RoomMenu, true, true);
 	var room_info = Format("$RoomMenuInLobby$", menu_key);
-	if (current_room != nil)
-		room_info = Format("$RoomMenuInRoom$", current_room->GetRoomName());
 	// Get rooms completed and jokers found.
 	var nr_rooms = GetRoomCount();
 	var completed = GetLength(GetPlayerCompletedRooms(plr));
 	var total_jokers = GetRoomCount(true);
 	var found_jokers = GetLength(GetPlayerFoundJokers(plr));
 	var used_jokers = GetLength(GetPlayerUsedJokers(plr));
-	room_info = Format("%s\n\n$RoomMenuRoomsCompleted$", room_info, completed - used_jokers, nr_rooms);
-	room_info = Format("%s\n$RoomMenuJokersFound$", room_info, found_jokers, total_jokers, found_jokers - used_jokers);
+	var completed_info = Format("$RoomMenuRoomsCompleted$", completed - used_jokers, nr_rooms);
+	var joker_info = Format("$RoomMenuJokersFound$", found_jokers, total_jokers, found_jokers - used_jokers);
 	
 	// Do stuff differently for outside tower or when attempting a room.
 	if (current_room == nil)
 	{
-		// Add the text to the menu.
+		// Add the lobby text to the menu.
 		roominfo.info_text =
 		{
 			text = 
 			{
 				Margin = ["0.2em"],
-				Text = room_info
+				Text = Format("%s\n\n%s\n%s", room_info, completed_info, joker_info)
 			}
 		};
 	}
 	else
 	{
-		// Add the text to the menu.
+		// Add current room info and progress text to the menu.
 		roominfo.info_text =
 		{
 			Bottom = "4.4em",
-			text = 
+			info = 
 			{
 				Margin = ["0.2em"],
-				Text = room_info
+				current_room =
+				{
+					Bottom = "2em",
+					icon =
+					{
+						Right = "2em",
+						Symbol = current_room
+					},
+					name = 
+					{
+						Left = "2em",
+						Bottom = "1em",
+						Text = Format("$RoomMenuInfoCurrentRoom$", current_room->GetRoomName())
+					},
+					author = 
+					{
+						Left = "2em",
+						Top = "1em",
+						Text = Format("$RoomMenuInfoAuthor$", current_room->GetRoomAuthor())
+					}
+				},
+				text = 
+				{
+					Top = "2em",
+					Text = Format("%s\n%s", completed_info, joker_info)
+				}
 			}
 		};
+		MakeNumberMenuEntry(roominfo.info_text.info.current_room.icon, GetRoomNumber(current_room), 40);
 		// Add information about current attempt.
 		roominfo.current_attempt = 
 		{
@@ -439,7 +463,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 			Target = this,
 			ID = 1000,
 			Priority = 0,
-			Bottom = "1.5em",
+			Bottom = "1.6em",
 			BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 			OnMouseIn = GuiAction_SetTag("Hover"),
 			OnMouseOut = GuiAction_SetTag("Std"),
@@ -448,14 +472,15 @@ public func MenuShowRooms(proplist rooms, int plr)
 			{
 				Target = this,
 				ID = 2000,
-				Right = "1.5em",
+				Left = "0.4em",
+				Right = "2.0em",
 				Symbol = Icon_Exit
 			},
 			text = 
 			{
 				Target = this,
 				ID = 4000,
-				Left = "1.5em",
+				Left = "2.5em",
 				Text = "$RoomMenuExitTower$",
 				Style = GUI_TextVCenter
 			}
@@ -483,7 +508,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 			Target = this,
 			ID = cnt + 1000,
 			Priority = cnt,
-			Bottom = "1.5em",
+			Bottom = "1.6em",
 			BackgroundColor = {Std = 0, Hover = ROOMMENU_Color_Hover},
 			OnMouseIn = GuiAction_SetTag("Hover"),
 			OnMouseOut = GuiAction_SetTag("Std"),
@@ -492,7 +517,7 @@ public func MenuShowRooms(proplist rooms, int plr)
 			{
 				Target = this,
 				ID = cnt + 2000,
-				Right = "1.5em",
+				Right = "1.6em",
 				Symbol = room_id,
 				completed = 
 				{
@@ -507,11 +532,35 @@ public func MenuShowRooms(proplist rooms, int plr)
 			{
 				Target = this,
 				ID = cnt + 4000,
-				Left = "1.5em",
+				Left = "2.5em",
 				Text = room_id->GetRoomName(),
 				Style = GUI_TextVCenter
 			}
 		};
+		if (room_id->HasTablet())
+		{
+			room.tablet = 
+			{
+				Left = "1.6em",
+				Right = "2.4em",
+				Bottom = "0.8em",
+				Symbol = AncientTablet
+			};
+			if (!HasPlayerFoundTablet(plr, room_id))
+				room.tablet.GraphicsName = "Gray";
+		}
+		if (room_id->HasJoker())
+		{
+			room.joker = 
+			{
+				Left = "1.6em",
+				Right = "2.4em",
+				Top = "0.8em",
+				Symbol = Joker
+			};
+			if (!HasPlayerFoundJoker(plr, room_id))
+				room.joker.GraphicsName = "Gray";
+		}		
 		MakeNumberMenuEntry(room.symbol, GetRoomNumber(room_id), 40);
 		rooms[Format("room%d", cnt)] = room;		
 		cnt++;

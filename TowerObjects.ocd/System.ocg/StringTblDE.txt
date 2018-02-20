@@ -19,6 +19,11 @@ MsgRoomHasDescription=Your room has description: %s
 MsgRoomHasAuthor=Your room has author: %s
 
 
+# Queue.c
+MsgJoinsWatchList=%s schaut ab jetzt zu.
+MsgLeavesWatchList=%s hat sich in der Schlange eingereiht.
+
+
 # EditorBase.c
 MakeRoomPlayerOwner=Room owner
 MakeRoomPlayerOwnerHelp=The player who attempts this room will be made the owner of this object.

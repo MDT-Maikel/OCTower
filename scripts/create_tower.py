@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os
+import sys
 import shutil
 import fnmatch
 import re
@@ -127,6 +128,7 @@ parser = argparse.ArgumentParser(description='Create the tower scenario from the
 parser.add_argument('-p', '--pack', action='store_true', help='create a packed scenario folder if c4group is available')
 parser.add_argument('-v', '--verbose', action='store_true', help='print more information')
 parser.add_argument('-e', '--exclude', nargs='+', help='exclude rooms based on their id, get by using verbose option')
+parser.add_argument('-i', '--include', nargs='+', help='include rooms based on their id, get by using verbose option, only included rooms will now be in the room')
 parser.add_argument('-t', '--template', action='store_true', help='create room template')
 args = parser.parse_args()
 
@@ -137,6 +139,9 @@ room_diffs = []
 room_authors = []
 
 # create tower directory based on version name
+if not os.path.isfile("Version.txt"):
+	print "ERROR: Version.txt file not found, be sure to run the script from the tower path."
+	sys.exit(0)
 with open("Version.txt", "r") as content_file:
     version = content_file.read()
 tower_dir = "../OCTowerV" + version + ".ocs"

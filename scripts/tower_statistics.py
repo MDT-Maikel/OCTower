@@ -64,9 +64,9 @@ for stat in stats:
 
 		tower_ranking = re.search("\"Statistics_TowerRanking\":\{[\{\}a-zA-Z0-9:,\"]*\}", stat)
 		if tower_ranking != None:
-			tower_ranking_data = re.findall("\"[a-zA-Z0-9]+\":\{[\{\}a-zA-Z0-9:,\"]*\}", tower_ranking.group(0))
+			tower_ranking_data = re.findall("\"[a-zA-Z0-9]+(?<!Room)\":\{[\{\}a-zA-Z0-9:,\"]+?\}\}", tower_ranking.group(0))
 			for data in tower_ranking_data:
-				player = re.search("\"[a-zA-Z0-9]+\":\{", data).group(0)
+				player = re.search("\"[a-zA-Z0-9]+\":\{", data).group(0)				
 				player = re.search("[a-zA-Z0-9]+", player).group(0)
 				if not player in room_player_ranking:
 					room_player_ranking[player] = []
@@ -86,17 +86,19 @@ for room in room_success_rate:
 	room_success_rate[room] = 100.0 * room_success_rate[room]["success"] / (room_success_rate[room]["success"] + room_success_rate[room]["failed"])
 for player in room_player_ranking:
 	room_player_ranking[player] = len(list(set(room_player_ranking[player])))
-room_player_ranking_sorted = sorted(room_player_ranking, key=room_player_ranking.get)
+room_player_ranking_sorted = sorted(room_player_ranking, key=room_player_ranking.get, reverse=True)
 
 # print room data
-print "-----------------------------------------------------"
-print "| Room name                | Time (s) | Succes rate |"
-print "-----------------------------------------------------"
+print "---------------------------------------------------------"
+print "| Room name                | Time (mm:ss) | Succes rate |"
+print "---------------------------------------------------------"
 for room in room_attempt_duration:
-	time = "%.2f" % room_attempt_duration[room]
+	m, s = divmod(round(room_attempt_duration[room]), 60)
+	time = "%02d:%02d" % (m, s)
 	rate = "%.2f" % room_success_rate[room]
-	print "| " + room + " " * (25 - len(room)) + "|" + " " * (9 - len(time)) + time + " |" + " " * (11 - len(rate)) + rate + "% |"
-print "-----------------------------------------------------"
+	print "| " + room + " " * (25 - len(room)) + "|" + " " * (13 - len(time)) + time + " |" + " " * (11 - len(rate)) + rate + "% |"
+print "---------------------------------------------------------"
+print ""
 
 #print player ranking
 print "--------------------------------------"

@@ -17,12 +17,12 @@ import subprocess
 def copy_room(room_dir, tower_dir):
 	# get room name
 	room_name = room_dir.split(".")[0][4:]
-	print "copying room " + room_name + " ..."
+	print("copying room " + room_name + " ...")
 	
 	# check against double room names
 	if room_name in room_names:
-		print "ERROR: room name (" + room_name + ") already used."
-		print "WARNING: room " + room_name + " will not be included."
+		print("ERROR: room name (" + room_name + ") already used.")
+		print("WARNING: room " + room_name + " will not be included.")
 
 	# copy room object
 	room_obj_dir = tower_dir + "/Room" + room_name + ".ocd"
@@ -59,7 +59,7 @@ def copy_room(room_dir, tower_dir):
 	if not check_room(room_name, tower_dir):
 		shutil.rmtree(room_obj_dir)
 		shutil.rmtree(sect_dir)
-		print "WARNING: room " + room_name + " will not be included."
+		print("WARNING: room " + room_name + " will not be included.")
 	# add to list of room names
 	else:
 		room_names.append(room_name)
@@ -75,7 +75,7 @@ def check_room(room_name, tower_dir):
 		# check room object id
 		for line in lines:
 			if re.match("id=*", line) and not re.match("id=Room" + room_name, line):
-				print "ERROR: Room control object DefCore.txt has wrong id, found " + line.replace("\n", "") + ", expected id=Room" + room_name + "."
+				print("ERROR: Room control object DefCore.txt has wrong id, found " + line.replace("\n", "") + ", expected id=Room" + room_name + ".")
 				room_ok = False
 
 	# open room control object script
@@ -84,22 +84,22 @@ def check_room(room_name, tower_dir):
 		for line in lines:
 			# check room section
 			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
-				print "ERROR: Room control object Script.c has wrong section, found " + line.replace("\n", "") + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }."
+				print("ERROR: Room control object Script.c has wrong section, found " + line.replace("\n", "") + ", expected public func GetRoomSection() { return \"" + room_name + "\"; }.")
 				room_ok = False
 			# room id (either double or excluded)
 			if re.match("public func GetRoomID()*", line):
 				room_id = re.search("\"[a-zA-Z]+\"", line).group(0).replace("\"", "")
 				if room_id in room_ids:
-					print "ERROR: Room control object Script.c has duplicate ID, found " + line.replace("\n", "") + ", expected public func GetRoomID() { return \"??\"; }."
+					print("ERROR: Room control object Script.c has duplicate ID, found " + line.replace("\n", "") + ", expected public func GetRoomID() { return \"??\"; }.")
 					room_ok = False
 				elif isinstance(args.exclude, list) and room_id in args.exclude:
-					print "EXCLUDE: Room with id = " + room_id + " will be excluded as requested."
+					print("EXCLUDE: Room with id = " + room_id + " will be excluded as requested.")
 					room_ok = False
 			# difficulty
 			if re.match("public func GetRoomDifficulty()*", line):
 				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:]
 				if room_diff in room_diffs:
-					print "ERROR: Room control object Script.c has duplicate difficulty, found " + line.replace("\n", "") + ", expected public func GetRoomDifficulty() { return \"?\"; }."
+					print("ERROR: Room control object Script.c has duplicate difficulty, found " + line.replace("\n", "") + ", expected public func GetRoomDifficulty() { return \"?\"; }.")
 					room_ok = False
 			# room author(s)
 			if re.match("public func GetRoomAuthor()*", line):
@@ -111,9 +111,9 @@ def check_room(room_name, tower_dir):
 		room_diffs.append(room_diff)
 		room_authors.append(room_author)
 	
-	# print room settings
+	# print(room settings)
 	if args.verbose and room_ok:
-		print "room properties: id = " + room_id + ", difficulty = " + room_diff
+		print("room properties: id = " + room_id + ", difficulty = " + room_diff)
 
 	# return whether the room is ok
 	return room_ok
@@ -140,7 +140,7 @@ room_authors = []
 
 # create tower directory based on version name
 if not os.path.isfile("Version.txt"):
-	print "ERROR: Version.txt file not found, be sure to run the script from the tower path."
+	print("ERROR: Version.txt file not found, be sure to run the script from the tower path.")
 	sys.exit(0)
 with open("Version.txt", "r") as content_file:
     version = content_file.read()
@@ -153,11 +153,11 @@ elif os.path.exists(tower_dir):
 os.makedirs(tower_dir)
 
 # log which version is created
-print "creating tower scenario version " + version
-print "==========================================="
+print("creating tower scenario version " + version)
+print("===========================================")
 
 # copy main scenario files into the new directory
-print "copying main scenario ..."
+print("copying main scenario ...")
 shutil.copy("Version.txt", tower_dir)
 shutil.copy("Authors.txt", tower_dir)
 shutil.copy("Title.txt", tower_dir)
@@ -177,23 +177,23 @@ shutil.copy("Title.jpg", tower_dir)
 shutil.copy("Loader1.png", tower_dir)
 
 # copy sound files into the new directory
-print "copying sound files ..."
+print("copying sound files ...")
 shutil.copytree("Sound.ocg", tower_dir + "/Sound.ocg")
 
 # copy material files into the new directory
-print "copying material files ..."
+print("copying material files ...")
 shutil.copytree("Material.ocg", tower_dir + "/Material.ocg")
 
 # copy tower objects into the new directory
-print "copying tower objects ..."
+print("copying tower objects ...")
 shutil.copytree("TowerObjects.ocd", tower_dir + "/TowerObjects.ocd")
 
 # copy empty scenario section into the new directory
-print "copying empty scenario section ..."
+print("copying empty scenario section ...")
 shutil.copytree("SectEmpty.ocg", tower_dir + "/SectEmpty.ocg")
 
 # loop over all rooms and copy sections and room object
-print "==========================================="
+print("===========================================")
 for room_dir in os.listdir("."):
 	if fnmatch.fnmatch(room_dir, "Room*.ocs") and not fnmatch.fnmatch(room_dir, "RoomTemplate.ocs"):
 		copy_room(room_dir, tower_dir)
@@ -214,17 +214,17 @@ strtbl_de.close()
 
 # pack the scenario folder if required
 if args.pack:
-	print "==========================================="
-	print "packing scenario folder ..."
+	print("===========================================")
+	print("packing scenario folder ...")
 	try:
 		subprocess.call(["c4group", tower_dir, "-p"])
 	except OSError as e:
-		print "ERROR: failed to run c4group."
+		print("ERROR: failed to run c4group.")
 
 # create template room
 if args.template:
-	print "==========================================="
-	print "create room template ..."
+	print("===========================================")
+	print("create room template ...")
 	template_dir = "../Template.ocg"
 	if not os.path.isdir(template_dir):
 		os.makedirs(template_dir)
@@ -235,12 +235,12 @@ if args.template:
 
 # if verbose option create the list of rooms sorted according to difficulty
 if args.verbose:
-	print "==========================================="
-	print "list of rooms ..."
-	print "==========================================="
-	print "---------------------------------------------------------------------------------"
-	print "|  #  | Diff | Room name                | ID | Author(s)                        |"
-	print "---------------------------------------------------------------------------------"
+	print("===========================================")
+	print("list of rooms ...")
+	print("===========================================")
+	print("---------------------------------------------------------------------------------")
+	print("|  #  | Diff | Room name                | ID | Author(s)                        |")
+	print("---------------------------------------------------------------------------------")
 	# create a list of rooms
 	rooms = []
 	for index in range(0, len(room_names)):
@@ -249,11 +249,11 @@ if args.verbose:
 	for index in range(0, len(rooms)):
 		room = rooms[index]
 		num = str(index + 1)
-		print "| " + " " * (3 - len(num)) + num + " | " + " " * (4 - len(room[0])) + room[0] + " | " + room[1] + " " * (24 - len(room[1])) + " | " + room[2] + " | " + room[3] + " " * (32 - len(room[3])) + " |"
-	print "---------------------------------------------------------------------------------"
+		print("| " + " " * (3 - len(num)) + num + " | " + " " * (4 - len(room[0])) + room[0] + " | " + room[1] + " " * (24 - len(room[1])) + " | " + room[2] + " | " + room[3] + " " * (32 - len(room[3])) + " |")
+	print("---------------------------------------------------------------------------------")
 
 # finished
-print "==========================================="
-print "finished"
+print("===========================================")
+print("finished")
 
 

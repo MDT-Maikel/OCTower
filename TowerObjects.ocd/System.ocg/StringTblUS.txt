@@ -37,3 +37,8 @@ MsgWarningNoGameSpeed=WARNING: You are not allowed to change the game speed.
 MsgVoteAbortAttempt=%s votes for a new attempt.
 MsgVoteNotAbortAttempt=%s takes back his vote to abort the attempt.
 MsgVotingCompleted=%s won't be allowed to continue by majority vote!
+
+
+# Rating.c
+MsgRatingGiven=%s rated room %s with %d/5 stars.
+MsgRatingUpdated=%s changed rating for room %s to %d/5 stars.

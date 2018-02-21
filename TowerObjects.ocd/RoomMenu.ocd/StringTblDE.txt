@@ -38,6 +38,7 @@ RoomMenuInfoRoomHasJoker=This room has a joker you did not collect yet.
 RoomMenuInfoRoomFoundJoker=You collected the joker in this room.
 RoomMenuInfoPlayRoom=Click to play this room.
 RoomMenuInfoSkipRoom=Use a joker to skip this room.
+RoomMenuInfoRateRoom=Bewerte diesen Raum:
 
 RoomMenuCreditsText=Tower of Despair created by Maikel & Sven2.
 RoomMenuCreditsRooms=Räum(e)

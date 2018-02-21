@@ -203,7 +203,7 @@ global func RemovePlayerUsedJoker(int plr, id room)
 	return;
 }
 
-// Returns whether the player has found the joker in this room.
+// Returns whether the player has used a joker to skip this room.
 global func HasPlayerUsedJoker(int plr, id room)
 {
 	var plrid = GetPlayerID(plr);

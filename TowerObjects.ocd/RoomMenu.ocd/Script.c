@@ -259,7 +259,7 @@ public func MakeRoomMenu(int plr, proplist selection)
 		Top = "1.5em",
 		Style = GUI_VerticalLayout
 	};
-	menu.roomsel.rooms = MenuShowRooms(rooms, plr);
+	menu.roomsel.rooms = MenuShowRoomSelectionList(rooms, plr);
 
 	// Pre-select a room if given.
 	var for_room = nil;
@@ -453,7 +453,7 @@ public func GetCurrentRoomInfo(proplist roominfo, int plr)
 	return;
 }
 
-public func MenuShowRooms(proplist rooms, int plr)
+public func MenuShowRoomSelectionList(proplist rooms, int plr)
 {
 	// Add an option to exit the tower for currently playing player.
 	if (GetCurrentRoom() != nil && IsActivePlayer(plr))
@@ -537,31 +537,53 @@ public func MenuShowRooms(proplist rooms, int plr)
 				Style = GUI_TextVCenter
 			}
 		};
+		MakeNumberMenuEntry(room.symbol, GetRoomNumber(room_id), 40);
+
+		// Tablet found information.
 		if (room_id->HasTablet())
 		{
 			room.tablet = 
 			{
+				Target = this,
+				ID = cnt + 5000,
 				Left = "1.6em",
 				Right = "2.4em",
 				Bottom = "0.8em",
+				Priority = 0,
 				Symbol = AncientTablet
 			};
 			if (!HasPlayerFoundTablet(plr, room_id))
 				room.tablet.GraphicsName = "Gray";
 		}
+		// Joker found information.
 		if (room_id->HasJoker())
 		{
 			room.joker = 
 			{
+				Target = this,
+				ID = cnt + 6000,
 				Left = "1.6em",
 				Right = "2.4em",
 				Top = "0.8em",
+				Priority = 0,
 				Symbol = Joker
 			};
 			if (!HasPlayerFoundJoker(plr, room_id))
 				room.joker.GraphicsName = "Gray";
-		}		
-		MakeNumberMenuEntry(room.symbol, GetRoomNumber(room_id), 40);
+		}
+		// Rating request alert.
+		if ((IsNetwork() || IsEditor()) && HasPlayerCompletedRoom(plr, room_id) && !HasPlayerUsedJoker(plr, room_id) && GetPlayerRoomRating(room_id, plr) == nil)
+		{
+			room.rating_alert =
+			{
+				Target = this,
+				ID = cnt + 7000,
+				Left = "1.6em",
+				Right = "2.4em",
+				Priority = 1,
+				Symbol = Dialogue
+			};
+		}
 		rooms[Format("room%d", cnt)] = room;		
 		cnt++;
 	}
@@ -795,7 +817,74 @@ public func UpdateRoomSelectionInformation(proplist pars)
 		};
 	}
 	
-	// Update menu.
+	// Add a vote button if the player has finished the room in this session and only in network games.
+	if ((IsNetwork() || IsEditor()) && HasPlayerCompletedRoom(plr, room_id) && !HasPlayerUsedJoker(plr, room_id))
+	{
+		menu.selinfo.room.options.rating = 
+		{
+			Target = this,
+			ID = 52,
+			Priority = 5,
+			Bottom = "2em",
+			icon = 
+			{
+				Right = "2em",
+				icon = 
+				{
+					Margin = ["0.1em"],
+					Symbol = Icon_Star,
+					GraphicsName = "Gold"
+				}
+			},
+			text = 
+			{
+				Left = "2em",
+				Right = "8em",
+				Style = GUI_TextVCenter,
+				Text = "$RoomMenuInfoRateRoom$"
+			},
+			stars = 
+			{
+				Left = "8em",
+				Right = "18em",
+				OnMouseOut = GuiAction_Call(this, "OnRoomHoverRating", {plr = plr, room_id = room_id, rating = nil, in = false}),
+			}
+		};
+		// Add attention sign if no rating has been given yet.
+		if (GetPlayerRoomRating(room_id, plr) == nil)
+		{
+			menu.selinfo.room.options.rating.icon.attention = 
+			{
+				Target = this,
+				ID = 53,
+				Priority = 1,
+				Left = "1em",
+				Symbol = Dialogue
+			};
+		}
+		var current_rating = GetPlayerRoomRating(room_id, plr);
+		for (var cnt = 1; cnt <= 5; cnt ++)
+		{
+			var graphics = nil;
+			if (cnt <= current_rating)		
+				graphics = "Gold";
+			menu.selinfo.room.options.rating.stars[Format("star%d", cnt)] = 
+			{
+				Left = Format("%dem", 2 * (cnt - 1)),
+				Right = Format("%dem", 2 * cnt),
+				icon = 
+				{
+					Margin = ["0.2em"],
+					Symbol = Icon_Star,
+					OnMouseIn = GuiAction_Call(this, "OnRoomHoverRating", {plr = plr, room_id = room_id, rating = cnt, in = true}),
+					OnClick = GuiAction_Call(this, "OnRoomClickRating", {plr = plr, room_id = room_id, rating = cnt}),
+					GraphicsName = graphics
+				}
+			};
+		}
+	}
+	
+	// Update this part of the menu.
 	GuiUpdate(menu.selinfo, menu_id, menu.selinfo.ID, this);
 	return;
 }
@@ -819,6 +908,49 @@ public func OnRoomClickSkip(proplist pars)
 	UpdateRoomSelectionInformation(pars);
 	// Update open room menus.
 	UpdateRoomMenus("rooms");
+	return;
+}
+
+public func OnRoomHoverRating(proplist pars)
+{
+	var plr = pars.plr;
+	var room_id = pars.room_id;
+	var rating = pars.rating;
+	var in = pars.in;
+	var current_rating = GetPlayerRoomRating(room_id, plr);
+	// Update the amount of colored stars.	
+	for (var cnt = 1; cnt <= 5; cnt ++)
+	{
+		var graphics = nil;
+		if ((in && cnt <= rating) || (!in && cnt <= current_rating))		
+			graphics = "Gold";
+		menu.selinfo.room.options.rating.stars[Format("star%d", cnt)].icon.GraphicsName = graphics;
+	}	
+	GuiUpdate(menu.selinfo.room.options.rating, menu_id, menu.selinfo.room.options.rating.ID, this);
+	return;
+}
+
+public func OnRoomClickRating(proplist pars)
+{
+	var plr = pars.plr;
+	var room_id = pars.room_id;
+	var rating = pars.rating;
+	// Remove attention symbols if it was the first rating.
+	if (GetPlayerRoomRating(room_id, plr) == nil)
+	{
+		GuiClose(menu_id, menu.selinfo.room.options.rating.icon.attention.ID, this);
+		menu.selinfo.room.options.rating.icon.attention = nil;
+		for (var room in GetProperties(menu.roomsel.rooms))
+		{
+			if (GetType(menu.roomsel.rooms[room]) == C4V_PropList && room_id == menu.roomsel.rooms[room].symbol.Symbol)
+			{
+				GuiClose(menu_id, menu.roomsel.rooms[room].rating_alert.ID, this);
+				menu.roomsel.rooms[room].rating_alert = nil;
+			}
+		}
+	}
+	// Update and store rating.
+	UpdatePlayerRoomRating(room_id, plr, rating);
 	return;
 }
 

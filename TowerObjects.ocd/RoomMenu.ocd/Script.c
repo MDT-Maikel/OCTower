@@ -165,13 +165,13 @@ global func UpdateRoomMenus(string to_update)
 		// Check if the cursor has a room menu open.
 		var cursor = GetCursor(plr);
 		if (!cursor)
-			return;
+			continue;
 		var plr_menu = cursor->GetMenu();
 		if (!plr_menu || !plr_menu->~IsRoomMenu())
-			return;
+			continue;
 		// Check if updating is needed for this menu type.
 		if (to_update != nil && to_update != plr_menu->GetMenuType())
-			return;
+			continue;
 		plr_menu->UpdateMenu();
 	}
 	return;

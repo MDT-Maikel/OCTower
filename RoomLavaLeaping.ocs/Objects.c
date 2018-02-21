@@ -86,21 +86,22 @@ func InitializeObjects()
 	LargeCaveMushroom004->SetPosition(358, 98);
 
 	CreateObjectAbove(Fern, 367, 118);
+
 	var Branch005 = CreateObject(Branch, 82, 123);
 	Branch005->SetCon(140);
 	Branch005->SetR(169);
 	Branch005->SetPosition(82, 123);
-
 	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 404, 64);
 	RoomEntrance001->SetColor(0xff32c832);
 
 	var RoomExit001 = CreateObjectAbove(RoomExit, 60, 400);
 	RoomExit001->SetColor(0xffc83232);
 
-	var StoneDoor001 = CreateObject(StoneDoor, 133, 61);
+	var StoneDoor001 = CreateObject(StoneDoor, 132, 60);
 	StoneDoor001->SetComDir(COMD_Down);
 	StoneDoor001->MakeInvincible(false);
-	StoneDoor001->SetPosition(133, 61);
+	StoneDoor001->SetPosition(132, 60);
+	StoneDoor001->SetPlrViewOnSignalChange(true);
 
 	var MovingBrick001 = CreateObject(MovingBrick, 123, 212);
 	MovingBrick001->SetComDir(COMD_Left);
@@ -171,18 +172,16 @@ func InitializeObjects()
 	var Stalactite001 = CreateObject(Stalactite, 201, 252);
 	Stalactite001->SetPosition(201, 252);
 
-	var AncientTablet001 = CreateObjectAbove(AncientTablet, 599, 62);
-	AncientTablet001->Unstick(7);
+	CreateObjectAbove(AncientTablet, 599, 62);
 
-	var GrappleBow001 = CreateObject(GrappleBow, 331, 287);
-	GrappleBow001->SetPosition(331, 287);
+	CreateObjectAbove(GrappleBow, 331, 287);
 
 	var TeleGlove001 = CreateObject(TeleGlove, 86, 232);
 	TeleGlove001->SetPosition(86, 232);
 
 	CreateObjectAbove(Bread, 319, 284);
 
-	CreateObjectAbove(Mushroom, 461, 376);
+	CreateObjectAbove(Mushroom, 461, 375);
 	var Mushroom001 = CreateObject(Mushroom, 255, 73);
 	Mushroom001->SetPosition(255, 73);
 	CreateObjectAbove(Mushroom, 242, 74);

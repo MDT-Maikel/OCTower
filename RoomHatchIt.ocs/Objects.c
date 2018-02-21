@@ -9,62 +9,62 @@ func InitializeObjects()
 	CreateObjectAbove(EnvPack_Bag, 471, 249);
 	CreateObjectAbove(EnvPack_Bag, 462, 248);
 	CreateObjectAbove(EnvPack_Bag, 466, 249);
-	var Hatch001 = CreateObject(Hatch, 316, 314);
+	var Hatch001 = CreateObject(Hatch, 508, 251);
 	Hatch001->SetCategory(C4D_StaticBack);
-	Hatch001->SetPosition(316, 314);
+	Hatch001->SetPosition(508, 251);
 
-	var HatchBasement001 = CreateObjectAbove(HatchBasement, 316, 320);
+	var HatchBasement001 = CreateObjectAbove(HatchBasement, 508, 257);
 	HatchBasement001->SetParent(Hatch001);
 
-	var Hatch002 = CreateObject(Hatch, 509, 122);
+	var Hatch002 = CreateObject(Hatch, 45, 43);
 	Hatch002->SetCategory(C4D_StaticBack);
-	Hatch002->SetPosition(509, 122);
+	Hatch002->SetPosition(45, 43);
 
-	var HatchBasement002 = CreateObjectAbove(HatchBasement, 509, 128);
+	var HatchBasement002 = CreateObjectAbove(HatchBasement, 389, 49);
 	HatchBasement002->SetParent(Hatch002);
+	var HatchBasement003 = CreateObjectAbove(HatchBasement, 45, 49);
+	HatchBasement003->SetParent(Hatch002);
 
-	var Hatch003 = CreateObject(Hatch, 508, 74);
+	var Hatch003 = CreateObject(Hatch, 85, 43);
 	Hatch003->SetCategory(C4D_StaticBack);
-	Hatch003->SetPosition(508, 74);
+	Hatch003->SetPosition(85, 43);
 
-	var HatchBasement003 = CreateObjectAbove(HatchBasement, 508, 80);
-	HatchBasement003->SetParent(Hatch003);
+	var HatchBasement004 = CreateObjectAbove(HatchBasement, 85, 49);
+	HatchBasement004->SetParent(Hatch003);
 
-	var Hatch004 = CreateObject(Hatch, 509, 43);
+	var Hatch004 = CreateObject(Hatch, 125, 43);
 	Hatch004->SetCategory(C4D_StaticBack);
-	Hatch004->SetPosition(509, 43);
-
-	var HatchBasement004 = CreateObjectAbove(HatchBasement, 509, 49);
-	HatchBasement004->SetParent(Hatch004);
-
-	var Hatch005 = CreateObject(Hatch, 125, 43);
-	Hatch005->SetCategory(C4D_StaticBack);
-	Hatch005->SetPosition(125, 43);
+	Hatch004->SetPosition(125, 43);
 
 	var HatchBasement005 = CreateObjectAbove(HatchBasement, 125, 49);
-	HatchBasement005->SetParent(Hatch005);
+	HatchBasement005->SetParent(Hatch004);
 
-	var Hatch006 = CreateObject(Hatch, 85, 43);
+	var Hatch005 = CreateObject(Hatch, 509, 43);
+	Hatch005->SetCategory(C4D_StaticBack);
+	Hatch005->SetPosition(509, 43);
+
+	var HatchBasement006 = CreateObjectAbove(HatchBasement, 509, 49);
+	HatchBasement006->SetParent(Hatch005);
+
+	var Hatch006 = CreateObject(Hatch, 508, 74);
 	Hatch006->SetCategory(C4D_StaticBack);
-	Hatch006->SetPosition(85, 43);
+	Hatch006->SetPosition(508, 74);
 
-	var HatchBasement006 = CreateObjectAbove(HatchBasement, 85, 49);
-	HatchBasement006->SetParent(Hatch006);
+	var HatchBasement007 = CreateObjectAbove(HatchBasement, 508, 80);
+	HatchBasement007->SetParent(Hatch006);
 
-	var Hatch007 = CreateObject(Hatch, 45, 43);
+	var Hatch007 = CreateObject(Hatch, 509, 122);
 	Hatch007->SetCategory(C4D_StaticBack);
-	Hatch007->SetPosition(45, 43);
+	Hatch007->SetPosition(509, 122);
 
-	var HatchBasement007 = CreateObjectAbove(HatchBasement, 45, 49);
-	HatchBasement007->SetParent(Hatch007);
-	var HatchBasement008 = CreateObjectAbove(HatchBasement, 389, 49);
+	var HatchBasement008 = CreateObjectAbove(HatchBasement, 509, 128);
 	HatchBasement008->SetParent(Hatch007);
 
-	var Hatch008 = CreateObject(Hatch, 508, 251);
+	var Hatch008 = CreateObject(Hatch, 316, 314);
 	Hatch008->SetCategory(C4D_StaticBack);
-	Hatch008->SetPosition(508, 251);
+	Hatch008->SetPosition(316, 314);
 
-	var HatchBasement009 = CreateObjectAbove(HatchBasement, 508, 257);
+	var HatchBasement009 = CreateObjectAbove(HatchBasement, 316, 320);
 	HatchBasement009->SetParent(Hatch008);
 
 	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 153, 120);
@@ -77,9 +77,9 @@ func InitializeObjects()
 	Hatch009->SetCategory(C4D_StaticBack);
 	Hatch009->SetPosition(389, 43);
 
-	var FloorSwitch001 = CreateObject(FloorSwitch, 596, 122);
-	FloorSwitch001->SetPosition(596, 122);
-	FloorSwitch001->SetActions(nil, {Actions=[{Context={Function="object_constant",Value=Hatch009},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch004},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch002},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"DoOpen\", 18, 0)"}},{Context={Function="object_constant",Value=Hatch008},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"DoOpen\", 40, 0)"}}],Function="sequence"});
+	var FloorSwitch001 = CreateObject(FloorSwitch, 597, 121);
+	FloorSwitch001->SetPosition(597, 121);
+	FloorSwitch001->SetActions(nil, {Actions=[{Context={Function="object_constant",Value=Hatch009},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch005},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch007},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"DoOpen\", 18, 0)"}},{Context={Function="object_constant",Value=Hatch001},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"DoOpen\", 40, 0)"}}],Function="sequence"});
 
 	CreateObjectAbove(Ruin_ChemicalLab, 306, 120);
 
@@ -91,26 +91,27 @@ func InitializeObjects()
 	Elevator001->SetCasePosition(325);
 	var Switch001 = CreateObjectAbove(Switch, 78, 120);
 	Switch001->SetSwitchDir(1);
-	Switch001->SetActions({Actions=[{Context={Function="object_constant",Value=Hatch006},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch007},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch005},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="action_object"},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"SetAction\", 14, 0, \"SwitchRight\")"}}],Function="sequence"});
+	Switch001->SetActions({Actions=[{Context={Function="object_constant",Value=Hatch003},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch002},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="object_constant",Value=Hatch004},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="action_object"},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"SetAction\", 14, 0, \"SwitchRight\")"}}],Function="sequence"});
 	var Switch002 = CreateObjectAbove(Switch, 364, 120);
 	Switch002->SetSwitchDir(1);
-	Switch002->SetActions({Actions=[{Context={Function="object_constant",Value=Hatch003},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="action_object"},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"SetAction\", 14, 0, \"SwitchRight\")"}}],Function="sequence"});
+	Switch002->SetActions({Actions=[{Context={Function="object_constant",Value=Hatch006},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="action_object"},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"SetAction\", 14, 0, \"SwitchRight\")"}}],Function="sequence"});
 	var Switch003 = CreateObjectAbove(Switch, 267, 456);
 	Switch003->SetSwitchDir(1);
-	Switch003->SetActions({Actions=[{Function="Action_script",Script={Function="string_constant",Value="ShakeFree(316, 316, 20)"}},{Context={Function="object_constant",Value=Hatch001},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="action_object"},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"SetAction\", 14, 0, \"SwitchRight\")"}}],Function="sequence"});
+	Switch003->SetActions({Actions=[{Function="Action_script",Script={Function="string_constant",Value="ShakeFree(316, 316, 20)"}},{Context={Function="object_constant",Value=Hatch008},Function="Action_script",Script={Function="string_constant",Value="DoOpen()"}},{Context={Function="action_object"},Function="Action_script",Script={Function="string_constant",Value="ScheduleCall(this, \"SetAction\", 14, 0, \"SwitchRight\")"}}],Function="sequence"});
 
 	var PlayerStart001 = CreateObject(PlayerStart, 132, 109);
 	PlayerStart001->SetPosition(132, 109);
 	PlayerStart001->SetStartingMaterial([]);
 	PlayerStart001->SetViewLock(false);
-
-	var Metal001 = CreateObject(Metal, 320, 243);
-	Metal001->SetR(-9);
-	Metal001->SetRDir(-2);
-	Metal001->SetPosition(320, 243);
-	CreateObjectAbove(Metal, 339, 245);
-	var Metal002 = CreateObject(Metal, 600, 161);
-	Metal002->SetPosition(600, 161);
+	var Metal001 = CreateObject(Metal, 320, 246);
+	Metal001->SetR(-8);
+	Metal001->SetRDir(-1);
+	Metal001->SetPosition(320, 246);
+	Metal001->Unstick(7);
+	var Metal002 = CreateObjectAbove(Metal, 339, 246);
+	Metal002->Unstick(7);
+	var Metal003 = CreateObject(Metal, 600, 161);
+	Metal003->SetPosition(600, 161);
 
 	var TeleGlove001 = CreateObjectAbove(TeleGlove, 86, 40);
 	TeleGlove001->Unstick(7);
@@ -142,26 +143,32 @@ func InitializeObjects()
 	var Dynamite009 = CreateObject(Dynamite, 334, 205);
 	Dynamite009->SetR(90);
 	Dynamite009->SetPosition(334, 205);
+	var Dynamite010 = CreateObject(Dynamite, 616, 100);
+	Dynamite010->SetR(114);
+	Dynamite010->SetPosition(616, 100);
+	var Dynamite011 = CreateObject(Dynamite, 616, 107);
+	Dynamite011->SetR(74);
+	Dynamite011->SetPosition(616, 107);
 
-	var Blunderbuss001 = CreateObject(Blunderbuss, 154, 36);
-	Blunderbuss001->SetR(-14);
-	Blunderbuss001->SetPosition(154, 36);
+	var Blunderbuss001 = CreateObject(Blunderbuss, 154, 38);
+	Blunderbuss001->SetR(-5);
+	Blunderbuss001->SetPosition(154, 38);
+	Blunderbuss001->Unstick(7);
 
 	var LeadBullet001 = Blunderbuss001->CreateContents(LeadBullet);
-	LeadBullet001->SetPosition(155, 37);
+	LeadBullet001->SetPosition(154, 38);
 
 	var MetalBarrel001 = CreateObjectAbove(MetalBarrel, 125, 40);
 	MetalBarrel001->SetColor(0xff000000);
 	MetalBarrel001->Unstick(7);
 
-	var Hammer001 = CreateObject(Hammer, 330, 244);
-	Hammer001->SetR(56);
-	Hammer001->SetRDir(-8);
+	var Hammer001 = CreateObject(Hammer, 331, 245);
+	Hammer001->SetR(50);
 	Hammer001->MakeInvincible(false);
-	Hammer001->SetPosition(330, 244);
+	Hammer001->SetPosition(331, 245);
 	Hammer001->Unstick(7);
 
-	var PowderKeg001 = CreateObjectAbove(PowderKeg, 596, 117);
+	var PowderKeg001 = CreateObjectAbove(PowderKeg, 599, 116);
 	PowderKeg001->Unstick(7);
 	var PowderKeg002 = CreateObject(PowderKeg, 610, 87);
 	PowderKeg002->SetR(-87);
@@ -215,16 +222,16 @@ func InitializeObjects()
 	CreateObjectAbove(Firestone, 390, 41);
 	CreateObjectAbove(Firestone, 386, 41);
 
-	var Trunk001 = CreateObject(Trunk, 458, 108);
-	Trunk001->SetCon(126);
-	Trunk001->SetR(95);
+	var Trunk001 = CreateObject(Trunk, 590, 171);
+	Trunk001->SetCon(89);
+	Trunk001->SetR(-133);
 	Trunk001.Plane = 550;
-	Trunk001->SetPosition(458, 108);
-	var Trunk002 = CreateObject(Trunk, 590, 171);
-	Trunk002->SetCon(89);
-	Trunk002->SetR(-133);
+	Trunk001->SetPosition(590, 171);
+	var Trunk002 = CreateObject(Trunk, 458, 108);
+	Trunk002->SetCon(126);
+	Trunk002->SetR(95);
 	Trunk002.Plane = 550;
-	Trunk002->SetPosition(590, 171);
+	Trunk002->SetPosition(458, 108);
 
 	var Deco_TunnelSupport001 = CreateObjectAbove(Deco_TunnelSupport, 171, 121);
 	Deco_TunnelSupport001->Extend(78);

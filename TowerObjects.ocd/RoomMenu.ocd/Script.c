@@ -1247,7 +1247,7 @@ public func AddInformationMenuEntries(proplist info)
 			info_entries = hints;	
 	}
 	// Get tower entries: are there all the time.
-	for (var cnt = 1; cnt <= 3; cnt++)
+	for (var cnt = 1; cnt <= 4; cnt++)
 		PushBack(info_entries, Translate(Format("RoomMenuInformationEntry%d", cnt))); 
 	// Add the entries to the list.
 	var cnt = 1;	

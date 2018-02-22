@@ -9,8 +9,7 @@
 public func Initialize()
 {
 	// Gather statistics.
-	CreateObject(Statistics_TowerData);	
-	CreateObject(Statistics_TowerRanking);
+	CreateObject(Statistics_TowerData);
 	CreateObject(Statistics_RoomDuration);
 	CreateObject(Statistics_RoomAttempts);
 	CreateObject(Statistics_RoomRating);

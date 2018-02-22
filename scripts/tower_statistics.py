@@ -93,24 +93,6 @@ for stat in stats:
 					if room_player_ratings[room][player]["date"] > date:
 						continue
 				room_player_ratings[room][player] = {"date": date, "rating": ratings[player]}
-
-	# tower ranking statistics	
-	tower_ranking = re.search("\"Statistics_TowerRanking\":\{[\{\}a-zA-Z0-9:,\"]*\}", stat)
-	if tower_ranking != None:
-		tower_ranking_data = re.findall("\"[a-zA-Z0-9]+(?<!Room)\":\{[\{\}a-zA-Z0-9:,\"]+?\}\}", tower_ranking.group(0))			
-		for data in tower_ranking_data:
-			player = re.search("\"[a-zA-Z0-9]+\":\{", data).group(0)				
-			player = re.search("[a-zA-Z0-9]+", player).group(0)
-			if not player in room_player_ranking:
-				room_player_ranking[player] = []
-			rooms = re.findall("\"Room[a-zA-Z0-9]+\":\{[a-zA-Z0-9:,\"]+\}", data)
-			for room in rooms:
-				room_name = re.search("Room[a-zA-Z]+", room).group(0)
-				#room_data = re.search("\{[a-zA-Z0-9:,\"]+\}", room).group(0)
-				#room_data = room_data.replace("true", "True").replace("false", "False")
-				#room_data = ast.literal_eval(room_data)
-				#print room_data
-				room_player_ranking[player].append(room_name)
 				
 # process data
 for room in room_attempt_duration:
@@ -120,9 +102,6 @@ for room in room_success_rate:
 for room, data in room_player_ratings.iteritems():
 	ratings = [rating["rating"] for player, rating in data.iteritems()]
 	room_player_ratings[room] = {"rating": numpy.mean(ratings), "vote_cnt": len(ratings)}
-for player in room_player_ranking:
-	room_player_ranking[player] = len(list(set(room_player_ranking[player])))
-room_player_ranking_sorted = sorted(room_player_ranking, key=room_player_ranking.get, reverse=True)
 
 # print room data
 print "---------------------------------------------------------------------------"
@@ -139,18 +118,6 @@ for room in room_attempt_duration:
 		nr_votes = "%d" % room_player_ratings[room]["vote_cnt"]
 	print "| " + room + " " * (25 - len(room)) + "|" + " " * (13 - len(time)) + time + " |" + " " * (11 - len(rate)) + rate + "% |" + " " * (7 - len(rating)) + rating + " |" + " " * (7 - len(nr_votes)) + nr_votes + " |"
 print "---------------------------------------------------------------------------"
-print ""
-
-#print player ranking
-print "--------------------------------------"
-print "|  #  | Player          | # of rooms |"
-print "--------------------------------------"
-num = 1
-for player in room_player_ranking_sorted:
-	nr_rooms = str(room_player_ranking[player])
-	print "| " + " " * (3 - len(str(num))) + str(num) + " | " + player + " " * (15 - len(player)) + " | " + " " * (10 - len(nr_rooms)) + nr_rooms + " |"
-	num += 1
-print "--------------------------------------"
 
 # close the database
 conn.close()

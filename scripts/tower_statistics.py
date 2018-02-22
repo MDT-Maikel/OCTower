@@ -11,9 +11,28 @@ import urllib
 import ast
 from datetime import datetime
 
+
+#############
+# functions #
+#############
+
+def argparse_date(s):
+    try:
+        return datetime.strptime(s, "%Y-%m-%d")
+    except ValueError:
+        msg = "Not a valid date: '{0}'.".format(s)
+        raise argparse.ArgumentTypeError(msg)
+
+
+###############
+# main script #
+###############
+
 # program arguments
 parser = argparse.ArgumentParser(description='Analyzes the statistics of Tower of Despair rounds.')
-parser.add_argument('-v', '--verbose', action='store_true', help='verbose')
+parser.add_argument('-v', '--version', action='store', help='minimum tower version for analyzed games')
+parser.add_argument('-s', "--startdate", type=argparse_date, help="start date - format YYYY-MM-DD ")
+parser.add_argument('-e', "--enddate", type=argparse_date, help="end date - format YYYY-MM-DD")
 args = parser.parse_args()
 
 # get statistics database
@@ -38,6 +57,12 @@ for stat in stats:
 		continue
 	# get the date of this game
 	date = datetime.strptime(stat[0][0:19], '%Y-%m-%dT%H:%M:%S')
+	# check if date lies in specified window
+	if args.startdate and date < args.startdate:
+		continue;
+	if args.enddate and date > args.enddate:
+		continue;
+
 	# decode statistics
 	stat = stat[1].decode()
 
@@ -48,6 +73,10 @@ for stat in stats:
 		tower_data = ast.literal_eval(tower_data.group(0).split(":", 1)[1])
 		if "TowerVersion" in tower_data:
 			tower_version = tower_data["TowerVersion"]
+
+	# check if tower version exceeds required version
+	if tower_version < args.version:
+		continue
 
 	# room duration statistics	
 	room_duration = re.search("\"Statistics_RoomDuration\":\[[\{\}a-zA-Z0-9:,\"]*\]", stat)

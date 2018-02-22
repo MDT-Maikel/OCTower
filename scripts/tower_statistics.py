@@ -7,9 +7,12 @@ import operator
 import re
 import sqlite3
 import sys
-import urllib
 import ast
 from datetime import datetime
+if sys.version_info[0] >= 3:
+    from urllib.request import urlretrieve
+else:
+    from urllib import urlretrieve
 
 
 #############
@@ -36,7 +39,7 @@ parser.add_argument('-e', "--enddate", type=argparse_date, help="end date - form
 args = parser.parse_args()
 
 # get statistics database
-urllib.urlretrieve("http://league.openclonk.org/statistics.sqlite", "statistics.sqlite")
+urlretrieve("http://league.openclonk.org/statistics.sqlite", "statistics.sqlite")
 
 # open the database
 conn = sqlite3.connect('statistics.sqlite')
@@ -68,7 +71,7 @@ for stat in stats:
 
 	# get tower version
 	tower_version = 0
-	tower_data = re.search("\"Statistics_TowerData\":\{[\{\}a-zA-Z0-9:,\"]*\}", stat)
+	tower_data = re.search("\"Statistics_TowerData\":\{[a-zA-Z0-9:,\"]*\}", stat)
 	if tower_data != None:
 		tower_data = ast.literal_eval(tower_data.group(0).split(":", 1)[1])
 		if "TowerVersion" in tower_data:
@@ -115,7 +118,7 @@ for stat in stats:
 		for data in room_rating_data:
 			room = re.search("Room[a-zA-Z]+", data).group(0)
 			ratings = ast.literal_eval(re.search("\{[a-zA-Z0-9:,\"]*\}", data).group(0))
-			if not room in room_player_ratings:
+			if ratings and not room in room_player_ratings:
 				room_player_ratings[room] = {}
 			for player in ratings:
 				if player in room_player_ratings[room]:
@@ -133,9 +136,11 @@ for room, data in room_player_ratings.iteritems():
 	room_player_ratings[room] = {"rating": numpy.mean(ratings), "vote_cnt": len(ratings)}
 
 # print room data
-print "---------------------------------------------------------------------------"
-print "| Room name                | Time (mm:ss) | Succes rate | Rating | Vote # |"
-print "---------------------------------------------------------------------------"
+print("---------------------------------------------------------------------------")
+print("| Room name                | Time (mm:ss) | Succes rate | Rating | Vote # |")
+print("---------------------------------------------------------------------------")
+leftpad = lambda val, length: "%s%s" % (" " * (length - len(val)), val)
+rightpad = lambda val, length: "%s%s" % (val, " " * (length - len(val)))
 for room in room_attempt_duration:
 	m, s = divmod(round(room_attempt_duration[room]), 60)
 	time = "%02d:%02d" % (m, s)
@@ -145,8 +150,14 @@ for room in room_attempt_duration:
 	if room in room_player_ratings:
 		rating = "%.1f" % room_player_ratings[room]["rating"]
 		nr_votes = "%d" % room_player_ratings[room]["vote_cnt"]
-	print "| " + room + " " * (25 - len(room)) + "|" + " " * (13 - len(time)) + time + " |" + " " * (11 - len(rate)) + rate + "% |" + " " * (7 - len(rating)) + rating + " |" + " " * (7 - len(nr_votes)) + nr_votes + " |"
-print "---------------------------------------------------------------------------"
+	print("| %s | %s | %s | %s | %s |" % (
+		rightpad(room, 24),
+		leftpad(time, 12),
+		leftpad(rate, 11),
+		leftpad(rating, 6),
+		leftpad(nr_votes, 6)
+	))
+print("---------------------------------------------------------------------------")
 
 # close the database
 conn.close()

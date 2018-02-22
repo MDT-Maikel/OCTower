@@ -80,7 +80,7 @@ for room_dir in os.listdir(tower_dir):
 			fg_images.append((img.open(room_dir + "/MapFg.bmp"), get_room_nr(room_dir)))
 			bg_images.append((img.open(room_dir + "/MapBg.bmp"), get_room_nr(room_dir)))
 			room_authors.append((get_room_authors(room_dir), get_room_nr(room_dir)))
-			print "included " + room_dir
+			print("included " + room_dir)
 		elif not os.path.isfile(room_dir + "/MapFg.bmp") and not os.path.isfile(room_dir + "/MapBg.bmp") and os.path.isfile(room_dir + "/Map.c"):
 			try:
 				os.chdir(planet_dir)				
@@ -91,12 +91,12 @@ for room_dir in os.listdir(tower_dir):
 				os.remove(room_dir + "/MapFgTemp.png")
 				os.remove(room_dir + "/MapBgTemp.png")
 				room_authors.append((get_room_authors(room_dir), get_room_nr(room_dir)))
-				print "included " + room_dir
+				print("included " + room_dir)
 			except OSError as e:
-				print "excluded " + room_dir + " (failed to run ocmapgen)"
-				print "ERROR: " + str(e)
+				print("excluded " + room_dir + " (failed to run ocmapgen)")
+				print("ERROR: " + str(e))
 		else:
-			print "excluded " + tower_dir + room_dir + " (no map found)"
+			print("excluded " + tower_dir + room_dir + " (no map found)")
 
 # sort images according to room number
 fg_images = sorted(fg_images, key = lambda x: x[1], reverse=True)

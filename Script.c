@@ -46,6 +46,14 @@ public func JoinPlayer(int plr)
 		crew->SetPosition(596, 294);
 	crew->SetDir(DIR_Right);
 	
+	// Add attention to dialogue if not completed any room yet.
+	var completed_rooms = GetPlayerCompletedRooms(plr);
+	if (GetType(completed_rooms) != C4V_Array || GetLength(completed_rooms) <= 0)
+	{
+		var dlg_target = FindObject(Find_OCF(OCF_CrewMember), Find_Owner(NO_OWNER));
+		var dlg = Dialogue->FindByTarget(dlg_target);
+		dlg->AddAttention();
+	}
 	// Add the player to the playing queue.
 	AppendPlayerToQueue(plr);
 	return;

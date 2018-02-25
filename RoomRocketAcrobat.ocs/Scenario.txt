@@ -1,6 +1,6 @@
 [Head]
 Icon=1
-Version=8
+Version=9
 NoInitialize=true
 
 [Definitions]
@@ -18,7 +18,6 @@ Definition3=OCTower.ocs/TowerObjects.ocd
 [Landscape]
 Sky=Clouds2
 BottomOpen=1
-TopOpen=1
 MapWidth=100,0,64,10000
 MapHeight=50,0,40,10000
 

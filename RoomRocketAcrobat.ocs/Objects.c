@@ -6,21 +6,23 @@ func InitializeObjects()
 	Trunk001->SetCon(114);
 	Trunk001->SetR(-133);
 	Trunk001->SetPosition(600, 418);
+	var ItemSpawn001 = ItemSpawn->Create(Boompack,518,442);
+	ItemSpawn001->SetPosition(518, 442);
+
 	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 564, 455);
 	RoomEntrance001->SetColor(0xff32c832);
 
-	var Chest001 = CreateObjectAbove(Chest, 520, 455);
+	var Chest001 = CreateObjectAbove(Chest, 77, 231);
 	Chest001->MakeInvincible(false);
-	var Chest002 = CreateObjectAbove(Chest, 77, 231);
-	Chest002->MakeInvincible(false);
 
 	var RoomExit001 = CreateObjectAbove(RoomExit, 567, 63);
 	RoomExit001->SetColor(0xffc83232);
 
-	var MovingBrick001 = CreateObject(MovingBrick, 20, 378);
-	MovingBrick001->SetComDir(COMD_Up);
+	var MovingBrick001 = CreateObject(MovingBrick, 20, 307);
+	MovingBrick001->SetComDir(COMD_Down);
+	MovingBrick001->SetYDir(10);
 	MovingBrick001->MoveVertical(246, 466);
-	MovingBrick001->SetPosition(20, 378);
+	MovingBrick001->SetPosition(20, 307);
 
 	var Column001 = CreateObject(Column, 320, 320);
 	Column001->SetPosition(320, 320);
@@ -40,70 +42,23 @@ func InitializeObjects()
 	Clonk001->Unstick(7);
 	Clonk001->SetAlternativeSkin("Guard");
 	var Boompack001 = Chest001->CreateContents(Boompack);
-	Boompack001->SetPosition(520, 444);
-	var Boompack002 = Chest001->CreateContents(Boompack);
-	Boompack002->SetPosition(520, 444);
-	var Boompack003 = Chest001->CreateContents(Boompack);
-	Boompack003->SetPosition(520, 444);
-	var Boompack004 = Chest001->CreateContents(Boompack);
-	Boompack004->SetPosition(520, 444);
-	var Boompack005 = Chest001->CreateContents(Boompack);
-	Boompack005->SetPosition(520, 444);
-	var Boompack006 = Chest001->CreateContents(Boompack);
-	Boompack006->SetPosition(520, 444);
-	var Boompack007 = Chest001->CreateContents(Boompack);
-	Boompack007->SetPosition(520, 444);
-	var Boompack008 = Chest001->CreateContents(Boompack);
-	Boompack008->SetPosition(520, 444);
-	var Boompack009 = Chest001->CreateContents(Boompack);
-	Boompack009->SetPosition(520, 444);
-	var Boompack010 = Chest001->CreateContents(Boompack);
-	Boompack010->SetPosition(520, 444);
-	var Boompack011 = Chest001->CreateContents(Boompack);
-	Boompack011->SetPosition(520, 444);
-	var Boompack012 = Chest001->CreateContents(Boompack);
-	Boompack012->SetPosition(520, 444);
-	var Boompack013 = Chest001->CreateContents(Boompack);
-	Boompack013->SetPosition(520, 444);
-	var Boompack014 = Chest001->CreateContents(Boompack);
-	Boompack014->SetPosition(520, 444);
-	var Boompack015 = Chest001->CreateContents(Boompack);
-	Boompack015->SetPosition(520, 444);
-	var Boompack016 = Chest001->CreateContents(Boompack);
-	Boompack016->SetPosition(520, 444);
-	var Boompack017 = Chest001->CreateContents(Boompack);
-	Boompack017->SetPosition(520, 444);
-	var Boompack018 = Chest001->CreateContents(Boompack);
-	Boompack018->SetPosition(520, 444);
-	var Boompack019 = Chest001->CreateContents(Boompack);
-	Boompack019->SetPosition(520, 444);
-	var Boompack020 = Chest001->CreateContents(Boompack);
-	Boompack020->SetPosition(520, 444);
-	var Boompack021 = Chest001->CreateContents(Boompack);
-	Boompack021->SetPosition(520, 444);
-	var Boompack022 = Chest001->CreateContents(Boompack);
-	Boompack022->SetPosition(520, 444);
-	var Boompack023 = Chest001->CreateContents(Boompack);
-	Boompack023->SetPosition(520, 444);
-	var Boompack024 = Chest001->CreateContents(Boompack);
-	Boompack024->SetPosition(520, 444);
-	var Boompack025 = Chest001->CreateContents(Boompack);
-	Boompack025->SetPosition(520, 444);
-	var Boompack026 = Chest002->CreateContents(Boompack);
-	Boompack026->SetPosition(77, 220);
+	Boompack001->SetPosition(77, 220);
 
-	CreateObjectAbove(AncientTablet, 499, 245);
+	var AncientTablet001 = CreateObjectAbove(AncientTablet, 500, 246);
+	AncientTablet001->SetXDir(-2);
+	AncientTablet001->Unstick(7);
 
 	var Shovel001 = CreateObject(Shovel, 599, 387);
 	Shovel001->SetR(-53);
 	Shovel001->SetPosition(599, 387);
 
-	var WindBag001 = Chest002->CreateContents(WindBag);
+	var WindBag001 = Chest001->CreateContents(WindBag);
 	WindBag001->SetPosition(77, 220);
 
-	var Balloon001 = Chest002->CreateContents(Balloon);
+	var Balloon001 = Chest001->CreateContents(Balloon);
 	Balloon001->SetPosition(77, 220);
 
-	CreateObjectAbove(Joker, 516, 342);
+	var Joker001 = CreateObjectAbove(Joker, 516, 343);
+	Joker001->Unstick(7);
 	return true;
 }

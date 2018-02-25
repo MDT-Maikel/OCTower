@@ -92,7 +92,7 @@ func InitializeObjects()
 
 	var Keypad001 = CreateObjectAbove(Keypad, 598, 124);
 	Keypad001->SetSwitchTarget(StoneDoor001);
-	Keypad001->SetKeypadCode("1234");
+	Keypad001->SetKeypadHashedCode("cw/ji02PlE9Ek]Ht$cg-.xTN$");
 	Keypad001->SetCodeActions(nil, {Function="enemy_spawn_set_active",Target={Function="object_constant",Value=EnemySpawn007}});
 
 	var ItemSpawn001 = ItemSpawn->Create(WindBag,128,65);
@@ -119,17 +119,17 @@ func InitializeObjects()
 	var RoomExit001 = CreateObjectAbove(RoomExit, 44, 71);
 	RoomExit001->SetColor(0xffc83232);
 
-	var RoomDoor002 = CreateObjectAbove(RoomDoor, 42, 367);
-	var RoomDoor001 = CreateObjectAbove(RoomDoor, 42, 312);
-	RoomDoor001->SetEntranceAction({Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=false}});
+	var RoomDoor002 = CreateObjectAbove(RoomDoor, 42, 312);
+	var RoomDoor001 = CreateObjectAbove(RoomDoor, 42, 367);
+	RoomDoor001->SetEntranceAction({Actions=[{Function="enemy_spawn_set_active",Target={Function="object_constant",Value=EnemySpawn001}},{Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=true}}],Function="sequence"});
 	RoomDoor001->SetTargetDoor(RoomDoor002);
-	RoomDoor002->SetEntranceAction({Actions=[{Function="enemy_spawn_set_active",Target={Function="object_constant",Value=EnemySpawn001}},{Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=true}}],Function="sequence"});
+	RoomDoor002->SetEntranceAction({Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=false}});
 	RoomDoor002->SetTargetDoor(RoomDoor001);
-	var RoomDoor004 = CreateObjectAbove(RoomDoor, 598, 312);
-	var RoomDoor003 = CreateObjectAbove(RoomDoor, 598, 240);
-	RoomDoor003->SetEntranceAction({Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=true}});
+	var RoomDoor004 = CreateObjectAbove(RoomDoor, 598, 240);
+	var RoomDoor003 = CreateObjectAbove(RoomDoor, 598, 312);
+	RoomDoor003->SetEntranceAction({Actions=[{Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=false}},{Function="enemy_spawn_set_active",Target={Function="object_constant",Value=EnemySpawn006}}],Function="sequence"});
 	RoomDoor003->SetTargetDoor(RoomDoor004);
-	RoomDoor004->SetEntranceAction({Actions=[{Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=false}},{Function="enemy_spawn_set_active",Target={Function="object_constant",Value=EnemySpawn006}}],Function="sequence"});
+	RoomDoor004->SetEntranceAction({Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=true}});
 	RoomDoor004->SetTargetDoor(RoomDoor003);
 
 	var Key001 = CreateObject(Key, 44, 223);
@@ -138,11 +138,11 @@ func InitializeObjects()
 	Key001->SetPosition(44, 223);
 	Key001->Unstick(7);
 
-	var RoomDoor006 = CreateObjectAbove(RoomDoor, 104, 71);
-	var RoomDoor005 = CreateObjectAbove(RoomDoor, 139, 240);
-	RoomDoor005->SetKey(Key001);
+	var RoomDoor006 = CreateObjectAbove(RoomDoor, 139, 240);
+	var RoomDoor005 = CreateObjectAbove(RoomDoor, 104, 71);
+	RoomDoor005->SetEntranceAction({Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=false}});
 	RoomDoor005->SetTargetDoor(RoomDoor006);
-	RoomDoor006->SetEntranceAction({Function="ambience_shader",ShaderName="Grayscale",Status={Function="bool_constant",Value=false}});
+	RoomDoor006->SetKey(Key001);
 	RoomDoor006->SetTargetDoor(RoomDoor005);
 
 	var Ruin_WoodenCabin001 = CreateObjectAbove(Ruin_WoodenCabin, 379, 239);
@@ -173,7 +173,7 @@ func InitializeObjects()
 
 	var DynamiteBox001 = CreateObject(DynamiteBox, 223, 343);
 	DynamiteBox001->SetPosition(223, 343);
-	var Bread001 = CreateObjectAbove(Bread, 352, 454);
+	var Bread001 = CreateObjectAbove(Bread, 352, 455);
 	Bread001->Unstick(7);
 
 	var Trunk001 = CreateObject(Trunk, 210, 358);

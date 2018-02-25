@@ -492,6 +492,9 @@ public func MenuShowRoomSelectionList(proplist rooms, int plr)
 	if (next_room)
 		PushBack(room_list, next_room);
 	SortRoomList(room_list);
+	// In editor mode show all rooms to allow testing access.
+	if (IsEditor())
+		room_list = GetRoomList();
 	// Put all rooms into the selection menu.
 	var cnt = 1;
 	for (var room_id in room_list)

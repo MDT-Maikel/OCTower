@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os
+import sys
 import shutil
 import fnmatch
 import re
@@ -8,9 +9,14 @@ import numpy
 import argparse
 import subprocess
 
-from PIL import Image as img
-from PIL import ImageFont as font
-from PIL import ImageDraw as draw
+if sys.version_info[0] >= 3:
+	from Pillow import Image as img
+	from Pillow import ImageFont as font
+	from Pillow import ImageDraw as draw
+else:
+	from PIL import Image as img
+	from PIL import ImageFont as font
+	from PIL import ImageDraw as draw
 
 
 #############

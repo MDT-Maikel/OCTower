@@ -59,10 +59,11 @@ def copy_room(room_dir, tower_dir):
 	if not check_room(room_name, tower_dir):
 		shutil.rmtree(room_obj_dir)
 		shutil.rmtree(sect_dir)
-		print("WARNING: room %s will not be included." % room_name)
 	# add to list of room names
 	else:
 		room_names.append(room_name)
+
+	return
 
 
 # checks the basics of a room returns if the room is ok
@@ -85,25 +86,31 @@ def check_room(room_name, tower_dir):
 			# check room section
 			if re.match("public func GetRoomSection()*", line) and not re.search(room_name, line):
 				print('ERROR: Room control object Script.c has wrong section, found %s, expected public func GetRoomSection() { return "%s"; }.' % (line.replace("\n", ""), room_name))
+				print("WARNING: room %s will not be included." % room_name)
 				room_ok = False
-			# room id (either double or excluded)
+			# room id (either double, excluded or explicitly included)
 			if re.match("public func GetRoomID()*", line):
 				room_id = re.search("\"[a-zA-Z]+\"", line).group(0).replace("\"", "")
 				if room_id in room_ids:
 					print("ERROR: Room control object Script.c has duplicate ID, found %s, expected public func GetRoomID() { return \"??\"; }." % line.replace("\n", ""))
+					print("WARNING: room %s will not be included." % room_name)
 					room_ok = False
 				elif isinstance(args.exclude, list) and room_id in args.exclude:
 					print("EXCLUDE: Room with id = %s will be excluded as requested." % room_name)
+					room_ok = False
+				elif isinstance(args.include, list) and not room_id in args.include:
+					print("INCLUDE: Room with id = %s is not on the inclusion list and will be excluded as requested." % room_name)
 					room_ok = False
 			# difficulty
 			if re.match("public func GetRoomDifficulty()*", line):
 				room_diff = re.search("return [0-9]+;", line).group(0).replace(";", "")[7:]
 				if room_diff in room_diffs:
 					print("ERROR: Room control object Script.c has duplicate difficulty, found %s, expected public func GetRoomDifficulty() { return \"?\"; }." % line.replace("\n", ""))
+					print("WARNING: room %s will not be included." % room_name)
 					room_ok = False
 			# room author(s)
 			if re.match("public func GetRoomAuthor()*", line):
-				room_author = re.search("return \"[^\"]+\";", line).group(0).replace(";", "")[7:]
+				room_author = re.search("return \"[^\"]+\";", line).group(0).replace(";", "").replace("\"", "")[7:]
 
 	# store some room properties
 	if room_ok:
@@ -131,6 +138,11 @@ parser.add_argument('-e', '--exclude', nargs='+', help='exclude rooms based on t
 parser.add_argument('-i', '--include', nargs='+', help='include rooms based on their id, get by using verbose option, only included rooms will now be in the room')
 parser.add_argument('-t', '--template', action='store_true', help='create room template')
 args = parser.parse_args()
+
+# check for conflicting arguments
+if isinstance(args.exclude, list) and isinstance(args.include, list):
+	print("ERROR: both room inclusion (-i/--include) and exclusion (-e/--exclude) list specified, only one allowed simultaneously.")
+	sys.exit(0)
 
 # store room names, id's and difficulties
 room_names = []

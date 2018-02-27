@@ -1,0 +1,3 @@
+RoomMenuCreditsText=Tower of Despair created by Maikel & Sven2.
+RoomMenuCreditsRooms=room(s)
+RoomMenuCreditsAuthor=%s made the following rooms:

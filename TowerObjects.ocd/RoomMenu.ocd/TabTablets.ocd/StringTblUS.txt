@@ -1,0 +1,3 @@
+RoomMenuTabletsText=List of found tablets, click on either of them to read the inscription.
+RoomMenuTabletsFound=You have found the tablet of room %s. On the back of this tablet you see %d very distinctive stripes.
+RoomMenuTabletsNotFound=You have not found the tablet of room %s yet.

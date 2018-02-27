@@ -1,0 +1,5 @@
+RoomMenuInformationText=Here you will find some helpful hints and tricks for the tower.
+RoomMenuInformationEntry1=Some of the rooms have a joker, you can use it to skip a room you were not able to complete yet.
+RoomMenuInformationEntry2=Most of the rooms have an ancient tablet, you need these to progress, so collect them all.
+RoomMenuInformationEntry3=You gain a tablet or joker when you collect it and bring either to the room entrance or exit.
+RoomMenuInformationEntry4=Disclaimer: In network games the tower gathers statistics about room attempts, jokers collected, ratings, etc. for designers to improve their rooms. Be aware that your player name is also stored when these statistics are gathered.

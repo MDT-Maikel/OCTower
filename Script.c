@@ -27,8 +27,18 @@ public func InitializePlayer(int plr)
 
 public func JoinPlayer(int plr)
 {
-	// Get crew member or create new one.
+	// Get crew member.
 	var crew = GetCrew(plr);
+
+	// Some rooms may have created a script player, be sure to not have them in the entrance.
+	if (GetPlayerType(plr) == C4PT_Script)
+	{
+		if (crew)
+			crew->RemoveObject();
+		return;	
+	}
+
+	// Create new crew member if none exists.
 	if (!crew)
 	{
 		var crew = CreateObjectAbove(Clonk, 0, 0, plr);

@@ -28,3 +28,4 @@ RoomMenuInfoRoomFoundJoker=You collected the joker in this room.
 RoomMenuInfoPlayRoom=Click to play this room.
 RoomMenuInfoSkipRoom=Use a joker to skip this room.
 RoomMenuInfoRateRoom=Bewerte diesen Raum:
+RoomMenuInfoRateDifficulty=Bewerte Schwierigkeit:

@@ -41,4 +41,11 @@ MsgVotingCompleted=%s darf per Mehrheitsbeschluss nicht weiter versuchen!
 
 # Rating.c
 MsgRatingGiven=%s rated room %s with %d/5 stars.
-MsgRatingUpdated=%s changed rating for room %s to %d/5 stars.
+MsgRatingUpdated=%s changed the rating for room %s to %d/5 stars.
+MsgDifficultyRatingGiven=%s rated the difficulty of room %s as %s.
+MsgDifficultyRatingUpdated=%s changed the difficulty rating for room %s to %s.
+MsgDifficultyTrivial=trivial
+MsgDifficultyEasy=easy
+MsgDifficultyMedium=medium
+MsgDifficultyHard=hard
+MsgDifficultyExtreme=extreme

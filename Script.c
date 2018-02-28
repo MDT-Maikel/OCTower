@@ -13,6 +13,7 @@ public func Initialize()
 	CreateObject(Statistics_RoomDuration);
 	CreateObject(Statistics_RoomAttempts);
 	CreateObject(Statistics_RoomRating);
+	CreateObject(Statistics_RoomDifficulty);
 	return;
 }
 

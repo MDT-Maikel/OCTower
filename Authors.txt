@@ -13,4 +13,5 @@ Room authors are credited in the scenario.
 
 
 Misc authors:
-Loader1.png       - Sven2 (CC BY 4.0)
+Loader1.png                       - Sven2 (CC BY 4.0)
+IconDifficulty.ocd/Graphics*.png  - Delapouite (CC BY 3.0) (http://game-icons.net/delapouite/originals/private.html)

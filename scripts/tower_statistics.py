@@ -51,7 +51,7 @@ stats = conn.execute("SELECT date_ended,statistics from games")
 room_attempt_duration = {}
 room_success_rate = {}
 room_player_ratings = {}
-room_player_ranking = {}
+room_player_difficulties = {}
 
 # loop over all games in the database
 for stat in stats:
@@ -125,6 +125,21 @@ for stat in stats:
 					if room_player_ratings[room][player]["date"] > date:
 						continue
 				room_player_ratings[room][player] = {"date": date, "rating": ratings[player]}
+
+	# room difficulty rating statistics	
+	room_difficulty = re.search("\"Statistics_RoomDifficulty\":\{[\{\}a-zA-Z0-9:,\"]*\}", stat)
+	if room_difficulty != None:
+		room_difficulty_data = re.findall("\"Room[a-zA-Z]*\":\{[a-zA-Z0-9:,\"]*\}", room_difficulty.group(0))
+		for data in room_difficulty_data:
+			room = re.search("Room[a-zA-Z]+", data).group(0)
+			difficulties = ast.literal_eval(re.search("\{[a-zA-Z0-9:,\"]*\}", data).group(0))
+			if difficulties and not room in room_player_difficulties:
+				room_player_difficulties[room] = {}
+			for player in difficulties:
+				if player in room_player_difficulties[room]:
+					if room_player_difficulties[room][player]["date"] > date:
+						continue
+				room_player_difficulties[room][player] = {"date": date, "difficulty": difficulties[player]}
 				
 # process data
 for room in room_attempt_duration:
@@ -134,11 +149,14 @@ for room in room_success_rate:
 for room, data in room_player_ratings.iteritems():
 	ratings = [rating["rating"] for player, rating in data.iteritems()]
 	room_player_ratings[room] = {"rating": numpy.mean(ratings), "vote_cnt": len(ratings)}
+for room, data in room_player_difficulties.iteritems():
+	difficulties = [difficulty["difficulty"] for player, difficulty in data.iteritems()]
+	room_player_difficulties[room] = {"difficulty": numpy.mean(difficulties), "vote_cnt": len(difficulties)}
 
 # print room data
-print("---------------------------------------------------------------------------")
-print("| Room name                | Time (mm:ss) | Succes rate | Rating | Vote # |")
-print("---------------------------------------------------------------------------")
+print("-------------------------------------------------------------------------------------------------")
+print("| Room name                | Time (mm:ss) | Succes rate | Rating | Vote # | Difficulty | Vote # |")
+print("-------------------------------------------------------------------------------------------------")
 leftpad = lambda val, length: "%s%s" % (" " * (length - len(val)), val)
 rightpad = lambda val, length: "%s%s" % (val, " " * (length - len(val)))
 for room in room_attempt_duration:
@@ -146,18 +164,25 @@ for room in room_attempt_duration:
 	time = "%02d:%02d" % (m, s)
 	rate = "%.2f" % room_success_rate[room]
 	rating = "---"
-	nr_votes = "0"
+	nr_ratin_votes = "0"
 	if room in room_player_ratings:
 		rating = "%.1f" % room_player_ratings[room]["rating"]
-		nr_votes = "%d" % room_player_ratings[room]["vote_cnt"]
-	print("| %s | %s | %s | %s | %s |" % (
+		nr_rating_votes = "%d" % room_player_ratings[room]["vote_cnt"]
+	difficulty = "---"
+	nr_difficulty_votes = "0"
+	if room in room_player_difficulties:
+		difficulty = "%.1f" % room_player_difficulties[room]["difficulty"]
+		nr_difficulty_votes = "%d" % room_player_difficulties[room]["vote_cnt"]
+	print("| %s | %s | %s | %s | %s | %s | %s |" % (
 		rightpad(room, 24),
 		leftpad(time, 12),
 		leftpad(rate, 11),
 		leftpad(rating, 6),
-		leftpad(nr_votes, 6)
+		leftpad(nr_rating_votes, 6),
+		leftpad(difficulty, 10),
+		leftpad(nr_difficulty_votes, 6)
 	))
-print("---------------------------------------------------------------------------")
+print("-------------------------------------------------------------------------------------------------")
 
 # close the database
 conn.close()

@@ -380,7 +380,7 @@ public func MenuShowRoomSelectionList(proplist rooms, int plr)
 				room.joker.GraphicsName = "Gray";
 		}
 		// Rating request alert.
-		if ((IsNetwork() || IsEditor()) && HasPlayerCompletedRoom(plr, room_id) && !HasPlayerUsedJoker(plr, room_id) && GetPlayerRoomRating(room_id, plr) == nil)
+		if ((IsNetwork() || IsEditor()) && HasPlayerCompletedRoom(plr, room_id) && !HasPlayerUsedJoker(plr, room_id) && (GetPlayerRoomRating(room_id, plr) == nil || GetPlayerRoomDifficulty(room_id, plr) == nil))
 		{
 			room.rating_alert =
 			{
@@ -636,10 +636,12 @@ public func UpdateRoomSelectionInformation(proplist pars)
 			Target = this,
 			ID = 52,
 			Priority = 5,
-			Bottom = "2em",
+			Bottom = "3em",
 			icon = 
 			{
 				Right = "2em",
+				Top = "0.5em",
+				Bottom = "2.5em",
 				icon = 
 				{
 					Margin = ["0.1em"],
@@ -647,22 +649,39 @@ public func UpdateRoomSelectionInformation(proplist pars)
 					GraphicsName = "Gold"
 				}
 			},
-			text = 
+			text_rate = 
 			{
 				Left = "2em",
 				Right = "8em",
+				Bottom = "1.5em",
 				Style = GUI_TextVCenter,
 				Text = "$RoomMenuInfoRateRoom$"
+			},
+			text_diff = 
+			{
+				Left = "2em",
+				Right = "8em",
+				Top = "1.5em",
+				Style = GUI_TextVCenter,
+				Text = "$RoomMenuInfoRateDifficulty$"
 			},
 			stars = 
 			{
 				Left = "8em",
-				Right = "18em",
+				Right = "16.5em",
+				Bottom = "1.5em",
 				OnMouseOut = GuiAction_Call(this, "OnRoomHoverRating", {plr = plr, room_id = room_id, rating = nil, in = false}),
+			},
+			difficulty = 
+			{
+				Left = "8em",
+				Right = "16.5em",
+				Top = "1.5em",
+				OnMouseOut = GuiAction_Call(this, "OnRoomHoverDifficulty", {plr = plr, room_id = room_id, difficulty = nil, in = false}),
 			}
 		};
 		// Add attention sign if no rating has been given yet.
-		if (GetPlayerRoomRating(room_id, plr) == nil)
+		if (GetPlayerRoomRating(room_id, plr) == nil || GetPlayerRoomDifficulty(room_id, plr) == nil)
 		{
 			menu.selinfo.room.options.rating.icon.attention = 
 			{
@@ -681,17 +700,39 @@ public func UpdateRoomSelectionInformation(proplist pars)
 				graphics = "Gold";
 			menu.selinfo.room.options.rating.stars[Format("star%d", cnt)] = 
 			{
-				Left = Format("%dem", 2 * (cnt - 1)),
-				Right = Format("%dem", 2 * cnt),
+				Left = ToEmString(17 * (cnt - 1)),
+				Right = ToEmString(17 * cnt),
 				icon = 
 				{
-					Margin = ["0.2em"],
+					Margin = ["0.1em", "0.0em"],
 					Symbol = Icon_Star,
 					OnMouseIn = GuiAction_Call(this, "OnRoomHoverRating", {plr = plr, room_id = room_id, rating = cnt, in = true}),
 					OnClick = GuiAction_Call(this, "OnRoomClickRating", {plr = plr, room_id = room_id, rating = cnt}),
 					GraphicsName = graphics
 				}
 			};
+		}
+		var current_difficulty = GetPlayerRoomDifficulty(room_id, plr);
+		for (var cnt = 1; cnt <= 5; cnt ++)
+		{
+			var graphics = ["Trivial", "Easy", "Medium", "Hard", "Extreme"][cnt - 1];
+			if (cnt <= current_difficulty)
+				graphics = Format("%sWhite", graphics);
+			menu.selinfo.room.options.rating.difficulty[Format("diff%d", cnt)] = 
+			{
+				
+				Left = ToEmString(17 * (cnt - 1)),
+				Right = ToEmString(17 * cnt),
+				icon = 
+				{
+					Margin = ["0.1em", "0.0em"],
+					Symbol = Icon_Difficulty,
+					OnMouseIn = GuiAction_Call(this, "OnRoomHoverDifficulty", {plr = plr, room_id = room_id, difficulty = cnt, in = true}),
+					OnClick = GuiAction_Call(this, "OnRoomClickDifficulty", {plr = plr, room_id = room_id, difficulty = cnt}),
+					GraphicsName = graphics
+				}
+			};	
+				
 		}
 	}
 	
@@ -748,23 +789,63 @@ public func OnRoomClickRating(proplist pars)
 	var plr = pars.plr;
 	var room_id = pars.room_id;
 	var rating = pars.rating;
-	var menu = this->GetMenu();
-	var menu_id = this->GetMenuID();
-	// Remove attention symbols if it was the first rating.
-	if (GetPlayerRoomRating(room_id, plr) == nil)
-	{
-		GuiClose(menu_id, menu.selinfo.room.options.rating.icon.attention.ID, this);
-		menu.selinfo.room.options.rating.icon.attention = nil;
-		for (var room in GetProperties(menu.roomsel.rooms))
-		{
-			if (GetType(menu.roomsel.rooms[room]) == C4V_PropList && room_id == menu.roomsel.rooms[room].symbol.Symbol)
-			{
-				GuiClose(menu_id, menu.roomsel.rooms[room].rating_alert.ID, this);
-				menu.roomsel.rooms[room].rating_alert = nil;
-			}
-		}
-	}
 	// Update and store rating.
 	UpdatePlayerRoomRating(room_id, plr, rating);
+	// Update attention symbols.
+	UpdateRoomRatingAlert(room_id, plr);
+	return;
+}
+
+public func OnRoomHoverDifficulty(proplist pars)
+{
+	var plr = pars.plr;
+	var room_id = pars.room_id;
+	var difficulty = pars.difficulty;
+	var in = pars.in;
+	var menu = this->GetMenu();
+	var menu_id = this->GetMenuID();
+	var current_difficulty = GetPlayerRoomDifficulty(room_id, plr);
+	// Update the amount of colored stars.	
+	for (var cnt = 1; cnt <= 5; cnt ++)
+	{
+		var graphics = ["Trivial", "Easy", "Medium", "Hard", "Extreme"][cnt - 1];
+		if ((in && cnt <= difficulty) || (!in && cnt <= current_difficulty))		
+			graphics = Format("%sWhite", graphics);
+		menu.selinfo.room.options.rating.difficulty[Format("diff%d", cnt)].icon.GraphicsName = graphics;
+	}	
+	GuiUpdate(menu.selinfo.room.options.rating, menu_id, menu.selinfo.room.options.rating.ID, this);
+	return;
+}
+
+public func OnRoomClickDifficulty(proplist pars)
+{
+	var plr = pars.plr;
+	var room_id = pars.room_id;
+	var difficulty = pars.difficulty;
+	// Update and store rating.
+	UpdatePlayerRoomDifficulty(room_id, plr, difficulty);
+	// Update attention symbols.
+	UpdateRoomRatingAlert(room_id, plr);
+	return;
+}
+
+public func UpdateRoomRatingAlert(id room_id, int plr)
+{
+	if (GetPlayerRoomDifficulty(room_id, plr) == nil || GetPlayerRoomRating(room_id, plr) == nil) 
+		return;
+	var menu = this->GetMenu();
+	var menu_id = this->GetMenuID();
+	if (menu.selinfo.room.options.rating.icon.attention == nil)
+		return;
+	GuiClose(menu_id, menu.selinfo.room.options.rating.icon.attention.ID, this);
+	menu.selinfo.room.options.rating.icon.attention = nil;
+	for (var room in GetProperties(menu.roomsel.rooms))
+	{
+		if (GetType(menu.roomsel.rooms[room]) == C4V_PropList && room_id == menu.roomsel.rooms[room].symbol.Symbol)
+		{
+			GuiClose(menu_id, menu.roomsel.rooms[room].rating_alert.ID, this);
+			menu.roomsel.rooms[room].rating_alert = nil;
+		}
+	}
 	return;
 }

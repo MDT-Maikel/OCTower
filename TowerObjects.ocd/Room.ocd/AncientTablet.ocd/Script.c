@@ -18,7 +18,7 @@ public func Entrance(object clonk)
 	var room = GetCurrentRoom();
 	this.Description = GetRoomDescription(room);
 	if (clonk->GetOCF() & OCF_CrewMember)
-		GameCall("OnRoomTabletCollected", clonk, this);
+		GameCall("OnRoomTabletCollected", clonk, room);
 	return;
 }
 

@@ -79,13 +79,7 @@ public func DoLoadRoom(bool reload)
 		
 	// Load the room from its scenario section.
 	if (reload)
-	{
-		//Log("[%d]Load section Empty", FrameCounter());
-		//LogCallStack();
 		LoadScenarioSection("Empty");
-	}
-	//Log("[%d]Load section %v", FrameCounter(), sect);
-	//LogCallStack();
 	LoadScenarioSection(sect);
 	
 	// Create the room control object and init.
@@ -258,9 +252,12 @@ public func JoinPlayer(int plr)
 			ScheduleCall(crew, "SetCursor", 14, 0, crew->GetOwner(), crew);
 		}
 		
-		// Do player join effects.
+		// Do player join effects and init room objects.
 		if (!GameCall("IsTemplateRoom"))
+		{
 			DoPlayerEffects(crew, room_entrance->GetX(), room_entrance->GetY());
+			InitRoomObjects(plr);
+		}
 		
 		// Call to the specific room object to init the players.
 		OnPlayerInit(plr);
@@ -281,6 +278,18 @@ public func JoinPlayer(int plr)
 		// Set player view to the playing player.
 		SetViewCursor(plr, GetCrew(playing_plr));
 	}
+	return;
+}
+
+private func InitRoomObjects(int plr)
+{
+	// Gray out joker and tablet if already found.
+	var joker = FindObject(Find_ID(Joker));
+	var tablet = FindObject(Find_ID(AncientTablet));
+	if (joker && HasJoker() && HasPlayerFoundJoker(plr, GetID()))
+		joker->SetGraphics("Gray");
+	if (tablet && HasTablet() && HasPlayerFoundTablet(plr, GetID()))
+		tablet->SetGraphics("Gray");
 	return;
 }
 
@@ -353,7 +362,7 @@ public func OnTabletCollected(object crew, object tablet)
 	GameCallEx("OnRoomAttemptTabletCollected", this->GetID(), playing_plr);
 	// Remove the tablet.
 	tablet->RemoveObject();	
-	// Notify the scenario script the joker has been collected.
+	// Notify the scenario script the tablet has been collected.
 	GameCall("OnRoomTabletCompleted", crew, this->GetID());
 	return;
 }

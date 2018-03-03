@@ -1,13 +1,13 @@
 [Head]
 Icon=37
-Version=8
+Version=9
 NoInitialize=true
-
-[Game]
-EvaluateOnAbort=true
 
 [Definitions]
 Definition2=Decoration.ocd
+
+[Game]
+EvaluateOnAbort=true
 
 [Player1]
 

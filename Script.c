@@ -14,6 +14,8 @@ public func Initialize()
 	CreateObject(Statistics_RoomAttempts);
 	CreateObject(Statistics_RoomRating);
 	CreateObject(Statistics_RoomDifficulty);
+	// Init keypads.
+	InitTabletKeypads();
 	return;
 }
 
@@ -88,6 +90,8 @@ public func InitMain()
 	SetCurrentRoom(nil);
 	for (var plr in GetPlayers())
 		JoinPlayer(plr);
+	// Init keypads.
+	InitTabletKeypads();
 	return;
 }
 

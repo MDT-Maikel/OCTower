@@ -27,15 +27,15 @@ func InitializeObjects()
 	Grass021->SetPosition(273, 343);
 	var Grass022 = CreateObjectAbove(Grass, 280, 343);
 	var Grass023 = CreateObjectAbove(Grass, 283, 338);
-	CreateObjectAbove(Grass, 288, 335);
-	var Grass024 = CreateObject(Grass, 295, 331);
-	Grass024->SetPosition(295, 331);
-	Grass024->SetR(-1);
-	var Grass025 = CreateObjectAbove(Grass, 302, 335);
-	var Grass026 = CreateObjectAbove(Grass, 138, 357);
-	var Grass027 = CreateObjectAbove(Grass, 250, 356);
-	var Grass028 = CreateObjectAbove(Grass, 229, 358);
-	var Grass029 = CreateObjectAbove(Grass, 208, 358);
+	var Grass024 = CreateObjectAbove(Grass, 288, 335);
+	var Grass025 = CreateObject(Grass, 295, 331);
+	Grass025->SetPosition(295, 331);
+	Grass025->SetR(-1);
+	var Grass026 = CreateObjectAbove(Grass, 302, 335);
+	var Grass027 = CreateObjectAbove(Grass, 138, 357);
+	var Grass028 = CreateObjectAbove(Grass, 250, 356);
+	var Grass029 = CreateObjectAbove(Grass, 229, 358);
+	var Grass030 = CreateObjectAbove(Grass, 208, 358);
 
 	var Deco_Tree_Deciduous3001 = CreateObjectAbove(Deco_Tree_Deciduous3, 133, 347);
 	Deco_Tree_Deciduous3001->SetCon(102);
@@ -51,25 +51,25 @@ func InitializeObjects()
 
 	CreateObjectAbove(Flower, 160, 365);
 	var Flower001 = CreateObjectAbove(Flower, 169, 366);
-	CreateObjectAbove(Flower, 197, 366);
-	CreateObjectAbove(Flower, 253, 364);
-	var Flower002 = CreateObjectAbove(Flower, 208, 367);
+	var Flower002 = CreateObjectAbove(Flower, 197, 366);
+	var Flower003 = CreateObjectAbove(Flower, 253, 364);
+	CreateObjectAbove(Flower, 208, 367);
 
 	var Wheat001 = CreateObjectAbove(Wheat, 188, 360);
 	Wheat001->SetMeshMaterial("wheat_material_ripe", 0);
 	var Wheat002 = CreateObjectAbove(Wheat, 179, 358);
 	Wheat002->SetMeshMaterial("wheat_material_ripe", 0);
 
-	var Flower003 = CreateObjectAbove(Flower, 148, 345);
-	var Flower004 = CreateObjectAbove(Flower, 229, 367);
+	var Flower004 = CreateObjectAbove(Flower, 148, 345);
+	var Flower005 = CreateObjectAbove(Flower, 229, 367);
 
 	var Tree_Coniferous2001 = CreateObjectAbove(Tree_Coniferous2, 259, 361);
 	Tree_Coniferous2001->SetCon(104);
 	Tree_Coniferous2001->SetSeedAmount(0);
 	Tree_Coniferous2001->SetSeedChance(0);
 
-	var Flower005 = CreateObjectAbove(Flower, 288, 342);
-	Flower005->SetCon(97);
+	var Flower006 = CreateObjectAbove(Flower, 288, 342);
+	Flower006->SetCon(97);
 
 	var Tree_Coniferous4001 = CreateObjectAbove(Tree_Coniferous4, 202, 362);
 	Tree_Coniferous4001->SetCon(96);
@@ -109,63 +109,81 @@ func InitializeObjects()
 	Wheat003->SetMeshMaterial("wheat_material_ripe", 0);
 	Wheat003->SetPosition(212, 375);
 
-	var Fern001 = CreateObject(Fern, 531, 421);
-	Fern001->SetPosition(531, 421);
-	CreateObjectAbove(Fern, 565, 415);
+	var Fern001 = CreateObject(Fern, 495, 420);
+	Fern001->SetPosition(495, 420);
+	CreateObjectAbove(Fern, 452, 390);
 
 	var Trunk001 = CreateObject(Trunk, 411, 418);
 	Trunk001->SetCon(75);
 	Trunk001->SetR(-162);
 	Trunk001->SetPosition(411, 418);
 
-	var LargeCaveMushroom001 = CreateObject(LargeCaveMushroom, 514, 401);
+	var LargeCaveMushroom001 = CreateObject(LargeCaveMushroom, 476, 392);
 	LargeCaveMushroom001->SetCon(76);
 	LargeCaveMushroom001->SetR(-2);
 	LargeCaveMushroom001->SetClrModulation(0xffe5eaeb);
-	LargeCaveMushroom001->SetPosition(514, 401);
+	LargeCaveMushroom001->SetPosition(476, 392);
 
-	var Branch001 = CreateObject(Branch, 546, 393);
+	var Branch001 = CreateObject(Branch, 488, 368);
 	Branch001->SetCon(117);
 	Branch001->SetR(-123);
-	Branch001->SetPosition(546, 393);
+	Branch001->SetPosition(488, 368);
 
-	var StoneDoor001 = CreateObject(StoneDoor, 572, 179);
-	StoneDoor001->SetPosition(572, 179);
+	var StoneDoor001 = CreateObject(StoneDoor, 580, 115);
+	StoneDoor001->SetPosition(580, 115);
+	StoneDoor001->SetPlrViewOnSignalChange(true);
 
-	var Keypad001 = CreateObjectAbove(Keypad, 541, 195);
-	Keypad001->SetStoneDoor(StoneDoor001);
+	var Keypad001 = CreateObjectAbove(Keypad, 596, 131);
+	Keypad001->SetCodeActions({Door={Function="object_constant",Value=StoneDoor001},Function="open_door"});
 
-	var StoneDoor002 = CreateObject(StoneDoor, 572, 107);
-	StoneDoor002->SetPosition(572, 107);
+	var StoneDoor002 = CreateObject(StoneDoor, 580, 443);
+	StoneDoor002->SetPosition(580, 443);
+	StoneDoor002->SetPlrViewOnSignalChange(true);
 
-	var Keypad002 = CreateObjectAbove(Keypad, 541, 123);
-	Keypad002->SetStoneDoor(StoneDoor002);
-
-	var StoneDoor003 = CreateObject(StoneDoor, 572, 35);
-	StoneDoor003->SetPosition(572, 35);
-
-	var Keypad003 = CreateObjectAbove(Keypad, 539, 52);
-	Keypad003->SetStoneDoor(StoneDoor003);
-
+	var Keypad002 = CreateObjectAbove(Keypad, 599, 457);
+	Keypad002->SetCodeActions({Door={Function="object_constant",Value=StoneDoor002},Function="open_door"});
 	var Deco_Tree_Deciduous4001 = CreateObjectAbove(Deco_Tree_Deciduous4, 253, 360);
 	Deco_Tree_Deciduous4001->SetCon(101);
 	Deco_Tree_Deciduous4001.Plane = 101;
 	Deco_Tree_Deciduous4001->SetSeedAmount(0);
 	Deco_Tree_Deciduous4001->SetSeedChance(0);
 
-	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 609, 303);
+	var StoneDoor003 = CreateObject(StoneDoor, 524, 283);
+	StoneDoor003->SetComDir(COMD_Down);
+	StoneDoor003->SetPosition(524, 283);
+	StoneDoor003->SetPlrViewOnSignalChange(true);
+
+	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 585, 303);
 	RoomEntrance001->SetColor(0xff32c832);
 
-	var StoneDoor004 = CreateObject(StoneDoor, 524, 283);
-	StoneDoor004->SetComDir(COMD_Down);
-	StoneDoor004->SetPosition(524, 283);
-
 	CreateObjectAbove(Ruin_WoodenCabin, 343, 335);
+
+	var Hatch001 = CreateObject(Hatch, 622, 136);
+	Hatch001->SetCategory(C4D_StaticBack);
+	Hatch001->SetPosition(622, 136);
+	var Hatch002 = CreateObject(Hatch, 622, 305);
+	Hatch002->SetCategory(C4D_StaticBack);
+	Hatch002->SetPosition(622, 305);
+
+	var Key001 = CreateObject(Key, 529, 453);
+
+	var RoomDoor001 = CreateObjectAbove(RoomDoor, 529, 464);
+	RoomDoor001->SetKey(Key001);
+	Key001->SetPosition(529, 453);
+	Key001->Enter(RoomDoor001);
+	var Key002 = CreateObject(Key, 551, 124);
+
+	var RoomDoor002 = CreateObjectAbove(RoomDoor, 551, 135);
+	RoomDoor002->SetKey(Key002);
+	Key002->SetPosition(551, 124);
+	Key002->Enter(RoomDoor002);
+	var MetalLadder001 = CreateObjectAbove(MetalLadder, 629, 308);
+	MetalLadder001->SetLength(46);
 	var Switch001 = CreateObjectAbove(Switch, 443, 320);
-	Switch001->SetSwitchTarget(StoneDoor004);
+	Switch001->SetSwitchTarget(StoneDoor003);
 	Switch001->SetSwitchDir(1);
 
-	var Clonk001 = CreateObjectAbove(Clonk, 342, 335);
+	var Clonk001 = CreateObjectAbove(Clonk, 342, 334);
 	Clonk001->SetColor(0x813100);
 	Clonk001->SetMeshMaterial("Clonk_Sage", 0);
 	Clonk001->MakeInvincible(false);
@@ -176,8 +194,8 @@ func InitializeObjects()
 	var Pickaxe001 = Clonk001->CreateContents(Pickaxe);
 	Pickaxe001->SetPosition(342, 326);
 
-	var Dialogue001 = Clonk001->SetDialogue("Editor");
-	Dialogue001->SetUserDialogue({Actions=[{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistGoodDay$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistCabin$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistEvilGuys$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistTower$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistRiddles$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistEnter$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistLever$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistTry$"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="$DlgArchaeologistTakeCare$"}}],Function="sequence"}, nil);
+	var Dialogue001 = Clonk001->SetDialogue("Editor",false);
+	Dialogue001->SetUserDialogue({Actions=[{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="Good day stranger."}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="Hi there, what happened to your cabin?"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="There are some evil guys who took over the tower ahead and destroyed my little cabin."}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="What is so special about the tower that they would destroy your cabin?"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="I still have to find out. I am an archaeologist and was studying this ancient tower, it has several rooms with riddles and artifacts."}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="Oh that's interesting! I love riddles, how can I enter the tower?"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="Well you just turn the lever ahead and go into the first room. The further you get the harder the riddles! I did not make it to the top before those evil guys came."}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="triggering_clonk"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="Okay, I am going to give it a try!"}},{AfterMessage="next",Function="message",Options=[],Speaker={Function="npc"},TargetPlayers={Function="triggering_player_list"},Text={Function="string_constant",Value="Take care!"}}],Function="sequence"}, nil);
 
 	var Rock001 = CreateObject(Rock, 108, 413);
 	Rock001->SetPosition(108, 413);
@@ -185,10 +203,10 @@ func InitializeObjects()
 	Rock002->SetPosition(360, 374);
 	var Rock003 = CreateObject(Rock, 434, 390);
 	Rock003->SetPosition(434, 390);
-	var Rock004 = CreateObject(Rock, 541, 467);
-	Rock004->SetPosition(541, 467);
-	var Rock005 = CreateObject(Rock, 575, 444);
-	Rock005->SetPosition(575, 444);
+	var Rock004 = CreateObject(Rock, 454, 410);
+	Rock004->SetPosition(454, 410);
+	var Rock005 = CreateObject(Rock, 560, 336);
+	Rock005->SetPosition(560, 336);
 	var Rock006 = CreateObject(Rock, 453, 460);
 	Rock006->SetPosition(453, 460);
 	var Rock007 = CreateObject(Rock, 243, 469);
@@ -196,14 +214,12 @@ func InitializeObjects()
 	var Rock008 = CreateObject(Rock, 35, 443);
 	Rock008->SetPosition(35, 443);
 
-	var Coal001 = CreateObject(Coal, 579, 378);
-	Coal001->SetPosition(579, 378);
-	var Coal002 = CreateObject(Coal, 562, 359);
-	Coal002->SetPosition(562, 359);
-	var Coal003 = CreateObject(Coal, 567, 372);
-	Coal003->SetPosition(567, 372);
-	var Coal004 = CreateObject(Coal, 612, 384);
-	Coal004->SetPosition(612, 384);
+	var Coal001 = CreateObject(Coal, 579, 377);
+	Coal001->SetPosition(579, 377);
+	var Coal002 = CreateObject(Coal, 541, 344);
+	Coal002->SetPosition(541, 344);
+	var Coal003 = CreateObject(Coal, 564, 365);
+	Coal003->SetPosition(564, 365);
 
 	var Ore001 = CreateObject(Ore, 106, 470);
 	Ore001->SetPosition(106, 470);
@@ -216,29 +232,30 @@ func InitializeObjects()
 
 	var Loam001 = CreateObject(Loam, 519, 350);
 	Loam001->SetPosition(519, 350);
-	var Loam002 = CreateObject(Loam, 616, 419);
-	Loam002->SetPosition(616, 419);
+	var Loam002 = CreateObject(Loam, 224, 413);
+	Loam002->SetPosition(224, 413);
 	var Loam003 = CreateObject(Loam, 311, 460);
 	Loam003->SetPosition(311, 460);
 	var Loam004 = CreateObject(Loam, 78, 397);
 	Loam004->SetPosition(78, 397);
 	var Loam005 = CreateObject(Loam, 391, 387);
 	Loam005->SetPosition(391, 387);
-	var Loam006 = CreateObject(Loam, 478, 457);
-	Loam006->SetPosition(478, 457);
+	var Loam006 = CreateObject(Loam, 428, 454);
+	Loam006->SetR(-4);
+	Loam006->SetPosition(428, 454);
 
 	CreateObjectAbove(Mushroom, 225, 360);
 	CreateObjectAbove(Mushroom, 188, 358);
-	CreateObjectAbove(Mushroom, 545, 423);
-	CreateObjectAbove(Mushroom, 521, 423);
+	CreateObjectAbove(Mushroom, 455, 391);
+	CreateObjectAbove(Mushroom, 450, 391);
 
 	CreateObjectAbove(Seaweed, 396, 454);
 	CreateObjectAbove(Seaweed, 372, 454);
 
-	var Firestone001 = CreateObject(Firestone, 487, 371);
-	Firestone001->SetPosition(487, 371);
-	var Firestone002 = CreateObject(Firestone, 557, 449);
-	Firestone002->SetPosition(557, 449);
+	var Firestone001 = CreateObject(Firestone, 463, 347);
+	Firestone001->SetPosition(463, 347);
+	var Firestone002 = CreateObject(Firestone, 51, 449);
+	Firestone002->SetPosition(51, 449);
 	var Firestone003 = CreateObject(Firestone, 278, 466);
 	Firestone003->SetPosition(278, 466);
 	var Firestone004 = CreateObject(Firestone, 452, 437);

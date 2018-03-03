@@ -27,3 +27,6 @@ public func CollectStats()
 public func GetStats() { return stats; }
 
 public func IsStatistics() { return true; }
+
+// Don't save in scenarios.
+public func SaveScenarioObject() { return false; }

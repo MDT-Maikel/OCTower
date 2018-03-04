@@ -368,6 +368,48 @@ public func OnTabletCollected(object crew, object tablet)
 }
 
 
+/*-- League Score --*/
+
+public func GetPlayerLeagueScore(int for_plr)
+{
+	// Must be called from definition context.
+	if (GetType(this) != C4V_Def)
+	{
+		FatalError(Format("ERROR: GetPlayerLeagueScore not called from definition context but from %v", this));
+		return;
+	}
+	var room_score = 0;
+	// Calculate the score dependent on the difficulty and collected jokers and tablets.
+	if (HasPlayerCompletedRoom(for_plr, this))
+		room_score += this->GetRoomLeagueScore();
+	if (HasPlayerFoundJoker(for_plr, this))
+		room_score += this->GetJokerLeagueScore();
+	if (HasPlayerFoundTablet(for_plr, this))
+		room_score += this->GetTabletLeagueScore();
+	return room_score;
+}
+
+private func GetRoomLeagueScore()
+{
+	// Difficulty ranges from 0 to 999, turn this into more rounded numbers.
+	// The score is one of the following: 20, 40, 60, 80, 100.
+	return BoundBy(20 * (GetRoomDifficulty() / 200 + 1), 20, 100);
+}
+
+private func GetJokerLeagueScore()
+{
+	// Difficulty ranges from 0 to 999, turn this into more rounded numbers.
+	// The score is one of the following: 5, 10, 15, 20, 25.
+	return BoundBy(5 * (GetRoomDifficulty() / 200 + 1), 5, 25);
+}
+
+private func GetTabletLeagueScore()
+{
+	// All tablets give 5 points, because they do not correspond to the rooms difficulty.
+	return 5;
+}
+
+
 /*-- Saving --*/
 
 // Do not save this object as it is recreated on the loading of a new room.

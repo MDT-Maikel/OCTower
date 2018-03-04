@@ -187,7 +187,7 @@ public func OnRoomCompleted(object crew, id room)
 		SavePlayerRoomData(for_plr);
 	}
 	
-	// Append player to the end of playing queue.	
+	// Append player to the end of playing queue.
 	AppendPlayerToQueue(plr);
 	
 	// Get the next room and load that.
@@ -195,6 +195,6 @@ public func OnRoomCompleted(object crew, id room)
 	if (next_room)
 		return next_room->LoadRoom();
 
-	// Load main if no next room is found.		
+	// Load main if no next room is found.
 	return LoadMain();
 }

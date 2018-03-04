@@ -105,12 +105,29 @@ global func SavePlayerRoomData(int plr)
 		if (room_data != TOWER_Saving_None)
 			save_string = Format("%s%s%d", save_string, room->GetRoomID(), room_data);
 	}
-	//Log("Save: plr %d save_string %s", plr, save_string);
 	// If league is active store progress there, otherwise store the progress in the player file.
 	if (GetLeague())
+	{
 		SetLeagueProgressData(save_string, plr_id);
+		SavePlayerLeagueScore(plr);
+	}
 	else
+	{
 		SetPlrExtraData(plr, "OCTowerProgress", save_string);		
+	}
+	return;
+}
+
+// Registers the player's current score with the league.
+global func SavePlayerLeagueScore(int plr)
+{
+	var plr_id = GetPlayerID(plr);
+	var tower_score = 0;
+	// Calculate the total score for this player.
+	for (var room in GetRoomList())
+		tower_score += room->GetPlayerLeagueScore(plr);
+	// Register to league.
+	SetLeaguePerformance(tower_score, plr_id);
 	return;
 }
 

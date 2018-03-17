@@ -8,7 +8,7 @@ Origin=OCTower.ocs/RoomTemplate.ocs
 
 [Definitions]
 Definition2=Decoration.ocd
-Definition3=OCTower.ocs/TowerObjects.ocd
+Definition3=OCTower.ocs\TowerObjects.ocd
 
 [Player1]
 

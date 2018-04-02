@@ -130,7 +130,7 @@ private func ResetSettings()
 		// Remove all player knowledge, base material and production are
 		// removed when all objects are removed on section change.
 		var def;
-		while (def = GetPlrKnowledge(plr))
+		while (def = GetPlrKnowledge(plr, nil, 0, 0xffffffff))
 			SetPlrKnowledge(plr, def, true);
 	}
 	// Remove any custom message from the previous room.

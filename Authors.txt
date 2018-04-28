@@ -13,5 +13,8 @@ Room authors are credited in the scenario.
 
 
 Misc authors:
-Loader1.png                       - Sven2 (CC BY 4.0)
-IconDifficulty.ocd/Graphics*.png  - Delapouite (CC BY 3.0) (http://game-icons.net/delapouite/originals/private.html)
+Loader1.png                             - Sven2 (CC BY 4.0)
+IconDifficulty.ocd/Graphics*.png        - Delapouite (CC BY 3.0) (http://game-icons.net/delapouite/originals/private.html)
+RoomTemplate.ocd/Graphics.png           - Pyrit (CC BY 4.0)
+RoomTemplate.ocd/GraphicsBackground.png - Pyrit (CC BY 4.0)
+RoomTemplate.ocd/GraphicsFrame.png      - Pyrit (CC BY 4.0)

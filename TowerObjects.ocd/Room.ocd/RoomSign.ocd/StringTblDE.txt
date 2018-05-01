@@ -1,0 +1,4 @@
+Name=Raumtafel
+Description=Behält wichtige Informationen.
+Inscription=Beschriftung
+InscriptionHelp=Text der beim Lesen der Raumtafel angezeigt wird.

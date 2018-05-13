@@ -1,6 +1,6 @@
 [Head]
 Title=Room
-Version=9
+Version=8
 NoInitialize=true
 
 [Definitions]

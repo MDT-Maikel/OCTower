@@ -1,7 +1,7 @@
 [Head]
 Icon=37
 Title=RoomTemplate
-Version=9
+Version=8
 NoInitialize=true
 RandomSeed=1473004436
 Origin=OCTower.ocs/RoomTemplate.ocs

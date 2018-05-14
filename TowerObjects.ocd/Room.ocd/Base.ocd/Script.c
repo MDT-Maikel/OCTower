@@ -127,6 +127,10 @@ private func ResetSettings()
 	{
 		// Set wealth to zero.
 		SetWealth(plr, 0);
+		// Reset player zoom settings to default.
+		SetPlayerZoomByViewRange(plr, nil, nil, PLRZOOM_Direct | PLRZOOM_LimitMin);
+		SetPlayerZoomByViewRange(plr, nil, nil, PLRZOOM_Direct | PLRZOOM_LimitMax);
+		SetPlayerZoomByViewRange(plr, nil, nil, PLRZOOM_Direct | PLRZOOM_Set);
 		// Remove all player knowledge, base material and production are
 		// removed when all objects are removed on section change.
 		var def;

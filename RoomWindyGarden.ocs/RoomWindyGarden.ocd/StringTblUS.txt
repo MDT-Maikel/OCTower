@@ -1,0 +1,3 @@
+RoomName=Windy Garden
+RoomDescription=Higher up, the wind blows even inside the tower.
+RoomHint1=My favourite activity is to swim in the lake.

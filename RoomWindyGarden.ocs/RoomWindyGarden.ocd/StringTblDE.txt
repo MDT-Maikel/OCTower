@@ -1,0 +1,3 @@
+RoomName=Windiger Garten
+RoomDescription=Hier oben, da weht der Wind auch im Turm.
+RoomHint1=Am liebsten plansche ich im Teich!

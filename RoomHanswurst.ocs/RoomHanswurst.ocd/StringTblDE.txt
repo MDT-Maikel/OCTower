@@ -1,0 +1,2 @@
+RoomName=Hanswurst
+RoomDescription=Bist du Hanswurst?

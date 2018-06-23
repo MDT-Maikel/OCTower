@@ -1,0 +1,4 @@
+RoomName=Flugstunde
+RoomDescription=Achtung! Nicht zu hoch fliegen; dann schmilzt die Lava das Wachs, das deine Fluegel zusammen haelt.
+RoomHint1=Einfach durch die Windbags schalten und aktivieren.
+RoomHint2=Wenn man den Trick kennt, ist der Joker relativ einfach.

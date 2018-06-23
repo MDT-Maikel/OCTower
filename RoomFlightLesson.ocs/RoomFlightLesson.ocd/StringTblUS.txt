@@ -1,0 +1,4 @@
+RoomName=Flight Lesson
+RoomDescription=Caution! Don't fly too high, or else the lava will melt the wax, which keeps your wings together.
+RoomHint1=Just cycle through the windbags and push.
+RoomHint2=If you know the trick, the joker is pretty easy.

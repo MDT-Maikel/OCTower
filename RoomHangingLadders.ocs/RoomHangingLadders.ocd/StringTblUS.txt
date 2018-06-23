@@ -1,0 +1,3 @@
+RoomName=Hanging Ladders
+RoomDescription=Never let go of the last rung.
+RoomHint1=Just open the door and get in.

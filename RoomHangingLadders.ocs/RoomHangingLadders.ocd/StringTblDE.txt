@@ -1,0 +1,3 @@
+RoomName=Hängender Leiter
+RoomDescription=Nie die letzte Sprosse loslassen.
+RoomHint1=Einfach die Tür öffnen und rein gehen.

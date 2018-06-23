@@ -1,0 +1,6 @@
+RoomName=Floor Frustration
+RoomDescription=Oops, looks like you got out of the elevator one floor too high.
+RoomHint1=Was there something in the tree trunk?
+RoomHint2=You have to cheat yourself around the corner.
+
+

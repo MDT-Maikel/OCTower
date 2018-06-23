@@ -1,0 +1,6 @@
+RoomName=Etagenkrampf
+RoomDescription=Ups, da bist du wohl eine Etage zu hoch ausgestiegen.
+RoomHint1=War da was im Baumstamm?
+RoomHint2=Du musst dich um die Ecke schummeln.
+
+

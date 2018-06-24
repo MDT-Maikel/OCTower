@@ -1,0 +1,5 @@
+RoomName=Knock Knock
+RoomDescription=Just knock on the door and someone will open!
+RoomHint1=You should press the floor switch using rocks.
+RoomHint2=Create and destroy!
+

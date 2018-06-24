@@ -1,0 +1,5 @@
+RoomName=Klopf Klopf
+RoomDescription=Klopfe einfach an die Tür, und jemand wird aufmachen!
+RoomHint1=Den Bodenschalter drückt man am besten mit Steinen.
+RoomHint2=Erschaffe und zerstöre!
+

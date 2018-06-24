@@ -1,0 +1,2 @@
+RoomName=Wheel Of Fortune
+RoomDescription=Kill all the enemies to conquer this room.

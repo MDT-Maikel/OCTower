@@ -1,0 +1,2 @@
+RoomName=Glücksrad
+RoomDescription=Töte alle Feinde, um diesen Raum zu bewältigen.

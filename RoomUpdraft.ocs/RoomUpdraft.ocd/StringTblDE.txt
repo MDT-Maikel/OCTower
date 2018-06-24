@@ -1,0 +1,2 @@
+RoomName=Aufwind
+RoomDescription=Stürz' dich ins Chaos der wilden Winde! Immer weiter nach oben! In diesem Außenbereich sind die Winde abolut unberechenbar.

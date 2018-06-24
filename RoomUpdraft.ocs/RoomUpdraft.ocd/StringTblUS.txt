@@ -1,0 +1,2 @@
+RoomName=Updraft
+RoomDescription=Hurl yourself into the merciless winds! Up, up, up! In this outer area, the winds are completely erratic!

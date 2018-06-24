@@ -1,0 +1,4 @@
+RoomName=Hin Und Zurück
+RoomDescription=Einmal nach rechts und dann wieder nach links.
+RoomHint1=Bleib lieber oben.
+RoomHint2=Du solltest den Rückweg vorbereiten.

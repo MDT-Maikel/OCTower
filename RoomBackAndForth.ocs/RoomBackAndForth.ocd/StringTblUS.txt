@@ -1,0 +1,4 @@
+RoomName=Back And Forth
+RoomDescription=To the right and then back to the left.
+RoomHint1=You should stay upstairs.
+RoomHint2=When going right, prepare the path to come back!

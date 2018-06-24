@@ -1,0 +1,2 @@
+RoomName=Amazon
+RoomDescription=Not only books burn

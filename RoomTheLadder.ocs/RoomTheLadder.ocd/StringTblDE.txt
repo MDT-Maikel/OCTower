@@ -1,0 +1,3 @@
+RoomName=Die Leiter
+RoomDescription=Leitern sind nützliche Hilfsmittel, mit denen vor allem vertikale Distanzen überwunden werden können.
+Ouch=Aua! Man! Hier ist deine Leiter, ok?

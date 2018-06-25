@@ -1,0 +1,3 @@
+RoomName=The Ladder
+RoomDescription=Ladders are very useful tools. Especially useful in conquering vertical distances.
+Ouch=Ouch! Okay, fine! Here's your stupid ladder.

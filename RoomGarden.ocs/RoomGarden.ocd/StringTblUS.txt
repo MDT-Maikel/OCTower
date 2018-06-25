@@ -1,0 +1,4 @@
+RoomName=Garden
+RoomDescription=There's always something to do in the garden.
+RoomHint1=My favourite activity is to swim in the lake.
+

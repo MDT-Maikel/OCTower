@@ -1,0 +1,4 @@
+RoomName=Garten
+RoomDescription=Im Garten gibt es immer etwas zu tun.
+RoomHint1=Am liebsten plansche ich im Teich!
+

@@ -258,16 +258,16 @@ if args.verbose:
 	for index in range(0, len(room_names)):
 		rooms.append([room_diffs[index], room_names[index], room_ids[index], str(room_authors[index])])
 	rooms.sort(key = lambda r: int(r[0]))
-	leftpad = lambda val, length: "%s%s" % (" " * (length - len(val)), val)
+	leftpad = lambda val, length, max_length=100: "%s%s" % (" " * (length - len(val[:max_length])), val[:max_length])
 	for index in range(0, len(rooms)):
 		room = rooms[index]
 		num = str(index + 1)
 		print("| %s | %s | %s | %s | %s |" % (
-			leftpad(num, 3),
+			leftpad(num, 3,),
 			leftpad(room[0], 4),
 			leftpad(room[1], 24),
 			room[2],
-			leftpad(room[3], 32)
+			leftpad(room[3], 32, 32)
 		))
 	print("---------------------------------------------------------------------------------")
 

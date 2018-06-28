@@ -98,7 +98,7 @@ for room_dir in os.listdir(tower_dir):
 				os.remove(room_dir + "/MapBgTemp.png")
 				room_authors.append((get_room_authors(room_dir), get_room_nr(room_dir)))
 				print("included " + room_dir)
-			except OSError as e:
+			except (OSError, IOError) as e:
 				print("excluded " + room_dir + " (failed to run ocmapgen)")
 				print("ERROR: " + str(e))
 		else:

@@ -1,7 +1,7 @@
 [Head]
 Icon=1
 Title=Room
-Version=9
+Version=8
 NoInitialize=true
 
 [Definitions]

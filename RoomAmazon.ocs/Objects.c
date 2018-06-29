@@ -68,80 +68,123 @@ func InitializeObjects()
 	Fuse009.LineColors = [-10210816,-16711423];
 	Fuse009->SetPosition(445, 716);
 	Fuse->Create();
+	var Fuse010 = CreateObject(Fuse, 445, 708);
+	Fuse010.LineColors = [-10210816,-16711423];
+	Fuse010->SetPosition(445, 708);
+	Fuse->Create();
+	var Fuse011 = CreateObject(Fuse, 445, 708);
+	Fuse011.LineColors = [-10210816,-16711423];
+	Fuse011->SetPosition(445, 708);
+	Fuse->Create();
 
 	var Dynamite001 = CreateObjectAbove(Dynamite, 445, 359);
-	var Dynamite002 = CreateObjectAbove(Dynamite, 435, 367);
+	var Dynamite002 = CreateObject(Dynamite, 435, 362);
+	Dynamite002->SetPosition(435, 362);
 
-	var Fuse010 = CreateObjectAbove(Fuse, 445, 708);
-	Fuse010.LineColors = [-10210816,-16711423];
-	Fuse->Create(Dynamite001, Dynamite002);
-	var Fuse011 = CreateObject(Fuse, 421, 729);
-	Fuse011.LineColors = [-10210816,-16711423];
-	Fuse011->SetPosition(421, 729);
-	Fuse->Create();
-	var Fuse012 = CreateObject(Fuse, 435, 726);
+	var Fuse012 = CreateObjectAbove(Fuse, 445, 708);
 	Fuse012.LineColors = [-10210816,-16711423];
-	Fuse012->SetPosition(435, 726);
+	Fuse->Create(Dynamite001, Dynamite002);
+	var Fuse013 = CreateObject(Fuse, 421, 729);
+	Fuse013.LineColors = [-10210816,-16711423];
+	Fuse013->SetPosition(421, 729);
+	Fuse->Create();
+	var Fuse014 = CreateObject(Fuse, 435, 726);
+	Fuse014.LineColors = [-10210816,-16711423];
+	Fuse014->SetPosition(435, 726);
+	Fuse->Create();
+	var Fuse015 = CreateObject(Fuse, 435, 726);
+	Fuse015.LineColors = [-10210816,-16711423];
+	Fuse015->SetPosition(435, 726);
+	Fuse->Create();
+	var Fuse016 = CreateObject(Fuse, 435, 726);
+	Fuse016.LineColors = [-10210816,-16711423];
+	Fuse016->SetPosition(435, 726);
 	Fuse->Create();
 
 	var Dynamite003 = CreateObject(Dynamite, 435, 363);
 	Dynamite003->SetR(64);
 	Dynamite003->SetPosition(435, 363);
 
-	var Fuse013 = CreateObjectAbove(Fuse, 435, 726);
-	Fuse013.LineColors = [-10210816,-16711423];
+	var Fuse017 = CreateObject(Fuse, 435, 363);
+	Fuse017.LineColors = [-10210816,-16711423];
+	Fuse017->SetPosition(435, 363);
 	Fuse->Create(Dynamite003, Dynamite002);
-	var Fuse014 = CreateObject(Fuse, 435, 723);
-	Fuse014.LineColors = [-10210816,-16711423];
-	Fuse014->SetPosition(435, 723);
+	var Fuse018 = CreateObject(Fuse, 435, 723);
+	Fuse018.LineColors = [-10210816,-16711423];
+	Fuse018->SetPosition(435, 723);
 	Fuse->Create();
-	var Fuse015 = CreateObject(Fuse, 435, 726);
-	Fuse015.LineColors = [-10210816,-16711423];
-	Fuse015->SetPosition(435, 726);
+	var Fuse019 = CreateObject(Fuse, 435, 726);
+	Fuse019.LineColors = [-10210816,-16711423];
+	Fuse019->SetPosition(435, 726);
+	Fuse->Create();
+	var Fuse020 = CreateObject(Fuse, 435, 726);
+	Fuse020.LineColors = [-10210816,-16711423];
+	Fuse020->SetPosition(435, 726);
+	Fuse->Create();
+	var Fuse021 = CreateObject(Fuse, 435, 726);
+	Fuse021.LineColors = [-10210816,-16711423];
+	Fuse021->SetPosition(435, 726);
 	Fuse->Create();
 
 	var Dynamite004 = CreateObjectAbove(Dynamite, 447, 359);
 
-	var Fuse016 = CreateObjectAbove(Fuse, 435, 726);
-	Fuse016.LineColors = [-10210816,-16711423];
+	var Fuse022 = CreateObject(Fuse, 435, 363);
+	Fuse022.LineColors = [-10210816,-16711423];
+	Fuse022->SetPosition(435, 363);
 	Fuse->Create(Dynamite003, Dynamite004);
-	var Fuse017 = CreateObject(Fuse, 447, 721);
-	Fuse017.LineColors = [-10210816,-16711423];
-	Fuse017->SetPosition(447, 721);
+	var Fuse023 = CreateObject(Fuse, 447, 721);
+	Fuse023.LineColors = [-10210816,-16711423];
+	Fuse023->SetPosition(447, 721);
 	Fuse->Create();
-	var Fuse018 = CreateObject(Fuse, 447, 721);
-	Fuse018.LineColors = [-10210816,-16711423];
-	Fuse018->SetPosition(447, 721);
+	var Fuse024 = CreateObject(Fuse, 447, 721);
+	Fuse024.LineColors = [-10210816,-16711423];
+	Fuse024->SetPosition(447, 721);
+	Fuse->Create();
+	var Fuse025 = CreateObject(Fuse, 447, 708);
+	Fuse025.LineColors = [-10210816,-16711423];
+	Fuse025->SetPosition(447, 708);
+	Fuse->Create();
+	var Fuse026 = CreateObject(Fuse, 447, 708);
+	Fuse026.LineColors = [-10210816,-16711423];
+	Fuse026->SetPosition(447, 708);
 	Fuse->Create();
 
 	var Dynamite005 = CreateObject(Dynamite, 422, 367);
 	Dynamite005->SetR(-34);
 	Dynamite005->SetPosition(422, 367);
 
-	var Fuse019 = CreateObjectAbove(Fuse, 447, 708);
-	Fuse019.LineColors = [-10210816,-16711423];
+	var Fuse027 = CreateObjectAbove(Fuse, 447, 708);
+	Fuse027.LineColors = [-10210816,-16711423];
 	Fuse->Create(Dynamite004, Dynamite005);
-	var Fuse020 = CreateObject(Fuse, 422, 367);
-	Fuse020.LineColors = [-10210816,-16711423];
-	Fuse020->SetPosition(422, 367);
+	var Fuse028 = CreateObject(Fuse, 422, 367);
+	Fuse028.LineColors = [-10210816,-16711423];
+	Fuse028->SetPosition(422, 367);
 	Fuse->Create();
-	var Fuse021 = CreateObject(Fuse, 422, 367);
-	Fuse021.LineColors = [-10210816,-16711423];
-	Fuse021->SetPosition(422, 367);
+	var Fuse029 = CreateObject(Fuse, 422, 367);
+	Fuse029.LineColors = [-10210816,-16711423];
+	Fuse029->SetPosition(422, 367);
+	Fuse->Create();
+	var Fuse030 = CreateObject(Fuse, 422, 367);
+	Fuse030.LineColors = [-10210816,-16711423];
+	Fuse030->SetPosition(422, 367);
+	Fuse->Create();
+	var Fuse031 = CreateObject(Fuse, 422, 367);
+	Fuse031.LineColors = [-10210816,-16711423];
+	Fuse031->SetPosition(422, 367);
 	Fuse->Create();
 
 	var DynamiteBox001 = CreateObjectAbove(DynamiteBox, 343, 334);
+	DynamiteBox001->Unstick(7);
 	DynamiteBox001->SetDynamiteCount(0);
 
-	var Fuse022 = CreateObject(Fuse, 422, 367);
-	Fuse022.LineColors = [-10210816,-16711423];
-	Fuse022->SetPosition(422, 367);
+	var Fuse032 = CreateObject(Fuse, 422, 367);
+	Fuse032.LineColors = [-10210816,-16711423];
+	Fuse032->SetPosition(422, 367);
 	Fuse->Create(Dynamite005, DynamiteBox001);
 
 	var MetalBarrel001 = CreateObjectAbove(MetalBarrel, 529, 382);
 	MetalBarrel001->SetColor(0xfffe8a0e);
 	MetalBarrel001->SetName("Metal Barrel with Magma");
-	MetalBarrel001->Unstick(7);
 
 	var DuroLava001 = MetalBarrel001->CreateContents(DuroLava);
 	DuroLava001->SetStackCount(300);
@@ -153,7 +196,7 @@ func InitializeObjects()
 	LargeCaveMushroom001->SetSeedAmount(0);
 	LargeCaveMushroom001->SetSeedChance(0);
 
-	CreateObjectAbove(Fern, 204, 456);
+	CreateObjectAbove(Fern, 123, 455);
 	CreateObjectAbove(Fern, 469, 445);
 
 	var LargeCaveMushroom002 = CreateObjectAbove(LargeCaveMushroom, 216, 378);
@@ -173,6 +216,7 @@ func InitializeObjects()
 	var MetalBarrel002 = CreateObjectAbove(MetalBarrel, 543, 382);
 	MetalBarrel002->SetColor(0xfffe8a0e);
 	MetalBarrel002->SetName("Metal Barrel with Magma");
+	MetalBarrel002->Unstick(7);
 
 	var DuroLava002 = MetalBarrel002->CreateContents(DuroLava);
 	DuroLava002->SetStackCount(300);
@@ -185,6 +229,10 @@ func InitializeObjects()
 	var DuroLava003 = MetalBarrel003->CreateContents(DuroLava);
 	DuroLava003->SetStackCount(300);
 	DuroLava003->SetPosition(590, 379);
+	var RoomSign001 = CreateObjectAbove(RoomSign, 201, 445);
+	RoomSign001->SetInscription({DE="Dieser Raum hat den ersten Platz im 2018er Turm-Wettbewerb erhalten!",Function="Translate",US="This room has been awarded first place in the 2018 tower design contest!"});
+	RoomSign001->CustomInitialize("SetReward(\"Gold\")");
+
 	var Basement001 = CreateObject(Basement, 125, 307);
 	Basement001->SetPosition(125, 307);
 	Basement001->MakeInvincible(false);
@@ -225,9 +273,9 @@ func InitializeObjects()
 	Idol004->SetAction("ItemLeftHigh");
 	Idol004->EditorSetItemLeft({Bone="main",MeshTransformation=[-1200,0,0,0,0,-1200,0,0,0,0,1200,0],Type=Axe});
 
-	var StoneDoor001 = CreateObject(StoneDoor, 109, 436);
+	var StoneDoor001 = CreateObject(StoneDoor, 108, 436);
 	StoneDoor001->SetComDir(COMD_Down);
-	StoneDoor001->SetPosition(109, 436);
+	StoneDoor001->SetPosition(108, 436);
 	StoneDoor001->SetPlrViewOnSignalChange(true);
 
 	var FloorSwitch001 = CreateObject(FloorSwitch, 454, 452);
@@ -260,39 +308,52 @@ func InitializeObjects()
 
 	var Bat001 = CreateObjectAbove(Bat, 407, 415);
 	Bat001->SetComDir(COMD_None);
+	Bat001->SetXDir(-6);
+	Bat001->SetYDir(6);
 	Bat001->DoEnergy(-15);
 	Bat001->Unstick(7);
 	var Bat002 = CreateObjectAbove(Bat, 432, 407);
 	Bat002->SetComDir(COMD_None);
 	Bat002->SetXDir(6);
+	Bat002->SetYDir(6);
 	Bat002->Unstick(7);
 	var Bat003 = CreateObjectAbove(Bat, 480, 455);
 	Bat003->Kill(Bat003, true);
 	Bat003->SetComDir(COMD_None);
 	Bat003->SetCon(54);
+	Bat003->SetXDir(6);
+	Bat003->SetYDir(-6);
 	Bat003->DoEnergy(-20);
 	var Bat004 = CreateObjectAbove(Bat, 403, 415);
 	Bat004->SetComDir(COMD_None);
+	Bat004->SetXDir(-6);
+	Bat004->SetYDir(-6);
 	Bat004->DoEnergy(-15);
 	Bat004->Unstick(7);
 
-	var Mosquito001 = CreateObjectAbove(Mosquito, 487, 416);
-	Mosquito001->SetDir(DIR_Right);
-	Mosquito001->SetComDir(COMD_UpRight);
+	var Mosquito001 = CreateObjectAbove(Mosquito, 480, 454);
+	Mosquito001->SetComDir(COMD_None);
 	Mosquito001->Unstick(7);
-	var Mosquito002 = CreateObjectAbove(Mosquito, 467, 431);
-	Mosquito002->SetComDir(COMD_Up);
+	var Mosquito002 = CreateObjectAbove(Mosquito, 480, 454);
+	Mosquito002->SetComDir(COMD_None);
 	Mosquito002->Unstick(7);
-	var Mosquito003 = CreateObjectAbove(Mosquito, 485, 409);
-	Mosquito003->SetComDir(COMD_Down);
+	var Mosquito003 = CreateObjectAbove(Mosquito, 487, 416);
+	Mosquito003->SetDir(DIR_Right);
+	Mosquito003->SetComDir(COMD_UpRight);
 	Mosquito003->Unstick(7);
-	var Mosquito004 = CreateObjectAbove(Mosquito, 250, 415);
-	Mosquito004->SetDir(DIR_Right);
-	Mosquito004->SetComDir(COMD_None);
+	var Mosquito004 = CreateObjectAbove(Mosquito, 467, 431);
+	Mosquito004->SetComDir(COMD_Up);
 	Mosquito004->Unstick(7);
-	var Mosquito005 = CreateObjectAbove(Mosquito, 365, 428);
-	Mosquito005->SetComDir(COMD_Up);
+	var Mosquito005 = CreateObjectAbove(Mosquito, 485, 409);
+	Mosquito005->SetComDir(COMD_Down);
 	Mosquito005->Unstick(7);
+	var Mosquito006 = CreateObjectAbove(Mosquito, 250, 415);
+	Mosquito006->SetDir(DIR_Right);
+	Mosquito006->SetComDir(COMD_None);
+	Mosquito006->Unstick(7);
+	var Mosquito007 = CreateObjectAbove(Mosquito, 365, 428);
+	Mosquito007->SetComDir(COMD_Up);
+	Mosquito007->Unstick(7);
 
 	var Cloth001 = InventorsLab001->CreateContents(Cloth);
 	Cloth001->SetPosition(290, 335);
@@ -343,9 +404,11 @@ func InitializeObjects()
 	var Key013 = CreateObject(Key, 480, 454);
 	Key013->SetR(-41);
 	Key013->SetPosition(480, 454);
+	Key013->Unstick(7);
 	var Key014 = CreateObject(Key, 483, 450);
 	Key014->SetR(-142);
 	Key014->SetPosition(483, 450);
+	Key014->Unstick(7);
 	var Key015 = CreateObject(Key, 490, 455);
 	Key015->SetR(-41);
 	Key015->SetPosition(490, 455);
@@ -363,9 +426,11 @@ func InitializeObjects()
 	var WindBag001 = CreateObject(WindBag, 601, 227);
 	WindBag001->SetR(-30);
 	WindBag001->SetPosition(601, 227);
+	WindBag001->Unstick(7);
 	var WindBag002 = CreateObject(WindBag, 577, 227);
 	WindBag002->SetR(-29);
 	WindBag002->SetPosition(577, 227);
+	WindBag002->Unstick(7);
 
 	CreateObjectAbove(Seaweed, 496, 394);
 	CreateObjectAbove(Seaweed, 510, 391);

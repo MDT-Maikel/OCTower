@@ -1,2 +1,3 @@
 RoomName=Glücksrad
 RoomDescription=Töte alle Feinde, um diesen Raum zu bewältigen.
+MsgContestReward=Dieser Raum hat den dritten Platz im 2018er Turm-Wettbewerb erhalten!

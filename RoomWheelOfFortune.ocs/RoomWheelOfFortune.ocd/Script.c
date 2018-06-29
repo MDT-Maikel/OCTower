@@ -55,12 +55,18 @@ public func OnRoomInit()
 	g_brick = CreateObject(MovingBrick, 65, 446);
 	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 56, 440);
 	RoomEntrance001->SetColor(0xff32c832);
+	
+	var contest_reward = CreateObjectAbove(RoomSign, 72, 432);
+	contest_reward->SetInscription("$MsgContestReward$");
+	contest_reward->SetReward("Bronze");
+	contest_reward->SetPosition(g_brick->GetX() - 4, g_brick->GetY() - 12);
+	contest_reward->CreateEffect(FxMoveContestReward, 1, 1);
 
 	ItemSpawn->Create(Club, 122, 252);
 	ItemSpawn->Create(Shield, 65, 282);
 	
-	Scenario->CreateEffect(BossController, 1, 5, 200, 9);
-	Scenario->CreateEffect(BatController, 1, 0);
+	Scenario->CreateEffect(FxBossController, 1, 5, 200, 9);
+	Scenario->CreateEffect(FxBatController, 1, 0);
 	return;
 }
 
@@ -68,15 +74,15 @@ public func OnRoomInit()
 // Here you can create effects and extra objects that are needed for the player and its crew.
 public func OnPlayerInit(int plr)
 {
-	Scenario->CreateEffect(StartupDelay, 1, 70);
+	Scenario->CreateEffect(FxStartupDelay, 1, 70);
 	var clnk = GetCrew(plr);
-	clnk->CreateEffect(FightController, 1, 5);
+	clnk->CreateEffect(FxFightController, 1, 5);
 	clnk.MaxEnergy = 100000;
 	clnk->DoEnergy(1000);
 	return;
 }
 
-local StartupDelay = new Effect
+local FxStartupDelay = new Effect
 {
 	Timer = func()
 	{
@@ -85,7 +91,21 @@ local StartupDelay = new Effect
 	}
 };
 
-local FightController = new Effect
+local FxMoveContestReward =  new Effect
+{
+	Timer = func()
+	{
+		if (!g_brick)
+		{
+			Target->RemoveObject();
+			return FX_Execute_Kill;
+		}
+		Target->SetPosition(g_brick->GetX() + 12, g_brick->GetY() - 18);
+		return FX_OK;
+	}
+};
+
+local FxFightController = new Effect
 {
 	Timer = func()
 	{
@@ -94,14 +114,14 @@ local FightController = new Effect
 
 		FindObject(Find_ID(ItemSpawn))->RemoveObject();
 		FindObject(Find_ID(ItemSpawn))->RemoveObject();
-		GetEffect("BossController", Scenario)->StartMovement();
+		GetEffect("FxBossController", Scenario)->StartMovement();
 		g_brick->MoveVertical(480, 520, 15);
 		Sound("BossFight", true);
 		return FX_Execute_Kill;
 	}
 };
 
-local BossController = new Effect
+local FxBossController = new Effect
 {
 	Construction = func(int at_radius, int brick_count)
 	{
@@ -197,7 +217,7 @@ local BossController = new Effect
 				SpawnEffect(x, y);
 				var x = this.bricks[7]->GetX();
 				var y = this.bricks[7]->GetY() - 8;
-				GetEffect("BatController", Scenario)->SpawnBat();
+				GetEffect("FxBatController", Scenario)->SpawnBat();
 				SpawnEffect(x, y);
 				SetSkyParallax(0, 0, 0, 0, 0);
 				SetSkyAdjust(HSL(0, 0, 220));
@@ -272,7 +292,7 @@ local BossController = new Effect
 	}
 };
 
-local BatController = new Effect
+local FxBatController = new Effect
 {
 	SpawnBat = func()
 	{
@@ -292,7 +312,7 @@ local BatController = new Effect
 			Alpha = (color >> 24) & 0xff
 		};
 
-		GetEffect("BossController", Scenario)->SpawnEffect(LandscapeWidth() / 2, LandscapeHeight() / 2);
+		GetEffect("FxBossController", Scenario)->SpawnEffect(LandscapeWidth() / 2, LandscapeHeight() / 2);
 
 		this.Interval = 1;
 

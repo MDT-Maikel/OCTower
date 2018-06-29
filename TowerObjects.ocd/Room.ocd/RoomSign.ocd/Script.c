@@ -16,6 +16,17 @@ public func SetRoom(id room)
 	return;
 }
 
+// Sets the graphics to a contest reward (place = "Gold", "Silver", or "Bronze").
+public func SetReward(string place)
+{
+	SetGraphics(place, Icon_QuestionMark, GFX_Overlay, GFXOV_MODE_Picture);
+	SetGraphics(place, Icon_QuestionMark, GFX_Overlay + 1, GFXOV_MODE_IngamePicture);
+	var scale = 800;
+	SetObjDrawTransform(scale, 0, 0, 0, scale, 0, GFX_Overlay);
+	SetObjDrawTransform(scale, 0, 0, 0, scale, 0, GFX_Overlay + 1);
+	return;
+}
+
 // Color for messages.
 public func GetColor() { return 0xffc0c0c0; }
 

@@ -1,2 +1,3 @@
 RoomName=Wheel Of Fortune
 RoomDescription=Kill all the enemies to conquer this room.
+MsgContestReward=This room has been awarded third place in the 2018 tower design contest!

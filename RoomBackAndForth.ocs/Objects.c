@@ -4,6 +4,10 @@ func InitializeObjects()
 {
 	var Rule_NoPowerNeed001 = CreateObject(Rule_NoPowerNeed, 208, 60);
 	Rule_NoPowerNeed001->SetPosition(208, 60);
+
+	var RoomSign001 = CreateObjectAbove(RoomSign, 198, 100);
+	RoomSign001->SetInscription({DE="Dieser Raum hat den dritten Platz im 2018er Turm-Wettbewerb erhalten!",Function="Translate",US="This room has been awarded third place in the 2018 tower design contest!"});
+	RoomSign001->CustomInitialize("SetReward(\"Bronze\")");
 	var RoomEntrance001 = CreateObjectAbove(RoomEntrance, 172, 111);
 	RoomEntrance001->SetColor(0xff32c832);
 

@@ -25,6 +25,13 @@ public func HasTablet() { return false; }
 public func HasJoker() { return false; }
 
 
+/*-- Room Properties (Additional) --*/
+
+// Change the value of objects for this room, should be a list
+// of the form [{type = <id>, value = <int>}, ...].
+public func GetValueOverloads() { return nil; }
+
+
 /*-- Room Properties (Fixed) --*/
 
 public func IsRoom() { return true; }

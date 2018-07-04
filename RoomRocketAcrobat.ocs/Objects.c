@@ -31,8 +31,7 @@ func InitializeObjects()
 	MovingBrick001->MoveVertical(246, 466);
 	MovingBrick001->SetPosition(20, 298);
 
-	var Column001 = CreateObject(Column, 320, 320);
-	Column001->SetPosition(320, 320);
+	CreateObjectAbove(Column, 320, 320);
 
 	var Lorry001 = CreateObject(Lorry, 325, 315);
 	Lorry001->SetR(45);

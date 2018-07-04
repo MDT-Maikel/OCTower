@@ -148,12 +148,9 @@ func InitializeObjects()
 	var Ruin_WoodenCabin001 = CreateObjectAbove(Ruin_WoodenCabin, 379, 239);
 	Ruin_WoodenCabin001->MakeInvincible(false);
 
-	var Column001 = CreateObject(Column, 149, 440);
-	Column001->SetPosition(149, 440);
-	var Column002 = CreateObject(Column, 437, 307);
-	Column002->SetPosition(437, 307);
-	var Column003 = CreateObject(Column, 300, 306);
-	Column003->SetPosition(300, 306);
+	CreateObjectAbove(Column, 149, 440);
+	CreateObjectAbove(Column, 437, 307);
+	CreateObjectAbove(Column, 300, 306);
 	var Switch001 = CreateObjectAbove(Switch, 83, 312);
 	Switch001->SetSwitchTarget(StoneDoor002);
 	Switch001->SetSwitchDir(1);

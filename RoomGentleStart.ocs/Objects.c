@@ -50,7 +50,7 @@ func InitializeObjects()
 
 	CreateObjectAbove(RoomExit, 324, 47);
 
-	CreateObject(Column, 547, 161);
+	CreateObjectAbove(Column, 547, 161);
 
 	var StrawMan001 = CreateObject(StrawMan, 141, 48);
 	StrawMan001->SetR(179);

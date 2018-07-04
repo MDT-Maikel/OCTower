@@ -37,8 +37,7 @@ func InitializeObjects()
 	var RoomExit001 = CreateObjectAbove(RoomExit, 124, 120);
 	RoomExit001->SetColor(0xffc83232);
 
-	var Column001 = CreateObject(Column, 276, 425);
-	Column001->SetPosition(276, 425);
+	CreateObjectAbove(Column, 276, 425);
 	var Switch001 = CreateObjectAbove(Switch, 172, 392);
 	Switch001->SetSwitchTarget(StoneDoor002);
 	Switch001->SetSwitchDir(1);

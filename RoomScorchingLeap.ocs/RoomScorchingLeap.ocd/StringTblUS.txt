@@ -1,0 +1,3 @@
+RoomName=Scorching Leap
+RoomDescription=Cool down before you jump!
+RoomHint1=Cool down this room somehow.

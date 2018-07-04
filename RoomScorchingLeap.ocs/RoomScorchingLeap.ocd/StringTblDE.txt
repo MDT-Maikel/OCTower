@@ -1,0 +1,3 @@
+RoomName=Versengender Sprung
+RoomDescription=Zuerst abkühlen, erst dann springen.
+RoomHint1=Kühle diesen Raum irgendwie ab.
